@@ -1,45 +1,55 @@
 <template>
-    <div 
-        class="sidebar_link" 
-        @click="goToLink()"
-    >
+    <div>
         <div 
-            class="sidebar_link_row pointer rounded h100 flex space_between align_center"
-            :class="isActive ? 'sidebar_link_active' : ''"
+            v-if="isOpen"
+            class="sidebar_link" 
+            @click="goToLink()"
         >
-            <span>
-                {{link.text}}
-            </span>
-            <span v-if="hasChildren">
-                <v-icon v-if="isChildrenOpen">mdi-menu-down-outline</v-icon>
-                <v-icon v-else>mdi-menu-right-outline</v-icon>
-            </span>
+            <div 
+                class="sidebar_link_row pointer rounded h100 flex space_between align_center"
+                :class="isActive ? 'sidebar_link_active' : ''"
+            >
+                <span>
+                    {{link.text}}
+                </span>
+                <span v-if="hasChildren">
+                    <v-icon v-if="isChildrenOpen">mdi-menu-down-outline</v-icon>
+                    <v-icon v-else>mdi-menu-right-outline</v-icon>
+                </span>
+            </div>
+            <transition name="fade" mode="out-in">
+            <div 
+                v-if="isChildrenOpen"
+                class="sidebar_childrens"
+            >
+                <template v-for="(subLink, subLinkIndex) in link.children">
+                    <SubLink 
+                        :link="subLink"
+                        :key="subLinkIndex"
+                    />
+                    <!-- <div 
+                        class="sidebar_link_row sidebar_child_link rounded pointer" 
+                        :class="isSubLinkActive ? 'sidebar_link_active' : ''"
+                        :key="subLinkIndex" 
+                        @click.stop="goToLink(link.url + subLink.url, false)"
+                    >
+                        <div class="h100 flex space_between align_center">
+                            <span>
+                                {{subLink.text}}
+                            </span>
+                        </div>
+                    </div> -->
+                </template>
+            </div>
+            </transition>
         </div>
-        <transition name="fade" mode="out-in">
         <div 
-            v-if="isChildrenOpen"
-            class="sidebar_childrens"
+            class="sidebar_link_closed" 
+            v-else :title="link.text"
+            @click="goToLink()"
         >
-            <template v-for="(subLink, subLinkIndex) in link.children">
-                <SubLink 
-                    :link="subLink"
-                    :key="subLinkIndex"
-                />
-                <!-- <div 
-                    class="sidebar_link_row sidebar_child_link rounded pointer" 
-                    :class="isSubLinkActive ? 'sidebar_link_active' : ''"
-                    :key="subLinkIndex" 
-                    @click.stop="goToLink(link.url + subLink.url, false)"
-                >
-                    <div class="h100 flex space_between align_center">
-                        <span>
-                            {{subLink.text}}
-                        </span>
-                    </div>
-                </div> -->
-            </template>
+            <v-icon>{{link.icon}}</v-icon>
         </div>
-        </transition>
     </div>
 </template>
 
@@ -63,6 +73,12 @@ export default {
         }
     },
 
+    created() {
+        if(this.isActive) {
+            this.isChildrenOpen = true;
+        }
+    },
+
     computed: {
         isActive() {
             return this.$route.path.includes(this.link.url);
@@ -70,6 +86,10 @@ export default {
 
         hasChildren() {
             return this.link.children;
+        },
+
+        isOpen() {
+            return this.$store.getters['AppState/sidebarState'];
         }
     },
 
@@ -104,6 +124,18 @@ export default {
         font-weight: 500;
         margin-bottom: 10px;
     } 
+
+    .sidebar_link_closed {
+        background-color: #FFFFFFCC;
+        margin-bottom: 10px;
+        border-radius: 50%;
+        height: 35px;
+        width: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
 
     .sidebar_link_row {
         background-color: #FFFFFF77;
