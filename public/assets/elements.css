@@ -1,0 +1,35 @@
+.fixed {
+    position: fixed;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.relative {
+    position: relative;
+}
+
+.rounded {
+    border-radius: 6px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.flex {
+    display: flex;
+}
+
+.space_between {
+    justify-content: space-between;
+}
+
+.align_center {
+    align-items: center;
+}
+
+.h100 {
+    height: 100%;
+}
