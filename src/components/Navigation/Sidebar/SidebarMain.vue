@@ -4,7 +4,7 @@
         :class="isOpen ? '' : 'sidebar_closed'"
     >
         <div 
-            class="sidebar_content app_bg_yellow"
+            class="sidebar_content app_light_bg_opacity"
             
         >
             
@@ -62,9 +62,31 @@ export default {
                     ]
                 },
                 {
-                    text: 'Courses',
+                    text: 'Content',
                     url: '/courses',
-                    icon: 'mdi-book-open-page-variant-outline'
+                    icon: 'mdi-book-open-page-variant-outline',
+                    children: [
+                        {
+                            text: 'Courses',
+                            url: '/courses',
+                        },
+                        {
+                            text: 'Lessons Fields',
+                            url: '/courses/lessons-fields',
+                        },
+                        {
+                            text: 'Lessons',
+                            url: '/courses/lessons',
+                        },
+                        {
+                            text: 'Videos',
+                            url: '/courses/videos',
+                        },
+                        {
+                            text: 'Statistics',
+                            url: '/courses/statistics',
+                        },
+                    ]
                 },
             ]
         }
@@ -84,20 +106,31 @@ export default {
         height: 100vh;
         width: 15vw;
         min-width: 300px;
-        z-index: 1;
+        z-index: 10;
     }
 
     .sidebar_content {
         height: 95vh;
-        width: 80%;
-        margin-left: 5%;
-        min-width: 300px;
+        width: 90%;
+        margin-left: 10%;
         margin-top: 2.5vh;
-        z-index: 2;
-        border-radius: 10px 10px;
-        box-shadow: 5px 5px 10px #00000088;
+        border-radius: 10px 0 0 10px;
         padding: 20px;
     }
+
+    // V2 design
+    // Also change background-color to yellow
+    // .sidebar_content {
+        // height: 95vh;
+        // width: 80%;
+        // margin-left: 5%;
+        // min-width: 300px;
+        // margin-top: 2.5vh;
+        // z-index: 2;
+        // border-radius: 10px 10px;
+        // box-shadow: 5px 5px 10px #00000088;
+        // padding: 20px;
+    // }
 
     .sidebar_closed {
         min-width: 50px !important;

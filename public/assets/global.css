@@ -1,3 +1,8 @@
 * {
     font-family: 'Quicksand', sans-serif;
+    word-wrap: break-word;
+}
+
+.font_title {
+    font-family: 'Oswald', sans-serif;
 }

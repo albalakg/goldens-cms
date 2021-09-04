@@ -1,25 +1,32 @@
-import * as jwt_decode from "jwt-decode";
-import router from './../Router/router'
+import router from '../router'
+const COOKIE_NAME = 'GoldensToken';
 
 class Auth {
-    save() {
+    login(data) {
+        try {
+            this.createCookie(data);
+            axios.defaults.headers.common["Authorization"] = `Bearer ${this.token()}`;
+        } catch(err) {
+            console.error('err', err);
+        }
+    }
 
+    createCookie(data) {
+        document.cookie = `${COOKIE_NAME}=${this.encrypt(data)};SameSite=Lax;secure;expires=${new Date(data.expired_at)}`;
     }
 
     logout() {
-        
         router.push('/logout')
     }
     
     get() {
-        if (this.isExpired)  {
-            this.logout();
+        const data =  this.decrypt();
+        if(!data) {
+            this.deleteCookie();
             return null;
         }
-        else {
-            const data = this.decode();
-            return data;
-        }
+
+        return data;
     }
 
     id() {
@@ -30,36 +37,50 @@ class Auth {
         return this.get() ? this.get().token : '';
     }
 
-    name() {
-        return this.get() ? this.get().name : '';
+    first_name() {
+        return this.get() ? this.get().first_name : '';
     }
 
-    isAdmin() {
-        return this.get() ? this.get().role === "admin" : false;
+    last_name() {
+        return this.get() ? this.get().last_name : '';
     }
 
-    isNormal() {
-        return this.get() ? this.get().role === "student" : false;
-    }
-
-    isGuest() {
-        return !this.get();
-    }
-
-    isExpired() {
-        return this.get() ? this.get.exp > Date.now() : true;
+    full_name() {
+        const data = this.get();
+        return data ? data.first_name + ' ' + data.last_name : '';
     }
     
     isLogged() {
         return !!this.get();
     }
+    
+    isGuest() {
+        return !this.get();
+    }
 
-    encrypt() {
-        
+    encrypt(data) {
+        return btoa(JSON.stringify(data));
     }
 
     decrypt() {
-        
+        const cookie = this.getCookie();
+        if(!cookie) {
+            return null;
+        } 
+
+        return JSON.parse(atob(this.getCookie()));
+    }
+
+    getCookie() {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${COOKIE_NAME}=`);
+        if (parts.length === 2) 
+            return parts.pop().split(';').shift();
+        else '';
+    }
+
+    deleteCookie() {
+        document.cookie = `${COOKIE_NAME}=none;expires=Thu, 01 Jan 1970 00:00:01 GMT`;
     }
 }
 

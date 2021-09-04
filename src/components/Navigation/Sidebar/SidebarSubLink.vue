@@ -1,7 +1,7 @@
 <template>
     <div 
         class="sidebar_link_row sidebar_child_link rounded pointer" 
-        :class="isActive ? 'sidebar_link_active' : ''"
+        :class="isActive ? 'sidebar_link_active app_darkBlue' : 'white--text'"
         @click.stop="goToLink()"
     >
         <div class="h100 flex space_between align_center">

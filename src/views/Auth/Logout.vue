@@ -1,15 +1,13 @@
 <template>
-    <div>
-        Logout
-    </div>
 </template>
 
 <script>
 export default {
-    data() {
-        return {
-
-        }
+    created() {
+        this.$store.dispatch('AppState/updateLogState', false);
+        axios.post('profile/logout');
+        Auth.deleteCookie()
+        this.$router.push('/login');
     }
 }
 </script>

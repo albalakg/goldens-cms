@@ -6,12 +6,11 @@
         <v-card
             color="grey lighten-4"
             flat
-            height="200px"
             tile
         >
             <v-toolbar dense>
             <v-app-bar-nav-icon 
-                class="toolbar_menu"
+                class="toolbar_menu ml-3"
                 @click="toggleSidebar()"
             ></v-app-bar-nav-icon>
 
@@ -23,7 +22,7 @@
                 <v-icon>mdi-magnify</v-icon>
             </v-btn>
 
-            <v-btn icon>
+            <v-btn icon @click="logout()">
                 <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
             </v-toolbar>
@@ -52,6 +51,10 @@ export default {
     methods: {
         toggleSidebar() {
             this.$store.dispatch('AppState/updateSidebarState', !this.$store.getters['AppState/sidebarState'])
+        },
+
+        logout() {
+            Auth.logout()
         }
     }
 }
@@ -61,9 +64,11 @@ export default {
 
     .toolbar_wrapper {
         margin-left: 5vw;
+        z-index: 5;
     }
 
     .toolbar_wrapper_mini {
+        z-index: 5;
         width: 100%;
         margin-left: 15vw;
     }
@@ -76,9 +81,16 @@ export default {
         width: 85vw;
     }
 
-    .toolbar_menu {
-        margin-left: 20px;
-        margin-right: 10px;
+    @media only screen and (max-width: 1700px) {
+        .toolbar_menu {
+            margin-left: 4vw !important;
+        }
+    }
+
+    @media only screen and (max-width: 1400px) {
+        .toolbar_menu {
+            margin-left: 8vw !important;
+        }
     }
 
 </style>

@@ -7,14 +7,17 @@
         >
             <div 
                 class="sidebar_link_row pointer rounded h100 flex space_between align_center"
-                :class="isActive ? 'sidebar_link_active' : ''"
+                :class="isActive ? 'sidebar_link_active app_darkBlue' : 'white--text'"
             >
-                <span>
-                    {{link.text}}
-                </span>
-                <span v-if="hasChildren">
-                    <v-icon v-if="isChildrenOpen">mdi-menu-down-outline</v-icon>
-                    <v-icon v-else>mdi-menu-right-outline</v-icon>
+                <v-flex d-flex align-center>
+                    <v-icon class="mr-3" :color="isActive ? 'black' : 'white'">{{link.icon}}</v-icon>
+                    <span>
+                        {{link.text}}
+                    </span>                    
+                </v-flex>
+                <span v-if="hasChildren" @click.stop="toggleChildrenStatus()">
+                    <v-icon :color="isActive ? 'black' : 'white'" v-if="isChildrenOpen">mdi-menu-down-outline</v-icon>
+                    <v-icon :color="isActive ? 'black' : 'white'" v-else>mdi-menu-right-outline</v-icon>
                 </span>
             </div>
             <transition name="fade" mode="out-in">
@@ -138,21 +141,21 @@ export default {
     }
 
     .sidebar_link_row {
-        background-color: #FFFFFF77;
+        background-color: #FFFFFF11;
         padding: 5px 5px 5px 10px;
         height: 40px;
         transition: .3s all linear;
     }
 
     .sidebar_link_row:hover {
-        background-color: #FFFFFFAA;
+        background-color: #FFFFFF55;
         transform: translateX(10px);
     }
 
     .sidebar_link_active {
         font-weight: bold;
         transform: translateX(10px);
-        background-color: #FFFFFFCC !important;
+        background-color: #FFFFFFAA !important;
     }
 
     .sidebar_childrens {
@@ -160,12 +163,4 @@ export default {
         margin-left: 10px;
         transition: .0s all linear;
     }
-/* 
-    .sidebar_child_link {
-        margin-top: 5px;
-        width: 95%;
-        margin-left: 5%;
-        height: 35px;
-        font-size: 14px;
-    } */
 </style>

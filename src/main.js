@@ -7,11 +7,21 @@ import axios from "axios";
 
 Vue.config.productionTip = false
 
-Vue.prototype.$api = axios.create({
-  baseURL: 'http://localhost:8000/',
-  headers: { 'X-Requested-With': 'XMLHttpRequest' },
-  withCredentials: true,
+window.axios = axios.create({
+  baseURL: 'http://localhost:8000/api/',
+  headers: { 
+    'X-Requested-With': 'XMLHttpRequest',
+ },
+  withCredentials: false,
 })
+
+axios.defaults.headers.common["Authorization"] = `Bearer ${Auth.token()}`;
+
+
+import Auth from "./helpers/Auth";
+window.Auth = Auth;
+
+// window.axios = axios;
 
 new Vue({
   vuetify,

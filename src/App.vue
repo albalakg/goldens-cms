@@ -1,19 +1,25 @@
 <template>
-  <div id="app">
+  <v-app id="app">
 
-    <Topbar />
-    <Sidebar />
+    <span v-if="logged">
+      <Topbar />
+      <Sidebar />
+    </span>
     
     <v-main>
       <transition name="fade" mode="out-in">
         <router-view
-          id="view"
+          class="app_content"
+          :class="`
+            ${sidebarIsOpen && logged ? 'app_content_mini' : ''}
+            ${!logged ? 'app_content_full_screen' : ''}
+          `"
         >
         </router-view>
       </transition>
     </v-main>
 
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -26,11 +32,25 @@ export default {
     Topbar
   },
 
-  data() {
-    return {
+  created() {
+    this.setLoggedState()
+  },
 
+  computed: {
+    sidebarIsOpen() {
+      return this.$store.getters['AppState/sidebarState'];
+    },
+
+    logged() {
+      return this.$store.getters['AppState/isLogged'];
     }
   },
+
+  methods: {
+    setLoggedState() {
+      this.$store.dispatch('AppState/updateLogState', Auth.isLogged())
+    }
+  }
 
 }
 </script>
@@ -53,4 +73,20 @@ export default {
     overflow: hidden;
   }
 
+  .app_content {
+    padding-top: 70px;
+    margin-left: 7vw;
+    width: 93vw;
+    padding-right: 30px;
+  }
+
+  .app_content_mini {
+    margin-left: 18vw;
+    width: 82vw;
+  }
+
+  .app_content_full_screen {
+    margin-left: 0;
+    padding: 0;
+  }
 </style>
