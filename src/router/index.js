@@ -5,6 +5,8 @@ import Guard from '../helpers/Guard'
 Vue.use(VueRouter)
 
 const routes = [
+
+  // ***** AUTH START *****
   {
     path: '/login',
     name: 'Login',
@@ -17,12 +19,34 @@ const routes = [
     beforeEnter: Guard.admin,
     component: () => import('../views/Auth/Logout.vue')
   },
+  // ***** AUTH END *****
+
   {
     path: '/dashboard',
     name: 'Dashboard',
     beforeEnter: Guard.admin,
     component: () => import('../views/Dashboard.vue')
   },
+
+  // ***** USERS START *****
+  {
+    path: '/users',
+    name: 'Users',
+    component: () => import('../views/Users/UsersIndex.vue'),
+    beforeEnter: Guard.admin,
+    children: [
+      {
+        path: '',
+        component: () => import('../views/Users/UsersList.vue'),
+      },
+      {
+        path: 'new',
+        component: () => import('../views/Users/UsersCreate.vue'),
+      }
+    ]
+  },
+  // ***** USERS END *****
+
   {
     path: '*',
     name: 'PageNotFound',

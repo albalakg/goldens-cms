@@ -7,7 +7,8 @@
         <div class="h100 flex space_between align_center">
             <span>
                 {{link.text}}
-            </span>
+            </span>  
+            <v-icon v-if="link.icon" class="mr-3" :color="isActive ? 'black' : 'white'">{{link.icon}}</v-icon>
         </div>
     </div>
 </template>

@@ -8,10 +8,17 @@
             
         >
             
-            <div class="sidebar_top_wrapper">
+            <div class="sidebar_top_wrapper text-center">
+                <p class="white--text">
+                    Welcome, 
+                    <br>
+                    <strong>
+                        {{name}}
+                    </strong>
+                </p>
             </div>
             
-            <div class="sidebar_links_wrapper">
+            <div class="sidebar_links_wrapper mt-10">
                 <template v-for="(link, index) in links">
                     <SidebarLink 
                         :key="index" 
@@ -40,31 +47,34 @@ export default {
                 {
                     text: 'Dashboard',
                     url: '/dashboard',
-                    icon: 'mdi-view-dashboard-outline'
+                    icon: 'mdi-view-dashboard'
                 },
                 {
                     text: 'Users',
                     url: '/users',
-                    icon: 'mdi-account-circle-outline',
+                    icon: 'mdi-account-supervisor-circle',
                     children: [
                         {
                             text: 'List',
                             url: '/users',
+                            icon: 'mdi-account-details'
                         },
                         {
                             text: 'Create',
                             url: '/users/new',
+                            icon: 'mdi-account-plus'
                         },
                         {
                             text: 'Statistics',
                             url: '/users/statistics',
+                            icon: 'mdi-account-search'
                         },
                     ]
                 },
                 {
                     text: 'Content',
                     url: '/courses',
-                    icon: 'mdi-book-open-page-variant-outline',
+                    icon: 'mdi-book-open-page-variant',
                     children: [
                         {
                             text: 'Courses',
@@ -95,6 +105,10 @@ export default {
     computed: {
         isOpen() {
             return this.$store.getters['AppState/sidebarState'];
+        },
+
+        name() {
+            return Auth.fullName()
         }
     }
 }
@@ -133,12 +147,13 @@ export default {
     // }
 
     .sidebar_closed {
-        min-width: 50px !important;
+        min-width: 95px !important;
         width: 5vw;
 
         .sidebar_content {
-            min-width: 50px !important;
+            min-width: 95px !important;
             margin-left: 30%;
+            padding-left: 16px;
         }
     }
 

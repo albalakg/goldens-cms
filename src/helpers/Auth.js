@@ -37,15 +37,15 @@ class Auth {
         return this.get() ? this.get().token : '';
     }
 
-    first_name() {
+    firstName() {
         return this.get() ? this.get().first_name : '';
     }
 
-    last_name() {
+    lastName() {
         return this.get() ? this.get().last_name : '';
     }
 
-    full_name() {
+    fullName() {
         const data = this.get();
         return data ? data.first_name + ' ' + data.last_name : '';
     }
