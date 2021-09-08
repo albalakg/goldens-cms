@@ -130,6 +130,7 @@ export default {
         margin-top: 5vh;
         border-radius: 10px 0 0 10px;
         padding: 20px;
+        overflow-y: auto
     }
 
     // V2 design

@@ -46,7 +46,7 @@ export default {
   },
 
   created() {
-    this.setLoggedState()
+    this.setInitialSettings()
   },
 
   computed: {
@@ -80,8 +80,9 @@ export default {
   },
 
   methods: {
-    setLoggedState() {
+    setInitialSettings() {
       this.$store.dispatch('AppState/updateLogState', Auth.isLogged())
+      this.$store.dispatch('AppState/updateItemsPerPage', window.screen.width > 1600 ? 10 : 5)
     }
   }
 

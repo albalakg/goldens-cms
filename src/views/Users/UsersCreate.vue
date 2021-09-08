@@ -1,10 +1,8 @@
 <template>
     <v-container fluid>
-        <v-card class="py-2 pl-5">
-            <h1 class="font_title">
-                Create User
-            </h1>
-        </v-card>
+        <TopCard 
+            text="Create User"
+        />
         
         <br>
 
@@ -151,6 +149,7 @@
 
 <script>
 import FormCard from './../../components/Cards/FormCard.vue'
+import TopCard from './../../components/Cards/TopCard.vue'
 import SubmitButton from './../../components/Buttons/SubmitButton.vue'
 import CancelButton from './../../components/Buttons/CancelButton.vue'
 import {EMAIL_RULE, PHONE_RULE, PASSWORD_RULE, FIRST_NAME_RULE, LAST_NAME_RULE} from './../../helpers/Rules' 
@@ -162,6 +161,7 @@ const ADMIN_ROLE = 'Admin';
 export default {
     components: {
         FormCard,
+        TopCard,
         SubmitButton,
         CancelButton,
     },
@@ -235,7 +235,7 @@ export default {
                 .then(res => {
                     console.log('res', res);
                     this.$store.dispatch('MessageState/showMessage', {
-                        message: 'User created successfully'
+                        message: `User ${this.form.first_name} ${this.form.last_name} created successfully`
                     });
                     this.$router.push('/users')
                 })

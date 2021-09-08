@@ -26,6 +26,16 @@ const userState = {
             if(state.users) {
                 state.users = state.users.unshift(userData);
             }
+        },
+
+        SET_USERS(state, users) {
+            state.users = users;
+        },
+
+        DELETE_USER(state, user_ids) {
+            if(state.users.data) {
+                state.users.data = state.users.data.filter(user => !user_ids.includes(user.id));
+            }
         }
     },
 
@@ -34,6 +44,16 @@ const userState = {
             commit('SET_GLOBAL_USERS_STATE', {
                 total_users: 0
             })
+        },
+
+        getUsers({ commit }) {
+            axios.get('users')
+                .then(res => {
+                    commit('SET_USERS', res.data.data);
+                })
+                .catch(err => {
+                    console.warn('getUsers: ', err);
+                })
         },
 
         createUser({ commit }, userData) {
@@ -49,7 +69,24 @@ const userState = {
                         reject(err.response.data)
                     })
             }) 
-        }
+        },
+
+        deleteUsers({ commit }, user_ids) {
+            console.log('user_ids', user_ids);
+            commit('DELETE_USER', user_ids);
+            // return new Promise((resolve, reject) => {
+            //     axios.post('users/delete', { user_ids })
+            //         .then(res => {
+            //             console.log('res.data', res);
+            //             commit('DELETE_USER', user_ids);
+            //         })
+            //         .catch(err => {
+            //             console.warn('deleteUser: ', err.response.data);
+            //             reject(err.response.data)
+            //         })
+            // }) 
+        },
+        
     }
 };
 
