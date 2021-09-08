@@ -53,6 +53,7 @@
 <script>
 import PrimaryButton from './../../components/Buttons/PrimaryButton.vue';
 import { EMAIL_RULE } from './../../helpers/Rules' 
+import axios from "axios";
 
 export default {
     components: {

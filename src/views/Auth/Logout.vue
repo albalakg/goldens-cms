@@ -2,6 +2,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     created() {
         this.$store.dispatch('AppState/updateLogState', false);

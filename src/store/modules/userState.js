@@ -47,7 +47,7 @@ const userState = {
         },
 
         getUsers({ commit }) {
-            axios.get('users')
+            axios.get('cms/users')
                 .then(res => {
                     commit('SET_USERS', res.data.data);
                 })
@@ -58,7 +58,7 @@ const userState = {
 
         createUser({ commit }, userData) {
             return new Promise((resolve, reject) => {
-                axios.post('users/create', userData)
+                axios.post('cms/users/create', userData)
                     .then(res => {
                         console.log('res.data', res);
                         commit('SET_NEW_USER', res.data);
