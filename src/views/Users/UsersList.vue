@@ -10,6 +10,7 @@
             :headers="headers"
             :items="users"
             :loading="loadingUsers"
+            :filerStatus="statuses"
             editable
             viewable
             deleteable
@@ -19,6 +20,7 @@
             @edit="editItem"
             @delete="deleteItem"
             @view="viewItem"
+            @filterByStatus="filterByStatus"
         />
     </v-container>
 </template>
@@ -26,6 +28,7 @@
 <script>
 import TopCard from './../../components/Cards/TopCard.vue'
 import TableCard from './../../components/Cards/TableCard.vue'
+import { STATUSES_SELECTION, STATUSES_VALUES } from './../../helpers/Status'
 
 export default {
     components: {
@@ -43,7 +46,9 @@ export default {
                 { text: 'Created At', value: 'created_at' },
                 { text: 'Actions', value: 'actions', align: 'right' },
             ],
-            search: ''
+            search: '',
+            statuses: STATUSES_SELECTION,
+            filterStatuses: STATUSES_VALUES
         }
     },
 
@@ -53,11 +58,17 @@ export default {
                 return [];
             }
 
-            return this.$store.getters['UserState/users'].data.map(user => {
+            // add full name
+            let users = this.$store.getters['UserState/users'].data.map(user => {
                 const data = user;
                 data.full_name = user.first_name + ' ' + user.last_name;
                 return data; 
             })
+
+            // filter by status
+            users = users.filter(user => this.filterStatuses.includes(user.status))
+
+            return users;
         },
 
         loadingUsers() {
@@ -83,6 +94,10 @@ export default {
             console.log('viewItem: ', item);
         },
 
+        filterByStatus(statuses) {
+            console.log('filterByStatus', statuses);
+            this.filterStatuses = statuses;
+        }
     }
 }
 </script>

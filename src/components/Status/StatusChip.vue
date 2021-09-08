@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import { STATUSES } from './../../helpers/Status'
+
 export default {
     props: {
         status: {
@@ -23,11 +25,7 @@ export default {
                 1: 'green darken-2',
                 2: 'teal',
             },
-            texts: {
-                0: 'Inactive',
-                1: 'Active',
-                2: 'Pending',
-            }   
+            texts: STATUSES  
         }
     },
 

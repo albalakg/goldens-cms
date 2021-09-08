@@ -8,6 +8,20 @@
                 v-model="search"
                 outlined
             ></v-text-field>
+            <v-flex d-flex class="mt-5" v-if="filerStatus">
+                <v-select
+                   
+                    outlined
+                    dense
+                    item-value="value"
+                    item-text="text"
+                    :items="filerStatus"
+                    v-model="pickedStatusFilters"
+                    label="Filter by status"
+                    small-chips
+                    multiple
+                ></v-select>
+            </v-flex>
         </v-card>
 
         <br>
@@ -190,6 +204,10 @@ export default {
             type: Boolean,
         },
 
+        filerStatus: {
+            type: Array
+        },
+
         editable: {
             type: Boolean,
         },
@@ -227,13 +245,21 @@ export default {
                 items: null,
             },
             selected: [],
-            multipleActionPickedItem: ''
+            multipleActionPickedItem: '',
+            pickedStatusFilters: this.filerStatus ? this.filerStatus.map(status => status) : [],
         }
     },
 
     watch: {
         search() {
             this.actionSearch();
+        },
+        
+        pickedStatusFilters: {
+            deep: true,
+            handler() {
+                this.$emit('filterByStatus', this.pickedStatusFilters);
+            }
         }
     },
 
