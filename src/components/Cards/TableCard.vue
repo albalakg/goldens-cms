@@ -1,14 +1,19 @@
 <template>
     <div class="pb-xl-5">
 
-        <v-card class="pa-3 search_wrapper">
+        <v-card class="pa-3 mb-6 search_wrapper" v-show="showFilterSection">
             <v-text-field
+                v-if="searchable"
                 dense
                 label="Search..."
                 v-model="search"
                 outlined
             ></v-text-field>
-            <v-flex d-flex class="mt-5" v-if="filerStatus">
+            <v-flex 
+                d-flex 
+                :class="searchable ? 'mt-5' : ''" 
+                v-if="filerStatus"
+            >
                 <v-select
                    
                     outlined
@@ -23,8 +28,6 @@
                 ></v-select>
             </v-flex>
         </v-card>
-
-        <br>
 
         <v-data-table
             v-model="selected"
@@ -279,6 +282,10 @@ export default {
 
         canActivateMultipleAction() {
             return this.multipleActionPickedItem && this.selected.length;
+        },
+
+        showFilterSection() {
+            return this.searchable || this.filerStatus
         }
     },
 
