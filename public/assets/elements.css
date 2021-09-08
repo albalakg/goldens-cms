@@ -42,3 +42,14 @@
     opacity: .5;
     pointer-events: none;
 }
+
+.no_decoration {
+    text-decoration: none;
+}
+
+.phone_link {
+}
+
+.email_link {
+    text-decoration: none;
+}

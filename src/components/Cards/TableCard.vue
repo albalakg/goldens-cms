@@ -59,6 +59,18 @@
                 </v-flex>
             </template>
 
+            <template v-slot:item.email="props">
+                <a class="no_decoration" :href="`mailto:${props.item.email}`" title="Click to send an email">
+                    {{props.item.email}}
+                </a>
+            </template>
+
+            <template v-slot:item.phone="props">
+                <a class="no_decoration" :href="`tel:${props.item.phone}`" title="Click to call">
+                    {{props.item.phone}}
+                </a>
+            </template>
+
             <template v-slot:item.status="props">
                 <StatusChip 
                     :status="props.item.status"
