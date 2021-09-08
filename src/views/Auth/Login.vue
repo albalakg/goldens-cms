@@ -52,9 +52,8 @@
 
 <script>
 import PrimaryButton from './../../components/Buttons/PrimaryButton.vue';
-import Rules from './../../helpers/Rules' 
+import { EMAIL_RULE } from './../../helpers/Rules' 
 
-const EMAIL_RULE = Rules.email();
 export default {
     components: {
         PrimaryButton

@@ -37,10 +37,12 @@ const routes = [
     children: [
       {
         path: '',
+        name: 'UsersList',
         component: () => import('../views/Users/UsersList.vue'),
       },
       {
         path: 'new',
+        name: 'UsersCreate',
         component: () => import('../views/Users/UsersCreate.vue'),
       }
     ]
@@ -56,7 +58,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   base: process.env.BASE_URL,
   routes
 })

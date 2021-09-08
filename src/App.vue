@@ -4,6 +4,7 @@
     <span v-if="logged">
       <Topbar />
       <Sidebar />
+      <PrimaryMessage />
       <!-- <Breadcrumbs 
         class="breadcrumbs"
         :class="`
@@ -34,12 +35,14 @@
 import Sidebar from './components/Navigation/Sidebar/SidebarMain.vue';
 import Topbar from './components/Navigation/Topbar/TopbarMain.vue';
 import Breadcrumbs from './components/Navigation/Topbar/Breadcrumbs.vue';
+import PrimaryMessage from './components/Messages/PrimaryMessage.vue';
 
 export default {
   components: {
     Sidebar,
     Topbar,
-    Breadcrumbs
+    Breadcrumbs,
+    PrimaryMessage
   },
 
   created() {
@@ -101,6 +104,12 @@ export default {
 
   html {
     overflow: hidden;
+  }
+
+  body {
+    overflow-y: auto;
+    height: 100vh;
+    overflow-x: hidden;
   }
 
   .app_content {

@@ -17,9 +17,16 @@ const userState = {
         SET_SIDEBAR_STATE(state, status) {
             state.sidebarState = status;
         },
+
         SET_GLOBAL_USERS_STATE(state, data) {
             state.totalUsers = data.total_users;
         },
+
+        SET_NEW_USER(state, userData) {
+            if(state.users) {
+                state.users = state.users.unshift(userData);
+            }
+        }
     },
 
     actions: {
@@ -27,15 +34,21 @@ const userState = {
             commit('SET_GLOBAL_USERS_STATE', {
                 total_users: 0
             })
-            // axios.get('users/global')
-            //     .then(res => {
-            //         commit('SET_GLOBAL_USERS_STATE', res.data.data)
-            //     })
-            //     .catch(err => {
-            //         commit('SET_GLOBAL_USERS_STATE', {
-            //             total_users: 0
-            //         })
-            //     })
+        },
+
+        createUser({ commit }, userData) {
+            return new Promise((resolve, reject) => {
+                axios.post('users/create', userData)
+                    .then(res => {
+                        console.log('res.data', res);
+                        commit('SET_NEW_USER', res.data);
+                        resolve(res.data);
+                    })
+                    .catch(err => {
+                        console.warn('createUser: ', err.response.data);
+                        reject(err.response.data)
+                    })
+            }) 
         }
     }
 };

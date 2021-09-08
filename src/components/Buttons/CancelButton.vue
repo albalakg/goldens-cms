@@ -49,16 +49,8 @@ export default {
 
     methods: {
         submit() {
-            this.$emit('submit');
+            this.$router.go(-1)
         }
     }
 }
 </script>
-
-<style scoped>
-
-.v-btn {
-
-}
-
-</style>

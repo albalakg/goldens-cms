@@ -7,14 +7,7 @@ import axios from "axios";
 
 Vue.config.productionTip = false
 
-window.axios = axios.create({
-  baseURL: 'http://localhost:8000/api/',
-  headers: { 
-    'X-Requested-With': 'XMLHttpRequest',
- },
-  withCredentials: false,
-})
-
+axios.defaults.baseURL = 'http://localhost:8002/api/';
 axios.defaults.headers.common["Authorization"] = `Bearer ${Auth.token()}`;
 
 

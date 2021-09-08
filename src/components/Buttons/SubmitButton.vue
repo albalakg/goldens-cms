@@ -1,7 +1,7 @@
 <template>
     <v-btn
-        :disabled="disabled"
         :loading="loading"
+        :class="loading ? 'disabled' : ''"
         :height="height"
         block
         :type="type"
@@ -32,10 +32,6 @@ export default {
         },
 
         loading: {
-            type: Boolean,
-        },
-
-        disabled: {
             type: Boolean,
         },
 

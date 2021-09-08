@@ -8,7 +8,7 @@
             
         >
             
-            <div class="sidebar_top_wrapper text-center">
+            <div v-show="isOpen" class="sidebar_top_wrapper text-center">
                 <p class="white--text">
                     Welcome, 
                     <br>
@@ -124,10 +124,10 @@ export default {
     }
 
     .sidebar_content {
-        height: 95vh;
+        height: 90vh;
         width: 90%;
         margin-left: 10%;
-        margin-top: 2.5vh;
+        margin-top: 5vh;
         border-radius: 10px 0 0 10px;
         padding: 20px;
     }
@@ -156,5 +156,4 @@ export default {
             padding-left: 16px;
         }
     }
-
 </style>
