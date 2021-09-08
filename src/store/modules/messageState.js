@@ -24,6 +24,7 @@ const messageState = {
     getters: {
         options: state => state.options,
         status: state => state.status,
+        messages_in_queue: state => state.messages_queue,
     },
 
     mutations: {
@@ -54,6 +55,10 @@ const messageState = {
         SET_MESSAGE_OFF(state) {
             state.status = false;
         },
+
+        TRUNCATE_MESSAGES(state) {
+            state.messages_queue = [];
+        }
     },
 
     actions: {
@@ -63,10 +68,8 @@ const messageState = {
         },
 
         messageQueueWorker({ state, commit }) {
-            console.log('messageQueueWorker', show_messages_interval, state);
             if(!show_messages_interval) {
                 show_messages_interval = setInterval(() => {
-                    console.log('enter messageQueueWorker');
                     if(!state.messages_queue.length) {
                         clearTimeout(show_messages_interval);
                         return show_messages_interval = null;
@@ -84,6 +87,11 @@ const messageState = {
         hideMessage({ commit }) {
             commit('SET_MESSAGE_OFF')
         },
+
+        truncate({ commit }) {
+            commit('SET_MESSAGE_OFF');
+            commit('TRUNCATE_MESSAGES');
+        }
     }
 };
 

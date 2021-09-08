@@ -264,27 +264,46 @@ export default {
         },
 
         actionDelete(item) {
-            this.resetDialogState();
+            try {
+                this.resetDialogState();
 
-            this.dialog.state       = true;
-            this.dialog.item        = item;
-            this.dialog.action      = DELETE_ACTION;
-            this.dialog.title       = `Delete ${this.mainField ? item[this.mainField] : 'record'}`;
-            this.dialog.text        = `Are you sure you want to delete ${this.mainField ? item[this.mainField] : 'this record'}?`
-            this.dialog.icon.name   = 'mdi-trash-can-outline';
-            this.dialog.icon.color  = 'red';
+                this.dialog.state       = true;
+                this.dialog.item        = item;
+                this.dialog.action      = DELETE_ACTION;
+                this.dialog.title       = `Delete ${this.mainField ? item[this.mainField] : 'record'}`;
+                this.dialog.text        = `Are you sure you want to delete ${this.mainField ? item[this.mainField] : 'this record'}?`
+                this.dialog.icon.name   = 'mdi-trash-can-outline';
+                this.dialog.icon.color  = 'red';
+            } catch(err) {
+                console.warn('multipleActionDelete: ' + err);
+                this.dialogActionFailed('Sorry, failed to delete the record');
+            }
         },
 
         multipleActionDelete() {
-            this.resetDialogState();
+            try {
+                this.resetDialogState();
 
-            this.dialog.state       = true;
-            this.dialog.items       = this.selected;
-            this.dialog.action      = DELETE_ACTION;
-            this.dialog.title       = `Delete multiple records`;
-            this.dialog.text        = `Are you sure you want to delete ${this.mainField ? 'these records:' : 'the selected records?'}`;
-            this.dialog.icon.name   = 'mdi-trash-can-outline';
-            this.dialog.icon.color  = 'red';
+                this.dialog.state       = true;
+                this.dialog.items       = this.selected;
+                this.dialog.action      = DELETE_ACTION;
+                this.dialog.title       = `Delete multiple records`;
+                this.dialog.text        = `Are you sure you want to delete ${this.mainField ? 'these records:' : 'the selected records?'}`;
+                this.dialog.icon.name   = 'mdi-trash-can-outline';
+                this.dialog.icon.color  = 'red';
+            } catch(err) {
+                console.warn('multipleActionDelete: ' + err);
+                this.dialogActionFailed('Sorry, failed to delete the selected records');
+            }
+        },
+
+        dialogActionFailed(text) {
+            this.resetDialogState();
+            this.$store.dispatch('MessageState/showMessage', {
+                message: text,
+                type: 'error',
+                time: 50000
+            });
         },
 
         resetDialogState() {
