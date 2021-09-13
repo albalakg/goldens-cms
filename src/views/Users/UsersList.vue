@@ -53,7 +53,6 @@ export default {
     computed: {
         users() {
             let users = this.$store.getters['UserState/users'];
-            console.log('users', users);
 
             if(!users) {
                 return [];
@@ -73,17 +72,14 @@ export default {
     methods: {
        
         deleteItem(data) {
-            console.log('deleteItem', data);
             this.$store.dispatch('UserState/deleteUsers', data)
         },
 
         viewItem(item) {
-            console.log('viewItem: ', item);
             this.$router.push('/users/show/' + item.id)
         },
 
         filterByStatus(statuses) {
-            console.log('filterByStatus', statuses);
             this.filterStatuses = statuses;
         }
     }

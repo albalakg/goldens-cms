@@ -114,7 +114,7 @@ const userState = {
             return new Promise((resolve, reject) => {
                 axios.post('cms/users/create', userData)
                     .then(res => {
-                        commit('SET_NEW_USER', res.data.data);
+                        commit('SET_NEW_USER', userData);
                         resolve(res.data);
                     })
                     .catch(err => {
@@ -166,19 +166,17 @@ const userState = {
         },
 
         deleteUsers({ commit }, user_ids) {
-            console.log('user_ids', user_ids);
-            commit('DELETE_USER', user_ids);
-            // return new Promise((resolve, reject) => {
-            //     axios.post('users/delete', { user_ids })
-            //         .then(res => {
-            //             console.log('res.data', res);
-            //             commit('DELETE_USER', user_ids);
-            //         })
-            //         .catch(err => {
-            //             console.warn('deleteUser: ', err.response.data);
-            //             reject(err.response.data)
-            //         })
-            // }) 
+            return new Promise((resolve, reject) => {
+                axios.post('cms/users/delete', { ids: user_ids })
+                    .then(res => {
+                        commit('DELETE_USER', user_ids);
+                        resolve();
+                    })
+                    .catch(err => {
+                        console.warn('deleteUser: ', err.response.data);
+                        reject(err.response.data)
+                    })
+            }) 
         },
         
     }
