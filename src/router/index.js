@@ -53,6 +53,31 @@ const routes = [
   },
   // ***** USERS END *****
 
+  // ***** VIDEOS START *****
+  {
+    path: '/content/videos',
+    component: () => import('../views/Content/Videos/VideosIndex.vue'),
+    beforeEnter: Guard.admin,
+    children: [
+      {
+        path: '',
+        name: 'Videos',
+        component: () => import('../views/Content/Videos/VideosList.vue'),
+      },
+      {
+        path: 'new',
+        name: 'VideosCreate',
+        component: () => import('../views/Content/Videos/VideosCreate.vue'),
+      },
+      {
+        path: 'show/:userID',
+        name: 'VideosShow',
+        component: () => import('../views/Content/Videos/VideosShow.vue'),
+      },
+    ]
+  },
+  // ***** VIDEOS END *****
+
   {
     path: '*',
     name: 'PageNotFound',

@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import AppState from './modules/appState'
 import UserState from './modules/userState'
 import MessageState from './modules/messageState'
+import VideoState from './modules/videoState'
 
 Vue.use(Vuex)
 
@@ -12,5 +13,6 @@ export default new Vuex.Store({
     AppState,
     UserState,
     MessageState,
+    VideoState,
   }
 })

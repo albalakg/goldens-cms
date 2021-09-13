@@ -13,12 +13,16 @@
                                         outlined
                                         v-model="form.first_name"
                                         label="First Name"
+                                        counter
+                                        maxlength="30"
                                         class="pr-2"
                                         :rules="[rules.first_name]"
                                     ></v-text-field>
                                     <v-text-field
                                         class="pl-2"
                                         outlined
+                                        counter
+                                        maxlength="30"
                                         v-model="form.last_name"
                                         label="Last Name"
                                         :rules="[rules.last_name]"
@@ -28,6 +32,8 @@
                                     outlined
                                     v-model="form.phone"
                                     label="Phone"
+                                    counter
+                                    maxlength="13"
                                     :rules="[rules.phone]"
                                     :error-messages="phoneErrorMessage"
                                 ></v-text-field>
@@ -99,6 +105,7 @@
                                 </v-flex>
                                 <v-flex md12 lg6 class="pl-5">
                                     <SubmitButton
+                                        :disabled="!isUserUpdated"
                                         :loading="loading"
                                         @submit="submit()"
                                     />
@@ -193,6 +200,10 @@ export default {
         phoneErrorMessage() {
             return this.errors && this.errors.phone ? this.errors.phone[0] : '';
         },
+
+        isUserUpdated() {
+            return JSON.stringify(this.user) !== JSON.stringify(this.form);
+        }
     },
 
     methods: {

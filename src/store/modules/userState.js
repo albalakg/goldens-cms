@@ -5,23 +5,13 @@ const userState = {
 
     state: {
         users: null,
-        totalUsers: null,
     },
 
     getters: {
         users: state => state.users,
-        totalUsers: state => state.totalUsers
     },
 
     mutations: {
-        SET_SIDEBAR_STATE(state, status) {
-            state.sidebarState = status;
-        },
-
-        SET_GLOBAL_USERS_STATE(state, data) {
-            state.totalUsers = data.total_users;
-        },
-
         SET_NEW_USER(state, userData) {
             if(!state.users) {
                 return;
@@ -80,12 +70,6 @@ const userState = {
     },
 
     actions: {
-        getGlobalUsers({ commit }) {
-            commit('SET_GLOBAL_USERS_STATE', {
-                total_users: 0
-            })
-        },
-
         getUsers({ commit, dispatch }) {
             axios.get('cms/users')
                 .then(res => {

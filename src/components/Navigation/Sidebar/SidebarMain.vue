@@ -53,49 +53,49 @@ export default {
                     text: 'Users',
                     url: '/users',
                     icon: 'mdi-account-supervisor-circle',
-                    children: [
-                        {
-                            text: 'List',
-                            url: '/users',
-                            icon: 'mdi-account-details'
-                        },
-                        {
-                            text: 'Create',
-                            url: '/users/new',
-                            icon: 'mdi-account-plus'
-                        },
-                        {
-                            text: 'Statistics',
-                            url: '/users/statistics',
-                            icon: 'mdi-account-search'
-                        },
-                    ]
+                    // children: [
+                    //     {
+                    //         text: 'List',
+                    //         url: '/users',
+                    //         icon: 'mdi-account-details'
+                    //     },
+                    //     {
+                    //         text: 'Create',
+                    //         url: '/users/new',
+                    //         icon: 'mdi-account-plus'
+                    //     },
+                        // {
+                        //     text: 'Statistics',
+                        //     url: '/users/statistics',
+                        //     icon: 'mdi-account-search'
+                        // },
+                    // ]
                 },
                 {
                     text: 'Content',
-                    url: '/courses',
+                    url: '/content',
                     icon: 'mdi-book-open-page-variant',
                     children: [
                         {
                             text: 'Courses',
-                            url: '/courses',
+                            url: '/content',
                         },
                         {
                             text: 'Lessons Fields',
-                            url: '/courses/lessons-fields',
+                            url: '/content/lessons-fields',
                         },
                         {
                             text: 'Lessons',
-                            url: '/courses/lessons',
+                            url: '/content/lessons',
                         },
                         {
                             text: 'Videos',
-                            url: '/courses/videos',
+                            url: '/content/videos',
                         },
-                        {
-                            text: 'Statistics',
-                            url: '/courses/statistics',
-                        },
+                        // {
+                        //     text: 'Statistics',
+                        //     url: '/courses/statistics',
+                        // },
                     ]
                 },
             ]

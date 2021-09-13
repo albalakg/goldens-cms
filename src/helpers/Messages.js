@@ -1,6 +1,10 @@
-export const FIRST_NAME_MESSAGE = 'First name is required';
-export const LAST_NAME_MESSAGE = 'Last name is required';
-export const EMAIL_MESSAGE = 'Email is not valid';
-export const PHONE_MESSAGE = 'Phone is not valid';
-export const PASSWORD_MESSAGE = "Password is required and must be minimum 8 characters, at least one lowercase letter, uppercase letter and one number";
-export const PASSWORD_CONFIRMATION_MESSAGE = "Password Confirmation is Required and must match Password";
+export const FIRST_NAME_MESSAGE             = 'First name is required';
+export const LAST_NAME_MESSAGE              = 'Last name is required';
+export const EMAIL_MESSAGE                  = 'Email is not valid';
+export const PHONE_MESSAGE                  = 'Phone is not valid';
+export const PASSWORD_MESSAGE               = "Password is required and must be minimum 8 characters, at least one lowercase letter, uppercase letter and one number";
+export const PASSWORD_CONFIRMATION_MESSAGE  = "Password Confirmation is Required and must match Password";
+export const VIDEO_NAME_MESSAGE             = "Video name is not valid";
+export const VIDEO_DESCRIPTION_MESSAGE      = "Description name is not valid";
+export const VIDEO_FILE_SIZE_MESSAGE        = "Video file has maximum size of 20MB";
+export const VIDEO_FILE_TYPES_MESSAGE       = "Video file type must be an MP4";

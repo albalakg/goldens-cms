@@ -19,6 +19,8 @@
                                         outlined
                                         v-model="form.first_name"
                                         label="First Name"
+                                        counter
+                                        maxlength="30"
                                         class="pr-2"
                                         :rules="[rules.first_name]"
                                     ></v-text-field>
@@ -26,6 +28,8 @@
                                         class="pl-2"
                                         outlined
                                         v-model="form.last_name"
+                                        counter
+                                        maxlength="30"
                                         label="Last Name"
                                         :rules="[rules.last_name]"
                                     ></v-text-field>
@@ -33,6 +37,8 @@
                                 <v-text-field
                                     outlined
                                     v-model="form.phone"
+                                    counter
+                                    maxlength="13"
                                     label="Phone"
                                     :rules="[rules.phone]"
                                     :error-messages="phoneErrorMessage"

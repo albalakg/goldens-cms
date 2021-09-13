@@ -10,6 +10,7 @@
                 </small>
             </div>
         </v-card-title>
+        <div v-else class="mt-7"></div>
         <slot name="content">
 
         </slot>

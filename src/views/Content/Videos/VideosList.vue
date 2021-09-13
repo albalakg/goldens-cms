@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <TopCard 
-            text="Users"
+            text="Videos"
             createable
         />
 
@@ -9,8 +9,8 @@
 
         <TableCard
             :headers="headers"
-            :items="users"
-            :loading="loadingUsers"
+            :items="videos"
+            :loading="loadingVideos"
             :filerStatus="statuses"
             viewable
             deleteable
@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import TopCard from './../../components/Cards/TopCard.vue'
-import TableCard from './../../components/Cards/TableCard.vue'
-import { STATUSES_SELECTION, STATUSES_VALUES } from './../../helpers/Status'
+import TopCard from './../../../components/Cards/TopCard.vue'
+import TableCard from './../../../components/Cards/TableCard.vue'
+import { STATUSES_SELECTION, STATUSES_VALUES } from './../../../helpers/Status'
 
 export default {
     components: {
@@ -52,32 +52,32 @@ export default {
     },
 
     computed: {
-        users() {
-            let users = this.$store.getters['UserState/users'];
+        videos() {
+            let videos = this.$store.getters['VideoState/videos'];
 
-            if(!users) {
+            if(!videos) {
                 return [];
             }
 
             // filter by status
-            users = users.data.filter(user => this.filterStatuses.includes(user.status))
+            videos = videos.data.filter(video => this.filterStatuses.includes(video.status))
 
-            return users;
+            return videos;
         },
 
-        loadingUsers() {
-            return !this.$store.getters['UserState/users'];
+        loadingVideos() {
+            return !this.$store.getters['VideoState/videos'];
         }
     },
 
     methods: {
        
         deleteItem(data) {
-            this.$store.dispatch('UserState/deleteUsers', data)
+            this.$store.dispatch('VideoState/deleteVideos', data)
         },
 
         viewItem(item) {
-            this.$router.push('/users/show/' + item.id)
+            this.$router.push('/videos/show/' + item.id)
         },
 
         filterByStatus(statuses) {
