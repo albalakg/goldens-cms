@@ -55,16 +55,6 @@
                         </v-icon>
 
                         <v-icon 
-                            v-if="deleteable"
-                            color="red"
-                            class="mx-1"
-                            title="Delete"
-                            @click="actionDelete(props.item)"
-                        >
-                            mdi-trash-can-outline
-                        </v-icon>
-
-                        <v-icon 
                             v-if="viewable"
                             color="blue"
                             class="mx-1"
@@ -72,6 +62,16 @@
                             @click="actionView(props.item)"
                         >
                             mdi-file-find
+                        </v-icon>
+
+                        <v-icon 
+                            v-if="deleteable"
+                            color="red"
+                            class="mx-1"
+                            title="Delete"
+                            @click="actionDelete(props.item)"
+                        >
+                            mdi-trash-can-outline
                         </v-icon>
                 </v-flex>
             </template>
@@ -344,7 +344,7 @@ export default {
 
         dialogActionFailed(text) {
             this.resetDialogState();
-            this.$store.dispatch('MessageState/showMessage', {
+            this.$store.dispatch('MessageState/addMessage', {
                 message: text,
                 type: 'error',
                 time: 50000

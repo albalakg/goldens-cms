@@ -62,7 +62,7 @@ const messageState = {
     },
 
     actions: {
-        showMessage({ commit, dispatch }, options) {
+        addMessage({ commit, dispatch }, options) {
             dispatch('messageQueueWorker');
             commit('ADD_MESSAGE', options)
         },

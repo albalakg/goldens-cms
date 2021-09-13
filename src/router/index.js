@@ -31,20 +31,24 @@ const routes = [
   // ***** USERS START *****
   {
     path: '/users',
-    name: 'Users',
     component: () => import('../views/Users/UsersIndex.vue'),
     beforeEnter: Guard.admin,
     children: [
       {
         path: '',
-        name: 'UsersList',
+        name: 'Users',
         component: () => import('../views/Users/UsersList.vue'),
       },
       {
         path: 'new',
         name: 'UsersCreate',
         component: () => import('../views/Users/UsersCreate.vue'),
-      }
+      },
+      {
+        path: 'show/:userID',
+        name: 'UsersShow',
+        component: () => import('../views/Users/UsersShow.vue'),
+      },
     ]
   },
   // ***** USERS END *****

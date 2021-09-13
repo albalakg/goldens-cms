@@ -1,7 +1,14 @@
 <template>
     <v-card class="px-3 w100 form_card_wrapper">
         <v-card-title v-if="title" primary-title>
-            {{title}}
+            <div>
+                <p class="mb-0">
+                    {{title}}
+                </p>
+                <small>
+                    {{subtitle}}
+                </small>
+            </div>
         </v-card-title>
         <slot name="content">
 
@@ -14,7 +21,10 @@ export default {
     props: {
         title: {
             type: String
-        }
+        },
+        subtitle: {
+            type: String
+        },
     }    
 }
 </script>

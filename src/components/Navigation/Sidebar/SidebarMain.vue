@@ -124,10 +124,10 @@ export default {
     }
 
     .sidebar_content {
-        height: 90vh;
+        height: calc(100vh - 96px);
         width: 90%;
         margin-left: 10%;
-        margin-top: 5vh;
+        margin-top: 48px;
         border-radius: 10px 0 0 10px;
         padding: 20px;
         overflow-y: auto

@@ -45,11 +45,19 @@ export default {
             type: Number,
             default: 50
         },
+
+        goBack: {
+            type: Boolean
+        }
     },
 
     methods: {
         submit() {
-            this.$router.go(-1)
+            if(this.goBack) {
+                this.$router.go(-1);
+            } else {
+                this.$emit('submit');
+            }
         }
     }
 }

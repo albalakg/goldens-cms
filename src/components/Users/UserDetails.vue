@@ -1,14 +1,8 @@
 <template>
-    <v-container fluid>
-        <TopCard 
-            text="Create User"
-        />
-        
-        <br>
-
-        <v-form @submit.prevent="submit()" ref="form">
+    <div>
+        <v-form v-if="user" @submit.prevent="submit()" ref="form">
             <v-flex d-flex>
-                <v-flex md12 lg6 class="pr-5">
+                <v-flex md12 >
                     <FormCard
                         title="Private Details"
                     >
@@ -44,10 +38,11 @@
                                     item-value="value"
                                     v-model="form.gender"
                                     label="Gender"
+                                    clearable
                                 ></v-select>
                                 <v-menu
                                     ref="menu"
-                                    v-model="form.birth_date"
+                                    v-model="menu"
                                     :close-on-content-click="false"
                                     :return-value.sync="date"
                                     transition="scale-transition"
@@ -62,6 +57,7 @@
                                         readonly
                                         v-bind="attrs"
                                         v-on="on"
+                                        clearable
                                     ></v-text-field>
                                     </template>
                                     <v-date-picker
@@ -86,85 +82,62 @@
                                     </v-btn>
                                     </v-date-picker>
                                 </v-menu>
-                            </div>
-                        </template>
-                    </FormCard>
-                </v-flex>
-                <v-flex md12 lg6 class="pl-5">
-                    <FormCard
-                        title="Authentication Details"
-                    >
-                        <template slot="content">
-                            <div class="px-4">
-                                <v-text-field
-                                    outlined
-                                    v-model="form.email"
-                                    label="Email"
-                                    :rules="[rules.email]"
-                                    :error-messages="emailErrorMessage"
-                                    autocomplete="off"
-                                ></v-text-field>
-                                <v-text-field
-                                    type="password"
-                                    outlined
-                                    v-model="form.password"
-                                    :rules="[rules.password]"
-                                    label="Password"
-                                    autocomplete="off"
-                                ></v-text-field>
-                                <v-text-field
-                                    type="password"
-                                    outlined
-                                    v-model="form.password_confirmation"
-                                    :rules="[rules.password_confirmation]"
-                                    label="Password Confirmation"
-                                ></v-text-field>
                                 <v-select
                                     outlined
-                                    :items="roles"
-                                    v-model="form.role"
-                                    label="Role"
+                                    :items="statuses"
+                                    item-text="text"
+                                    item-value="value"
+                                    v-model="form.status"
+                                    label="Status"
                                 ></v-select>
                             </div>
+                            <v-flex d-flex justify-space-between class="mb-5 px-4">
+                                <v-flex md12 lg6 class="pr-5">
+                                    <CancelButton 
+                                        @submit="cancel()"
+                                    />
+                                </v-flex>
+                                <v-flex md12 lg6 class="pl-5">
+                                    <SubmitButton
+                                        :loading="loading"
+                                        @submit="submit()"
+                                    />
+                                </v-flex>
+                            </v-flex>
                         </template>
                     </FormCard>
                 </v-flex>
             </v-flex>
-            <v-flex d-flex justify-space-between class="mt-10">
-                <v-flex md12 lg6 class="pr-5">
-                    <CancelButton 
-                        goBack
-                    />
-                </v-flex>
-                <v-flex md12 lg6 class="pl-5">
-                    <SubmitButton
-                        :loading="loading"
-                        @submit="submit()"
-                    />
-                </v-flex>
-            </v-flex>
+        
+            
         </v-form>
 
-    </v-container>
+    </div>
 </template>
 
 <script>
-import FormCard from './../../components/Cards/FormCard.vue'
-import TopCard from './../../components/Cards/TopCard.vue'
-import SubmitButton from './../../components/Buttons/SubmitButton.vue'
-import CancelButton from './../../components/Buttons/CancelButton.vue'
-import {EMAIL_RULE, PHONE_RULE, PASSWORD_RULE, FIRST_NAME_RULE, LAST_NAME_RULE} from './../../helpers/Rules' 
-import {EMAIL_MESSAGE, PHONE_MESSAGE, PASSWORD_MESSAGE, PASSWORD_CONFIRMATION_MESSAGE, FIRST_NAME_MESSAGE, LAST_NAME_MESSAGE} from './../../helpers/Messages' 
-
+import FormCard from './../Cards/FormCard.vue'
+import SubmitButton from '../../components/Buttons/SubmitButton.vue'
+import CancelButton from '../../components/Buttons/CancelButton.vue'
+import {EMAIL_RULE, PHONE_RULE, PASSWORD_RULE, FIRST_NAME_RULE, LAST_NAME_RULE} from '../../helpers/Rules' 
+import {EMAIL_MESSAGE, PHONE_MESSAGE, PASSWORD_MESSAGE, FIRST_NAME_MESSAGE, LAST_NAME_MESSAGE} from '../../helpers/Messages' 
+import { STATUSES_SELECTION } from './../../helpers/Status'
 const NORMAL_ROLE = 'Normal';
 const ADMIN_ROLE = 'Admin';
 
 export default {
     components: {
         FormCard,
-        TopCard,
         SubmitButton,
         CancelButton,
+    },
+
+    props: {
+        user: {
+            type: Object,
+            required: true
+        },
+        
     },
 
     data() {
@@ -176,7 +149,14 @@ export default {
                 phone: '',
                 gender: '',
                 birth_date: '',
-                role: NORMAL_ROLE,
+                role: '',
+            },
+            rules: {
+                email: v => EMAIL_RULE.test(v) || EMAIL_MESSAGE,
+                first_name: v => FIRST_NAME_RULE.test(v) || FIRST_NAME_MESSAGE,
+                last_name: v => LAST_NAME_RULE.test(v) || LAST_NAME_MESSAGE,
+                phone: (v) => PHONE_RULE.test(v) || PHONE_MESSAGE,
+                password: (v) => PASSWORD_RULE.test(v) || PASSWORD_MESSAGE,
             },
             date: '',
             menu: false,
@@ -200,29 +180,26 @@ export default {
                     text: 'Other',
                 },
             ],
-            rules: {
-                email: v => EMAIL_RULE.test(v) || EMAIL_MESSAGE,
-                first_name: v => FIRST_NAME_RULE.test(v) || FIRST_NAME_MESSAGE,
-                last_name: v => LAST_NAME_RULE.test(v) || LAST_NAME_MESSAGE,
-                phone: (v) => PHONE_RULE.test(v) || PHONE_MESSAGE,
-                password: (v) => PASSWORD_RULE.test(v) || PASSWORD_MESSAGE,
-                password_confirmation: (v) =>
-                (!!v && v == this.form.password) || PASSWORD_CONFIRMATION_MESSAGE,
-            },
+            statuses: STATUSES_SELECTION
         }
     },
 
-    computed: {
-        emailErrorMessage() {
-            return this.errors && this.errors.email ? this.errors.email[0] : '';
-        },
+    created() {
+        this.form = {...this.user};
+        this.date = this.user.birth_date;
+    },
 
+    computed: {
         phoneErrorMessage() {
             return this.errors && this.errors.phone ? this.errors.phone[0] : '';
         },
     },
 
     methods: {
+        cancel() {
+            this.form = {...this.user};
+        },
+
         submit() {
             this.errors = null;
             if(!this.$refs.form.validate()) {
@@ -231,17 +208,18 @@ export default {
 
             this.loading = true;
             
-            this.$store.dispatch('UserState/createUser', this.form)
+            this.form.birth_date = this.date;
+            this.$store.dispatch('UserState/updateUser', this.form)
                 .then(res => {
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: `User ${this.form.first_name} ${this.form.last_name} created successfully`
+                        message: `User ${this.form.first_name} ${this.form.last_name} updated successfully`
                     });
                     this.$router.push('/users')
                 })
                 .catch(err => {
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to create the user',
+                        message: 'Failed to update the user',
                         type: 'error',
                         time: 2000
                     });

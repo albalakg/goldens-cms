@@ -11,13 +11,11 @@
             :items="users"
             :loading="loadingUsers"
             :filerStatus="statuses"
-            editable
             viewable
             deleteable
             searchable
             multipleEdit
             mainField="full_name"
-            @edit="editItem"
             @delete="deleteItem"
             @view="viewItem"
             @filterByStatus="filterByStatus"
@@ -54,19 +52,15 @@ export default {
 
     computed: {
         users() {
-            if(!this.$store.getters['UserState/users']) {
+            let users = this.$store.getters['UserState/users'];
+            console.log('users', users);
+
+            if(!users) {
                 return [];
             }
 
-            // add full name
-            let users = this.$store.getters['UserState/users'].data.map(user => {
-                const data = user;
-                data.full_name = user.first_name + ' ' + user.last_name;
-                return data; 
-            })
-
             // filter by status
-            users = users.filter(user => this.filterStatuses.includes(user.status))
+            users = users.data.filter(user => this.filterStatuses.includes(user.status))
 
             return users;
         },
@@ -76,15 +70,8 @@ export default {
         }
     },
 
-    created() {
-        this.$store.dispatch('UserState/getUsers')
-    },
-
     methods: {
-        editItem(item) {
-            console.log('editItem: ', item);
-        },
-
+       
         deleteItem(data) {
             console.log('deleteItem', data);
             this.$store.dispatch('UserState/deleteUsers', data)
@@ -92,6 +79,7 @@ export default {
 
         viewItem(item) {
             console.log('viewItem: ', item);
+            this.$router.push('/users/show/' + item.id)
         },
 
         filterByStatus(statuses) {

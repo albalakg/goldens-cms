@@ -1,5 +1,8 @@
 <template>
-    <div class="primary_message">
+    <div 
+        class="primary_message"
+        :class="sidebarIsOpen ? 'sidebar_open' : ''"
+    >
         <v-alert 
             dense 
             text
@@ -41,7 +44,11 @@ export default {
 
         messages_counter() {
             return this.$store.getters['MessageState/messages_in_queue'].length
-        }
+        },
+        
+        sidebarIsOpen() {
+            return this.$store.getters['AppState/sidebarState'];
+        },
     },
 
 
@@ -73,6 +80,10 @@ export default {
         width: 25px;
         display: flex;
         justify-content: center;
+    }
+
+    .sidebar_open {
+        left: 15vw;
     }
     
 </style>

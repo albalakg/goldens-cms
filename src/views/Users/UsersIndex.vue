@@ -1,12 +1,27 @@
 <template>
     <div>
-        <router-view></router-view>
+        <transition name="fade" mode="out-in">
+            <router-view :key="usersKey"></router-view>
+        </transition>
     </div>
 </template>
 
 <script>
 export default {
-    
+
+    created() {
+        this.$store.dispatch('UserState/getUsers');
+    },
+
+    computed: {
+        users() {
+            return this.$store.getters['UserState/users'];
+        },
+
+        usersKey() {
+            return JSON.stringify(this.$store.getters['UserState/users'])
+        }
+    }
 
 }
 </script>
