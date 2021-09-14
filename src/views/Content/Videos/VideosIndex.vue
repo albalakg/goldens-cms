@@ -10,18 +10,8 @@
 export default {
 
     created() {
-        this.$store.dispatch('UserState/getUsers');
+        this.$store.dispatch('VideoState/getVideos');
     },
-
-    computed: {
-        users() {
-            return this.$store.getters['UserState/users'];
-        },
-
-        usersKey() {
-            return JSON.stringify(this.$store.getters['UserState/users'])
-        }
-    }
 
 }
 </script>

@@ -13,16 +13,6 @@ export default {
         this.$store.dispatch('UserState/getUsers');
     },
 
-    computed: {
-        users() {
-            return this.$store.getters['UserState/users'];
-        },
-
-        usersKey() {
-            return JSON.stringify(this.$store.getters['UserState/users'])
-        }
-    }
-
 }
 </script>
 

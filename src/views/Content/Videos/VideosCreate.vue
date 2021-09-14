@@ -97,13 +97,12 @@ export default {
             
             this.validateFile();
 
-            if(!this.$refs.form.validate()) {
+            if(!this.$refs.form.validate() || this.errors) {
                 return;
             }
 
             this.loading = true;
-            
-            this.$store.dispatch('VideoState/createVideo', this.form)
+            this.$store.dispatch('VideoState/createVideo', {...this.form, file: this.file})
                 .then(res => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Video ${this.form.name} created successfully`

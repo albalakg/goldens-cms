@@ -1,4 +1,5 @@
 import axios from "axios";
+import { objectToFormData } from "object-to-formdata";
 
 const videoState = {
     namespaced: true,
@@ -97,7 +98,13 @@ const videoState = {
 
         createVideo({ commit }, videoData) {
             return new Promise((resolve, reject) => {
-                axios.post('cms/videos/create', videoData)
+                const packageToSend = objectToFormData(videoData, { indices: true });
+                const config = {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    }
+                }
+                axios.post('cms/videos/create', packageToSend, config)
                     .then(res => {
                         commit('SET_NEW_VIDEO', videoData);
                         resolve(res.data);

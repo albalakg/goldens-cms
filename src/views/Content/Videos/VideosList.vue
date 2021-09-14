@@ -39,9 +39,7 @@ export default {
         return {
             headers: [
                 { text: 'Name', value: 'full_name' },
-                { text: 'Email', value: 'email' },
-                { text: 'Phone', value: 'phone' },
-                { text: 'Status', value: 'status' },
+                { text: 'Description', value: 'description' },
                 { text: 'Created At', value: 'created_at' },
                 { text: 'Actions', value: 'actions', align: 'right' },
             ],
