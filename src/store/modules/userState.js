@@ -70,7 +70,11 @@ const userState = {
     },
 
     actions: {
-        getUsers({ commit, dispatch }) {
+        getUsers({ state, commit, dispatch }) {
+            if(state.users) {
+                return;
+            }
+
             axios.get('cms/users')
                 .then(res => {
                     commit('SET_USERS', res.data.data);

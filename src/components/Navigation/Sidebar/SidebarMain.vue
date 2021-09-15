@@ -78,7 +78,7 @@ export default {
                     children: [
                         {
                             text: 'Courses',
-                            url: '/content',
+                            url: '/content/courses',
                         },
                         {
                             text: 'Lessons Fields',

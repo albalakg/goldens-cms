@@ -8,7 +8,7 @@
 
         <v-form @submit.prevent="submit()" ref="form">
             <v-flex d-flex>
-                <v-flex md12 lg6 class="pr-5">
+                <v-flex xs12 lg6 class="pr-5">
                     <FormCard
                         title="Private Details"
                     >
@@ -96,7 +96,7 @@
                         </template>
                     </FormCard>
                 </v-flex>
-                <v-flex md12 lg6 class="pl-5">
+                <v-flex xs12 lg6 class="pl-5">
                     <FormCard
                         title="Authentication Details"
                     >
@@ -177,12 +177,12 @@ export default {
         return {
             form: {
                 first_name: '',
-                last_name: '',
-                email: '',
-                phone: '',
-                gender: '',
+                last_name:  '',
+                email:      '',
+                phone:      '',
+                gender:     '',
                 birth_date: '',
-                role: NORMAL_ROLE,
+                role:       NORMAL_ROLE,
             },
             date: '',
             menu: false,
@@ -207,13 +207,12 @@ export default {
                 },
             ],
             rules: {
-                email: v => EMAIL_RULE.test(v) || EMAIL_MESSAGE,
-                first_name: v => FIRST_NAME_RULE.test(v) || FIRST_NAME_MESSAGE,
-                last_name: v => LAST_NAME_RULE.test(v) || LAST_NAME_MESSAGE,
-                phone: (v) => PHONE_RULE.test(v) || PHONE_MESSAGE,
-                password: (v) => PASSWORD_RULE.test(v) || PASSWORD_MESSAGE,
-                password_confirmation: (v) =>
-                (!!v && v == this.form.password) || PASSWORD_CONFIRMATION_MESSAGE,
+                email:                  v => EMAIL_RULE.test(v)                 || EMAIL_MESSAGE,
+                first_name:             v => FIRST_NAME_RULE.test(v)            || FIRST_NAME_MESSAGE,
+                last_name:              v => LAST_NAME_RULE.test(v)             || LAST_NAME_MESSAGE,
+                phone:                  v => PHONE_RULE.test(v)                 || PHONE_MESSAGE,
+                password:               v => PASSWORD_RULE.test(v)              || PASSWORD_MESSAGE,
+                password_confirmation:  v => (!!v && v == this.form.password)   || PASSWORD_CONFIRMATION_MESSAGE,
             },
         }
     },

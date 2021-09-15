@@ -83,15 +83,14 @@ export default {
             loadingEmail: false,
             loadingPassword: false,
             form: {
-                email: '',
-                password: '',
-                password_confirmation: ''
+                email:                  '',
+                password:               '',
+                password_confirmation:  ''
             },
             rules: {
-                email: v => EMAIL_RULE.test(v) || EMAIL_MESSAGE,
-                password: v => PASSWORD_RULE.test(v) || PASSWORD_MESSAGE,
-                password_confirmation: (v) =>
-                (!!v && v == this.form.password) || PASSWORD_CONFIRMATION_MESSAGE,
+                email: v                    => EMAIL_RULE.test(v)               || EMAIL_MESSAGE,
+                password: v                 => PASSWORD_RULE.test(v)            || PASSWORD_MESSAGE,
+                password_confirmation: (v)  => (!!v && v == this.form.password) || PASSWORD_CONFIRMATION_MESSAGE,
             },
         }
     },

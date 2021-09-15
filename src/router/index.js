@@ -53,6 +53,31 @@ const routes = [
   },
   // ***** USERS END *****
 
+  // ***** COURSES START *****
+  {
+    path: '/content/courses',
+    component: () => import('../views/Content/Courses/CoursesIndex.vue'),
+    beforeEnter: Guard.admin,
+    children: [
+      {
+        path: '',
+        name: 'Courses',
+        component: () => import('../views/Content/Courses/CoursesList.vue'),
+      },
+      {
+        path: 'new',
+        name: 'CoursesCreate',
+        component: () => import('../views/Content/Courses/CoursesCreate.vue'),
+      },
+      {
+        path: 'show/:userID',
+        name: 'CoursesShow',
+        component: () => import('../views/Content/Courses/CoursesShow.vue'),
+      },
+    ]
+  },
+  // ***** COURSES END *****
+
   // ***** VIDEOS START *****
   {
     path: '/content/videos',

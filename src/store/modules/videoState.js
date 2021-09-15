@@ -72,7 +72,11 @@ const videoState = {
     },
 
     actions: {
-        getVideos({ commit, dispatch }) {
+        getVideos({ state, commit, dispatch }) {
+            if(state.videos) {
+                return;
+            }
+
             axios.get('cms/videos')
                 .then(res => {
                     commit('SET_VIDEOS', res.data.data);
