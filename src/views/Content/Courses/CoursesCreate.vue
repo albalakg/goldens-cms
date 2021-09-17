@@ -76,7 +76,7 @@
                                     prepend-icon=""
                                     :error-messages="errors && errors.image ? errors.image : ''"
                                 ></v-file-input>
-                                <img class="preview_image" v-if="imageSrc" :src="imageSrc" alt="">
+                                <img class="preview_image" :src="imageSrc" alt="">
                                 <v-file-input
                                     outlined
                                     show-size
@@ -86,7 +86,7 @@
                                     prepend-icon=""
                                     :error-messages="errors && errors.trailer ? errors.trailer : ''"
                                 ></v-file-input>
-                                <video controls class="preview_image" v-if="trailerSrc" :src="trailerSrc"></video>
+                                <video controls class="preview_image" :src="trailerSrc"></video>
                             </div>
                         </template>
                     </FormCard>
@@ -190,12 +190,12 @@ export default {
             }
 
             this.loading = true;
-            this.$store.dispatch('CourseState/createCourse', {...this.form, file: this.file})
+            this.$store.dispatch('CourseState/createCourse', {...this.form, image: this.image, trailer: this.trailer})
                 .then(res => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Course ${this.form.name} created successfully`
                     });
-                    this.$router.push('/courses')
+                    this.$router.push('/content/courses')
                 })
                 .catch(err => {
                     this.errors = err.errors;
@@ -265,6 +265,7 @@ export default {
 
     .preview_image {
         max-height: 120px;
+        min-height: 120px;
         width: 100%;
     }
 

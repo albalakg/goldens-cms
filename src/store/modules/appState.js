@@ -1,4 +1,4 @@
-const appState = {
+const AppState = {
     namespaced: true,
 
     state: {
@@ -42,4 +42,4 @@ const appState = {
     }
 };
 
-export default appState;
+export default AppState;

@@ -30,18 +30,6 @@
                         :link="subLink"
                         :key="subLinkIndex"
                     />
-                    <!-- <div 
-                        class="sidebar_link_row sidebar_child_link rounded pointer" 
-                        :class="isSubLinkActive ? 'sidebar_link_active' : ''"
-                        :key="subLinkIndex" 
-                        @click.stop="goToLink(link.url + subLink.url, false)"
-                    >
-                        <div class="h100 flex space_between align_center">
-                            <span>
-                                {{subLink.text}}
-                            </span>
-                        </div>
-                    </div> -->
                 </template>
             </div>
             </transition>
@@ -109,7 +97,7 @@ export default {
     methods: {
         goToLink() {
             if(this.$route.path !== this.link.url) {
-                this.$router.push(this.link.url);
+                this.$router.push(this.link.childrenUrl ? this.link.childrenUrl : this.link.url);
             }
         },
 

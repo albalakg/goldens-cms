@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <TopCard 
-            text="Courses"
+            text="Lessons"
             createable
         />
 
@@ -9,8 +9,8 @@
 
         <TableCard
             :headers="headers"
-            :items="courses"
-            :loading="loadingCourses"
+            :items="lessons"
+            :loading="loadingLessons"
             :filerStatus="statuses"
             viewable
             deleteable
@@ -39,13 +39,11 @@ export default {
         return {
             headers: [
                 { text: 'Name',         value: 'name' },
-                { text: 'Category',     value: 'category_name' },
-                { text: 'Lessons',      value: 'lessons_count' },
-                { text: 'Price',        value: 'price' },
-                { text: 'Discount',     value: 'discount' },
+                { text: 'Description',  value: 'description' },
+                { text: 'Lesson',        value: 'lesson' },
                 { text: 'Created At',   value: 'created_at' },
-                { text: 'Status',       value: 'status',        align: 'right' },
-                { text: 'Actions',      value: 'actions',       align: 'right' },
+                { text: 'Status',       value: 'status',    align: 'right' },
+                { text: 'Actions',      value: 'actions',   align: 'right' },
             ],
             search: '',
             statuses: STATUSES_SELECTION,
@@ -54,32 +52,32 @@ export default {
     },
 
     computed: {
-        courses() {
-            let courses = this.$store.getters['CourseState/courses'];
+        lessons() {
+            let lessons = this.$store.getters['LessonState/lessons'];
 
-            if(!courses) {
+            if(!lessons) {
                 return [];
             }
 
             // filter by status
-            courses = courses.data.filter(course => this.filterStatuses.includes(course.status))
+            lessons = lessons.data.filter(lesson => this.filterStatuses.includes(lesson.status))
 
-            return courses;
+            return lessons;
         },
 
-        loadingCourses() {
-            return !this.$store.getters['CourseState/courses'];
+        loadingLessons() {
+            return !this.$store.getters['LessonState/lessons'];
         }
     },
 
     methods: {
        
         deleteItem(data) {
-            this.$store.dispatch('CourseState/deleteCourses', data)
+            this.$store.dispatch('LessonState/deleteLessons', data)
         },
 
         viewItem(item) {
-            this.$router.push('/courses/show/' + item.id)
+            this.$router.push('/lessons/show/' + item.id)
         },
 
         filterByStatus(statuses) {

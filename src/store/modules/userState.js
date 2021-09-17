@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const userState = {
+const UserState = {
     namespaced: true,
 
     state: {
@@ -37,18 +37,15 @@ const userState = {
         },
 
         SET_UPDATED_USER_EMAIL(state, userData) {
-            console.log('userData', userData);
             if(!state.users) {
                 return;
             }
 
             const userIndex = state.users.data.findIndex(user => user.id === userData.id);
-            console.log('userIndex', userIndex);
             if(userIndex < 0) {
                 return;
             }
             
-            console.log('state.users.data[userIndex]', state.users.data[userIndex]);
             state.users.data[userIndex].email = userData.email;
         },
 
@@ -170,4 +167,4 @@ const userState = {
     }
 };
 
-export default userState;
+export default UserState;

@@ -1,7 +1,7 @@
 import axios from "axios";
-import { objectToFormData } from "object-to-formdata";
+import { serialize } from "object-to-formdata";
 
-const videoState = {
+const VideoState = {
     namespaced: true,
 
     state: {
@@ -32,35 +32,11 @@ const videoState = {
                 return;
             }
 
-            videoData.email = state.videos.data[videoIndex].email;
             videoData.created_at = state.videos.data[videoIndex].created_at;
-            videoData.full_name = videoData.first_name + ' ' + videoData.last_name;
             state.videos.data[videoIndex] = {...videoData};
         },
 
-        SET_UPDATED_VIDEO_EMAIL(state, videoData) {
-            console.log('videoData', videoData);
-            if(!state.videos) {
-                return;
-            }
-
-            const videoIndex = state.videos.data.findIndex(video => video.id === videoData.id);
-            console.log('videoIndex', videoIndex);
-            if(videoIndex < 0) {
-                return;
-            }
-            
-            console.log('state.videos.data[videoIndex]', state.videos.data[videoIndex]);
-            state.videos.data[videoIndex].email = videoData.email;
-        },
-
         SET_VIDEOS(state, videos) {
-            // add full name
-            videos.data = videos.data.map(video => {
-                video.full_name = video.first_name + ' ' + video.last_name;
-                return video; 
-            })
-
             state.videos = videos;
         },
 
@@ -102,13 +78,8 @@ const videoState = {
 
         createVideo({ commit }, videoData) {
             return new Promise((resolve, reject) => {
-                const packageToSend = objectToFormData(videoData, { indices: true });
-                const config = {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    }
-                }
-                axios.post('cms/videos/create', packageToSend, config)
+                const packageToSend = serialize(videoData, { indices: true });
+                axios.post('cms/videos/create', packageToSend, FORM_DATA_CONFIG)
                     .then(res => {
                         commit('SET_NEW_VIDEO', videoData);
                         resolve(res.data);
@@ -134,33 +105,6 @@ const videoState = {
             }) 
         },
 
-        updateEmail({ commit }, videoData) {
-            return new Promise((resolve, reject) => {
-                axios.post('cms/videos/update/email', videoData)
-                    .then(res => {
-                        commit('SET_UPDATED_VIDEO_EMAIL', videoData);
-                        resolve(res.data);
-                    })
-                    .catch(err => {
-                        console.warn('updateEmail: ', err);
-                        reject(err.response.data)
-                    })
-            }) 
-        },
-
-        updatePassword({ commit }, videoData) {
-            return new Promise((resolve, reject) => {
-                axios.post('cms/videos/update/password', videoData)
-                    .then(res => {
-                        resolve(res.data);
-                    })
-                    .catch(err => {
-                        console.warn('updatePassword: ', err);
-                        reject(err.response.data)
-                    })
-            }) 
-        },
-
         deleteVideos({ commit }, video_ids) {
             return new Promise((resolve, reject) => {
                 axios.post('cms/videos/delete', { ids: video_ids })
@@ -178,4 +122,4 @@ const videoState = {
     }
 };
 
-export default videoState;
+export default VideoState;

@@ -1,12 +1,14 @@
 import Vue                  from 'vue'
 import Vuex                 from 'vuex'
 
-import AppState             from './modules/appState'
-import UserState            from './modules/userState'
-import MessageState         from './modules/messageState'
-import VideoState           from './modules/videoState'
-import CourseState          from './modules/courseState'
-import CourseCategoryState  from './modules/courseCategoryState'
+import AppState             from './modules/AppState'
+import UserState            from './modules/UserState'
+import MessageState         from './modules/MessageState'
+import VideoState           from './modules/VideoState'
+import CourseState          from './modules/CourseState'
+import CourseCategoryState  from './modules/CourseCategoryState'
+import CourseAreaState      from './modules/CourseAreaState'
+import LessonState          from './modules/LessonState'
 
 Vue.use(Vuex)
 
@@ -18,5 +20,7 @@ export default new Vuex.Store({
     VideoState,
     CourseState,
     CourseCategoryState,
+    CourseAreaState,
+    LessonState,
   }
 })

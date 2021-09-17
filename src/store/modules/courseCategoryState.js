@@ -1,7 +1,7 @@
 import axios from "axios";
 import { objectToFormData } from "object-to-formdata";
 
-const courseCategoryCategoryState = {
+const CourseCategoryState = {
     namespaced: true,
 
     state: {
@@ -178,4 +178,4 @@ const courseCategoryCategoryState = {
     }
 };
 
-export default courseCategoryCategoryState;
+export default CourseCategoryState;

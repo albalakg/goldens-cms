@@ -12,7 +12,7 @@ const COLORS = {
 let message_timeout = null;
 let show_messages_interval = null;
 
-const messageState = {
+const MessageState = {
     namespaced: true,
 
     state: {
@@ -95,4 +95,4 @@ const messageState = {
     }
 };
 
-export default messageState;
+export default MessageState;

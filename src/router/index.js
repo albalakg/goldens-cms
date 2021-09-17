@@ -55,6 +55,31 @@ const routes = [
 
   // ***** COURSES START *****
   {
+    path: '/content/lessons',
+    component: () => import('../views/Content/Lessons/LessonsIndex.vue'),
+    beforeEnter: Guard.admin,
+    children: [
+      {
+        path: '',
+        name: 'Lessons',
+        component: () => import('../views/Content/Lessons/LessonsList.vue'),
+      },
+      {
+        path: 'new',
+        name: 'LessonsCreate',
+        component: () => import('../views/Content/Lessons/LessonsCreate.vue'),
+      },
+      {
+        path: 'show/:userID',
+        name: 'LessonsShow',
+        component: () => import('../views/Content/Lessons/LessonsShow.vue'),
+      },
+    ]
+  },
+  // ***** COURSES END *****
+
+  // ***** LESSONS START *****
+  {
     path: '/content/courses',
     component: () => import('../views/Content/Courses/CoursesIndex.vue'),
     beforeEnter: Guard.admin,
@@ -76,7 +101,32 @@ const routes = [
       },
     ]
   },
-  // ***** COURSES END *****
+  // ***** LESSONS END *****
+
+  // ***** COURSE AREAS START *****
+  {
+    path: '/content/course-areas',
+    component: () => import('../views/Content/CourseAreas/CourseAreasIndex.vue'),
+    beforeEnter: Guard.admin,
+    children: [
+      {
+        path: '',
+        name: 'CourseAreas',
+        component: () => import('../views/Content/CourseAreas/CourseAreasList.vue'),
+      },
+      {
+        path: 'new',
+        name: 'CourseAreasCreate',
+        component: () => import('../views/Content/CourseAreas/CourseAreasCreate.vue'),
+      },
+      {
+        path: 'show/:userID',
+        name: 'CourseAreasShow',
+        component: () => import('../views/Content/CourseAreas/CourseAreasShow.vue'),
+      },
+    ]
+  },
+  // ***** COURSE AREAS END *****
 
   // ***** VIDEOS START *****
   {

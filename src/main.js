@@ -10,11 +10,13 @@ Vue.config.productionTip = false
 axios.defaults.baseURL = 'http://localhost:8000/api/';
 axios.defaults.headers.common["Authorization"] = `Bearer ${Auth.token()}`;
 
-const FORM_DATA_CONFIG = {
+window.FORM_DATA_CONFIG = {
   headers: {
       "Content-Type": "multipart/form-data",
   }
 }
+
+window.FILES_PATH = window.location.origin + "/files/";
 
 import Auth from "./helpers/Auth";
 window.Auth = Auth;

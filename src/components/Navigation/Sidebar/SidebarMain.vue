@@ -53,27 +53,11 @@ export default {
                     text: 'Users',
                     url: '/users',
                     icon: 'mdi-account-supervisor-circle',
-                    // children: [
-                    //     {
-                    //         text: 'List',
-                    //         url: '/users',
-                    //         icon: 'mdi-account-details'
-                    //     },
-                    //     {
-                    //         text: 'Create',
-                    //         url: '/users/new',
-                    //         icon: 'mdi-account-plus'
-                    //     },
-                        // {
-                        //     text: 'Statistics',
-                        //     url: '/users/statistics',
-                        //     icon: 'mdi-account-search'
-                        // },
-                    // ]
                 },
                 {
                     text: 'Content',
                     url: '/content',
+                    childrenUrl: '/content/courses',
                     icon: 'mdi-book-open-page-variant',
                     children: [
                         {
@@ -81,8 +65,8 @@ export default {
                             url: '/content/courses',
                         },
                         {
-                            text: 'Lessons Fields',
-                            url: '/content/lessons-fields',
+                            text: 'Course Areas',
+                            url: '/content/course-areas',
                         },
                         {
                             text: 'Lessons',
@@ -92,10 +76,6 @@ export default {
                             text: 'Videos',
                             url: '/content/videos',
                         },
-                        // {
-                        //     text: 'Statistics',
-                        //     url: '/courses/statistics',
-                        // },
                     ]
                 },
             ]

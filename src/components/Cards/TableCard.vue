@@ -94,6 +94,18 @@
                 />
             </template>
 
+            <template v-slot:item.video="props">
+                <div>
+                    <video class="table_video" controls :src="props.item.video"></video>
+                </div>
+            </template>
+
+            <template v-slot:item.discount="props">
+                {{
+                    props.item.discount
+                }}%
+            </template>
+
         </v-data-table>
 
         <br>
@@ -250,6 +262,7 @@ export default {
             selected: [],
             multipleActionPickedItem: '',
             pickedStatusFilters: this.filerStatus ? this.filerStatus.map(status => status) : [],
+            FILES_PATH: FILES_PATH
         }
     },
 
@@ -286,7 +299,7 @@ export default {
 
         showFilterSection() {
             return this.searchable || this.filerStatus
-        }
+        },
     },
 
     methods: {
@@ -367,7 +380,6 @@ export default {
         },
 
         dialogHandler() {
-            console.log('dialogHandler', this.dialog.action);
             this.$emit(
                 this.dialog.action, 
                 this.dialog.items ? this.dialog.items.map(item => item.id) : [this.dialog.item.id]

@@ -16,7 +16,7 @@
             deleteable
             searchable
             multipleEdit
-            mainField="full_name"
+            mainField="name"
             @delete="deleteItem"
             @view="viewItem"
             @filterByStatus="filterByStatus"
@@ -38,10 +38,12 @@ export default {
     data() {
         return {
             headers: [
-                { text: 'Name', value: 'full_name' },
-                { text: 'Description', value: 'description' },
-                { text: 'Created At', value: 'created_at' },
-                { text: 'Actions', value: 'actions', align: 'right' },
+                { text: 'Name',         value: 'name' },
+                { text: 'Description',  value: 'description' },
+                { text: 'Video',        value: 'video' },
+                { text: 'Created At',   value: 'created_at' },
+                { text: 'Status',       value: 'status',    align: 'right' },
+                { text: 'Actions',      value: 'actions',   align: 'right' },
             ],
             search: '',
             statuses: STATUSES_SELECTION,

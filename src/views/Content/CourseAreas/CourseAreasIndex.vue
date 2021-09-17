@@ -10,8 +10,8 @@
 export default {
 
     created() {
-        this.$store.dispatch('CourseState/getCourses');
-    }
+        this.$store.dispatch('CourseAreaState/getCourseAreas');
+    },
 
 }
 </script>
