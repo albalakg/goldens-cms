@@ -31,9 +31,9 @@ const VideoState = {
             if(videoIndex < 0) {
                 return;
             }
-
+            
             videoData.created_at = state.videos.data[videoIndex].created_at;
-            state.videos.data[videoIndex] = {...videoData};
+            state.videos.data[videoIndex] = videoData;
         },
 
         SET_VIDEOS(state, videos) {
@@ -81,7 +81,7 @@ const VideoState = {
                 const packageToSend = serialize(videoData, { indices: true });
                 axios.post('cms/videos/create', packageToSend, FORM_DATA_CONFIG)
                     .then(res => {
-                        commit('SET_NEW_VIDEO', videoData);
+                        commit('SET_NEW_VIDEO', res.data.data);
                         resolve(res.data);
                     })
                     .catch(err => {
@@ -93,9 +93,10 @@ const VideoState = {
 
         updateVideo({ commit }, videoData) {
             return new Promise((resolve, reject) => {
-                axios.post('cms/videos/update', videoData)
+                const packageToSend = serialize(videoData, { indices: true });
+                axios.post('cms/videos/update', packageToSend, FORM_DATA_CONFIG)
                     .then(res => {
-                        commit('SET_UPDATED_VIDEO', res.data.data);
+                        commit('SET_UPDATED_VIDEO', videoData);
                         resolve(res.data);
                     })
                     .catch(err => {

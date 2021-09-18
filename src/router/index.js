@@ -95,7 +95,7 @@ const routes = [
         component: () => import('../views/Content/Courses/CoursesCreate.vue'),
       },
       {
-        path: 'show/:userID',
+        path: 'show/:courseID',
         name: 'CoursesShow',
         component: () => import('../views/Content/Courses/CoursesShow.vue'),
       },
@@ -120,7 +120,7 @@ const routes = [
         component: () => import('../views/Content/CourseAreas/CourseAreasCreate.vue'),
       },
       {
-        path: 'show/:userID',
+        path: 'show/:courseAreaID',
         name: 'CourseAreasShow',
         component: () => import('../views/Content/CourseAreas/CourseAreasShow.vue'),
       },
@@ -145,7 +145,7 @@ const routes = [
         component: () => import('../views/Content/Videos/VideosCreate.vue'),
       },
       {
-        path: 'show/:userID',
+        path: 'show/:videoID',
         name: 'VideosShow',
         component: () => import('../views/Content/Videos/VideosShow.vue'),
       },

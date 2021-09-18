@@ -1,14 +1,14 @@
 <template>
-    <v-container fluid class="user_show_wrapper">
+    <v-container fluid class="video_show_wrapper">
         
-        <div v-if="editedUser">
+        <div v-if="editedVideo">
             <TopCard 
-                :text="'User ' + editedUser.full_name"
+                :text="'Video ' + editedVideo.full_name"
             />
 
             <br>
             
-            <v-tabs vertical class="user_show_card">
+            <v-tabs vertical class="video_show_card">
                 <template v-for="(tab, index) in tabs">
                     <v-tab :key="index">
                         {{tab.text}}
@@ -19,7 +19,7 @@
                     <v-tab-item :key="index">
 
                         <div class="pl-5">
-                            <component :user="editedUser" :is="tab.component" />
+                            <component :video="editedVideo" :is="tab.component" />
                         </div>
                     </v-tab-item>
                 </template>
@@ -34,21 +34,13 @@
 <script>
 import FormLoader from '../../../components/Loaders/FormLoader.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
-import UserDetails from '../../../components/Users/UserDetails.vue'
-import UserSecurity from '../../../components/Users/UserSecurity.vue'
-import UserSupport from '../../../components/Users/UserSupport.vue'
-import UserOrders from '../../../components/Users/UserOrders.vue'
-import UserActivity from '../../../components/Users/UserActivity.vue'
+import VideoDetails from '../../../components/Videos/VideoDetails.vue'
 
 export default {
     components: {
         FormLoader,
         TopCard,
-        UserDetails,
-        UserSecurity,
-        UserSupport,
-        UserOrders,
-        UserActivity,
+        VideoDetails,
     },
 
     data() {
@@ -56,48 +48,32 @@ export default {
             tabs: [
                 { 
                     text: 'Details', 
-                    component: 'UserDetails', 
-                },
-                { 
-                    text: 'Security', 
-                    component: 'UserSecurity', 
-                },
-                { 
-                    text: 'Support', 
-                    component: 'UserSupport', 
-                },
-                { 
-                    text: 'Orders', 
-                    component: 'UserOrders', 
-                },
-                { 
-                    text: 'Activity', 
-                    component: 'UserActivity', 
+                    component: 'VideoDetails', 
                 },
             ],
-            editedUser: null,
+            editedVideo: null,
         }
     },
 
     created() {
-        return this.getUser();
+        return this.getVideo();
     },
 
     watch: {
-        users() {
-            this.getUser();
+        videos() {
+            this.getVideo();
         }
     },
 
     computed: {
-        users() {
-            return this.$store.getters['UserState/users'];
+        videos() {
+            return this.$store.getters['VideoState/videos'];
         }
     },
 
     methods: {
-        async getUser() {
-            this.editedUser = await this.$store.dispatch('UserState/getUser', this.$route.params.userID);
+        async getVideo() {
+            this.editedVideo = await this.$store.dispatch('VideoState/getVideo', this.$route.params.videoID);
         },
 
         submit() {
@@ -108,19 +84,19 @@ export default {
 
             this.loading = true;
             
-            this.$store.dispatch('UserState/createUser', this.form)
+            this.$store.dispatch('VideoState/createVideo', this.form)
                 .then(res => {
                     console.log('res', res);
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: `User ${this.form.first_name} ${this.form.last_name} created successfully`
+                        message: `Video ${this.form.first_name} ${this.form.last_name} created successfully`
                     });
-                    this.$router.push('/users')
+                    this.$router.push('/videos')
                 })
                 .catch(err => {
                     console.log('err', err);
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to create the user',
+                        message: 'Failed to create the video',
                         type: 'error',
                         time: 2000
                     });
@@ -135,7 +111,7 @@ export default {
 
 <style scoped>
 
-    .user_show_card {
+    .video_show_card {
         min-height: 70vh;
     }
 

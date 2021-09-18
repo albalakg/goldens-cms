@@ -1,11 +1,5 @@
 <template>
     <v-container fluid>
-        <TopCard 
-            text="Create Video"
-        />
-        
-        <br>
-
         <v-form @submit.prevent="submit()" ref="form">
             <v-flex>
                 <FormCard
@@ -29,6 +23,14 @@
                                 label="Description"
                                 :rules="[rules.description]"
                             ></v-textarea>
+                            <v-select
+                                outlined
+                                :items="statuses"
+                                item-text="text"
+                                item-value="value"
+                                v-model="form.status"
+                                label="Status"
+                            ></v-select>
                             <v-file-input
                                 outlined
                                 show-size
@@ -61,14 +63,22 @@
 </template>
 
 <script>
-import FormCard from './../../../components/Cards/FormCard.vue'
-import TopCard from './../../../components/Cards/TopCard.vue'
-import SubmitButton from './../../../components/Buttons/SubmitButton.vue'
-import CancelButton from './../../../components/Buttons/CancelButton.vue'
-import {VIDEO_NAME_RULE, VIDEO_DESCRIPTION_RULE, VIDEO_FILE_SIZE_RULE, VIDEO_FILE_TYPES_RULE} from './../../../helpers/Rules' 
-import {NAME_MESSAGE, DESCRIPTION_MESSAGE, VIDEO_FILE_SIZE_MESSAGE, VIDEO_FILE_TYPES_MESSAGE} from './../../../helpers/Messages' 
+import FormCard from './../../components/Cards/FormCard.vue'
+import TopCard from './../../components/Cards/TopCard.vue'
+import SubmitButton from './../../components/Buttons/SubmitButton.vue'
+import CancelButton from './../../components/Buttons/CancelButton.vue'
+import { STATUSES_SELECTION } from './../../helpers/Status'
+ import {VIDEO_NAME_RULE, VIDEO_DESCRIPTION_RULE, VIDEO_FILE_SIZE_RULE, VIDEO_FILE_TYPES_RULE} from './../../helpers/Rules' 
+import {NAME_MESSAGE, DESCRIPTION_MESSAGE, VIDEO_FILE_SIZE_MESSAGE, VIDEO_FILE_TYPES_MESSAGE} from './../../helpers/Messages' 
 
 export default {
+    props: {
+        video: {
+            type: Object,
+            required: true
+        }
+    },
+
     components: {
         FormCard,
         TopCard,
@@ -79,8 +89,8 @@ export default {
     data() {
         return {
             form: {
-                name: '',
-                description: '',
+                name:           '',
+                description:    '',
             },
             file: null,
             loading: false,
@@ -89,15 +99,21 @@ export default {
                 name:           v => VIDEO_NAME_RULE.test(v)        || NAME_MESSAGE,
                 description:    v => VIDEO_DESCRIPTION_RULE.test(v) || DESCRIPTION_MESSAGE,
             },
+            statuses: STATUSES_SELECTION
         }
     },
 
     computed: {
         videoSrc() {
-            return this.file ? URL.createObjectURL(this.file) : '';
+            return this.file ? URL.createObjectURL(this.file) : 
+                    this.video.file ? URL.createObjectURL(this.video.file) : this.video.video;
         },
     },
-    
+
+    created() {
+        this.form = {...this.video};
+    },
+
     methods: {
         submit() {
             this.errors = null;
@@ -109,17 +125,17 @@ export default {
             }
 
             this.loading = true;
-            this.$store.dispatch('VideoState/createVideo', {...this.form, file: this.file})
+            this.$store.dispatch('VideoState/updateVideo', {...this.form, file: this.file})
                 .then(res => {
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: `Video ${this.form.name} created successfully`
+                        message: `Video ${this.form.name} updated successfully`
                     });
                     this.$router.push('/content/videos')
                 })
                 .catch(err => {
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to create the video',
+                        message: 'Failed to update the video',
                         type: 'error',
                         time: 2000
                     });
@@ -131,9 +147,7 @@ export default {
 
         validateFile() {
             if(!this.file) {
-                return this.errors = {
-                    file: 'File is required'
-                };
+                return;
             }
 
             if(!VIDEO_FILE_TYPES_RULE.includes(this.file.type)) {

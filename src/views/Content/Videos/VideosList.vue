@@ -61,7 +61,6 @@ export default {
 
             // filter by status
             videos = videos.data.filter(video => this.filterStatuses.includes(video.status))
-
             return videos;
         },
 
@@ -77,7 +76,7 @@ export default {
         },
 
         viewItem(item) {
-            this.$router.push('/videos/show/' + item.id)
+            this.$router.push('/content/videos/show/' + item.id)
         },
 
         filterByStatus(statuses) {
