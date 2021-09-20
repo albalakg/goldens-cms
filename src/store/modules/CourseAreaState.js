@@ -53,13 +53,13 @@ const CourseAreaState = {
                 return;
             }
 
-            axios.get('cms/courseAreas')
+            axios.get('cms/course-areas')
                 .then(res => {
                     commit('SET_COURSE_AREAS', res.data.data);
                 })
                 .catch(err => {
                     dispatch('MessageState/addMessage', {
-                        message: 'Failed to fetch the courseAreas',
+                        message: 'Failed to fetch Course Areas',
                         type: 'error',
                     }, {root:true});
                     console.warn('getCourseAreas: ', err);
@@ -79,8 +79,15 @@ const CourseAreaState = {
         createCourseArea({ commit }, courseAreaData) {
             return new Promise((resolve, reject) => {
                 const packageToSend = serialize(courseAreaData, { indices: true });
-                axios.post('cms/courseAreas/create', packageToSend, FORM_DATA_CONFIG)
+                axios.post('cms/course-areas/create', packageToSend, FORM_DATA_CONFIG)
                     .then(res => {
+
+                        courseAreaData.id = res.data.data.id;
+                        courseAreaData.created_at = res.data.data.created_at;
+                        courseAreaData.status = res.data.data.status;
+                        courseAreaData.course_category_name = res.data.data.category.name;
+                        courseAreaData.lessons_count = 0;
+
                         commit('SET_NEW_COURSE_AREA', courseAreaData);
                         resolve(res.data);
                     })
@@ -93,9 +100,10 @@ const CourseAreaState = {
 
         updateCourseArea({ commit }, courseAreaData) {
             return new Promise((resolve, reject) => {
-                axios.post('cms/courseAreas/update', courseAreaData)
+                const packageToSend = serialize(courseAreaData, { indices: true });
+                axios.post('cms/course-areas/update', packageToSend, FORM_DATA_CONFIG)
                     .then(res => {
-                        commit('SET_UPDATED_COURSE_AREA', res.data.data);
+                        commit('SET_UPDATED_COURSE_AREA', courseAreaData);
                         resolve(res.data);
                     })
                     .catch(err => {
@@ -103,11 +111,11 @@ const CourseAreaState = {
                         reject(err.response.data)
                     })
             }) 
-        },
+    },
 
         deleteCourseAreas({ commit }, courseArea_ids) {
             return new Promise((resolve, reject) => {
-                axios.post('cms/courseAreas/delete', { ids: courseArea_ids })
+                axios.post('cms/course-areas/delete', { ids: courseArea_ids })
                     .then(res => {
                         commit('DELETE_COURSE_AREA', courseArea_ids);
                         resolve();

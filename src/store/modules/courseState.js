@@ -58,7 +58,7 @@ const CourseState = {
                 })
                 .catch(err => {
                     dispatch('MessageState/addMessage', {
-                        message: 'Failed to fetch the courses',
+                        message: 'Failed to fetch Courses',
                         type: 'error',
                     }, {root:true});
                     console.warn('getCourses: ', err);

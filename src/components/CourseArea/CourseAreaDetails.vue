@@ -1,11 +1,5 @@
 <template>
     <v-container fluid>
-        <TopCard 
-            text="Create Course"
-        />
-        
-        <br>
-
         <v-form @submit.prevent="submit()" ref="form">
             <v-flex d-flex>
                 <v-flex xs12 lg6 class="pr-5">
@@ -32,32 +26,21 @@
                                 ></v-textarea>
                                 <v-autocomplete
                                     outlined
-                                    :items="courseCategories"
+                                    :items="courses"
                                     item-text="name"
                                     item-value="id"
-                                    v-model="form.category_id"
-                                    label="Category"
-                                    :rules="[rules.category_id]"
+                                    v-model="form.course_id"
+                                    label="Course"
+                                    :rules="[rules.course_id]"
                                 ></v-autocomplete>
-                                <v-flex d-flex>
-                                    <v-text-field
-                                        outlined
-                                        v-model="form.price"
-                                        label="Price"
-                                        :rules="[rules.price]"
-                                        autocomplete="off"
-                                        class="pr-3"
-                                    ></v-text-field>
-                                    <v-text-field
-                                        outlined
-                                        v-model="form.discount"
-                                        label="Discount"
-                                        hint="discount in precentage %"
-                                        :rules="[rules.discount]"
-                                        autocomplete="off"
-                                        class="pl-3"
-                                    ></v-text-field>
-                                </v-flex>
+                                <v-select
+                                    outlined
+                                    :items="statuses"
+                                    item-text="text"
+                                    item-value="value"
+                                    v-model="form.status"
+                                    label="Status"
+                                ></v-select>
                             </div>
                         </template>
                     </FormCard>
@@ -111,12 +94,13 @@
 </template>
 
 <script>
-import FormCard from '../../../components/Cards/FormCard.vue'
-import TopCard from '../../../components/Cards/TopCard.vue'
-import SubmitButton from '../../../components/Buttons/SubmitButton.vue'
-import CancelButton from '../../../components/Buttons/CancelButton.vue'
-import {COURSE_NAME_RULE, COURSE_DESCRIPTION_RULE, CATEGORY_RULE, PRICE_RULE, DISCOUNT_RULE, TRAILER_FILE_SIZE_RULE, VIDEO_FILE_TYPES_RULE, IMAGE_FILE_TYPES_RULE, IMAGE_FILE_SIZE_RULE} from '../../../helpers/Rules' 
-import {NAME_MESSAGE, DESCRIPTION_MESSAGE, CATEGORY_MESSAGE, TRAILER_FILE_SIZE_MESSAGE, TRAILER_FILE_TYPES_MESSAGE, PRICE_MESSAGE, DISCOUNT_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE} from '../../../helpers/Messages' 
+import FormCard from '../../components/Cards/FormCard.vue'
+import TopCard from '../../components/Cards/TopCard.vue'
+import SubmitButton from '../../components/Buttons/SubmitButton.vue'
+import CancelButton from '../../components/Buttons/CancelButton.vue'
+import { STATUSES_SELECTION } from './../../helpers/Status'
+import {COURSE_NAME_RULE, COURSE_DESCRIPTION_RULE, ID_RULE, TRAILER_FILE_SIZE_RULE, VIDEO_FILE_TYPES_RULE, IMAGE_FILE_TYPES_RULE, IMAGE_FILE_SIZE_RULE} from '../../helpers/Rules' 
+import {NAME_MESSAGE, DESCRIPTION_MESSAGE, CATEGORY_MESSAGE, TRAILER_FILE_SIZE_MESSAGE, TRAILER_FILE_TYPES_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE} from '../../helpers/Messages' 
 
 export default {
     components: {
@@ -126,14 +110,20 @@ export default {
         CancelButton,
     },
 
+    props: {
+        courseArea: {
+            type: Object,
+            required: true
+        }
+    },
+
     data() {
         return {
             form: {
                 name:           '',
                 description:    '',
-                category_id:    '',
-                price:          '',
-                discount:       '',
+                course_id:      '',
+                status:         '',
             },
             image: null,
             trailer: null,
@@ -142,29 +132,30 @@ export default {
             rules: {
                 name:           v => COURSE_NAME_RULE.test(v)           || NAME_MESSAGE,
                 description:    v => COURSE_DESCRIPTION_RULE.test(v)    || DESCRIPTION_MESSAGE,
-                category_id:    v => CATEGORY_RULE.test(v)              || CATEGORY_MESSAGE,
-                price:          v => PRICE_RULE.test(v)                 || PRICE_MESSAGE,
-                discount:       v => DISCOUNT_RULE.test(v)              || DISCOUNT_MESSAGE,
+                course_id:      v => ID_RULE.test(v)                    || CATEGORY_MESSAGE,
             },
+            statuses: STATUSES_SELECTION
         }
     },
 
     created() {
-        this.$store.dispatch('CourseCategoryState/getCourseCategories');
+        this.setData();
     },
 
     computed: {
-        courseCategories() {
-            const categories = this.$store.getters['CourseCategoryState/courseCategories'];
-            return categories ? categories.data : [];
+        courses() {
+            const courses = this.$store.getters['CourseState/courses'];
+            return courses ? courses.data : [];
         },
 
         imageSrc() {
-            return this.image ? URL.createObjectURL(this.image) : null;
+            return this.image ? URL.createObjectURL(this.image) : 
+                    this.courseArea.imageSrc ? this.courseArea.imageSrc : null;
         },
 
         trailerSrc() {
-            return this.trailer ? URL.createObjectURL(this.trailer) : null;
+            return this.trailer ? URL.createObjectURL(this.trailer) : 
+                    this.courseArea.trailerSrc ? this.courseArea.trailerSrc : null;
         },
     },
 
@@ -179,6 +170,19 @@ export default {
     },
 
     methods: {
+        setData() {
+            this.$store.dispatch('CourseState/getCourses');
+            this.form = {...this.courseArea};
+            
+            if(typeof this.form.trailer === 'object') {
+                this.trailer = this.form.trailer;
+            }
+
+            if(typeof this.form.image === 'object') {
+                this.image = this.form.image;
+            }
+        },
+
         submit() {
             this.errors = null;
             
@@ -190,17 +194,23 @@ export default {
             }
 
             this.loading = true;
-            this.$store.dispatch('CourseState/createCourse', {...this.form, image: this.image, trailer: this.trailer})
+            
+            const course = this.courses.find(course => course.id === this.form.course_id);
+            if(course) {
+                this.form.course_name = course.name;
+            }
+            
+            this.$store.dispatch('CourseAreaState/updateCourseArea', {...this.form, image: this.image, trailer: this.trailer})
                 .then(res => {
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: `Course ${this.form.name} created successfully`
+                        message: `Course Area ${this.form.name} updated successfully`
                     });
-                    this.$router.push('/content/courses')
+                    this.$router.push('/content/course-areas')
                 })
                 .catch(err => {
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to create the course',
+                        message: 'Failed to update the Course Area',
                         type: 'error',
                         time: 2000
                     });
@@ -216,19 +226,17 @@ export default {
             }
 
             if(!this.trailer) {
-                return this.errors = {
-                    trailer: 'Trailer is required'
-                };
+                return;
             }
 
             if(!VIDEO_FILE_TYPES_RULE.includes(this.trailer.type)) {
-                return this.errors = {
+                return this.errors ? this.errors.trailer = TRAILER_FILE_TYPES_MESSAGE : this.errors = {
                     trailer: TRAILER_FILE_TYPES_MESSAGE
                 };
             }
 
             if(this.trailer.size > TRAILER_FILE_SIZE_RULE) {
-                return this.errors = {
+                return this.errors ? this.errors.trailer = TRAILER_FILE_SIZE_MESSAGE : this.errors = {
                     trailer: TRAILER_FILE_SIZE_MESSAGE
                 };
             }
@@ -240,19 +248,17 @@ export default {
             }
 
             if(!this.image) {
-                return this.errors = {
-                    image: 'Image is required'
-                };
+                return;
             }
 
             if(!IMAGE_FILE_TYPES_RULE.includes(this.image.type)) {
-                return this.errors = {
+                return this.errors ? this.errors.image = IMAGE_FILE_TYPES_MESSAGE : this.errors = {
                     image: IMAGE_FILE_TYPES_MESSAGE
                 };
             }
 
             if(this.image.size > IMAGE_FILE_SIZE_RULE) {
-                return this.errors = {
+                return this.errors ? this.errors.image = IMAGE_FILE_SIZE_MESSAGE : this.errors = {
                     image: IMAGE_FILE_SIZE_MESSAGE
                 };
             }

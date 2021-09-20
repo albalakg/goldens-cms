@@ -1,45 +1,77 @@
 <template>
     <v-container fluid>
         <TopCard 
-            text="Create Course Areas"
+            text="Create Course Area"
         />
         
         <br>
 
         <v-form @submit.prevent="submit()" ref="form">
-            <v-flex>
-                <FormCard
-                >
-                    <template slot="content">
-                        <div class="px-4">
-                            <v-text-field
-                                outlined
-                                v-model="form.name"
-                                counter
-                                maxlength="40"
-                                label="Name"
-                                class="pr-2"
-                                :rules="[rules.name]"
-                            ></v-text-field>
-                            <v-textarea
-                                outlined
-                                counter
-                                maxlength="1000"
-                                v-model="form.description"
-                                label="Description"
-                                :rules="[rules.description]"
-                            ></v-textarea>
-                            <v-file-input
-                                outlined
-                                show-size
-                                v-model="file"
-                                label="CourseArea File"
-                                prepend-icon=""
-                                :error-messages="errors && errors.file ? errors.file : ''"
-                            ></v-file-input>
-                        </div>
-                    </template>
-                </FormCard>
+            <v-flex d-flex>
+                <v-flex xs12 lg6 class="pr-5">
+                    <FormCard
+                        title="Details"
+                    >
+                        <template slot="content">
+                            <div class="px-4">
+                                <v-text-field
+                                    outlined
+                                    v-model="form.name"
+                                    label="Name"
+                                    counter
+                                    maxlength="30"
+                                    :rules="[rules.name]"
+                                ></v-text-field>
+                                <v-textarea
+                                    outlined
+                                    v-model="form.description"
+                                    counter
+                                    maxlength="1000"
+                                    label="Description"
+                                    :rules="[rules.description]"
+                                ></v-textarea>
+                                <v-autocomplete
+                                    outlined
+                                    :items="courses"
+                                    item-text="name"
+                                    item-value="id"
+                                    v-model="form.course_id"
+                                    label="Course"
+                                    :rules="[rules.course_id]"
+                                ></v-autocomplete>
+                            </div>
+                        </template>
+                    </FormCard>
+                </v-flex>
+                <v-flex xs12 lg6 class="pl-5">
+                    <FormCard
+                        title="Files"
+                    >
+                        <template slot="content">
+                            <div class="px-4">
+                                <v-file-input
+                                    outlined
+                                    show-size
+                                    v-model="image"
+                                    label="Image"
+                                    prepend-icon=""
+                                    :error-messages="errors && errors.image ? errors.image : ''"
+                                ></v-file-input>
+                                <img class="preview_image" :src="imageSrc" alt="">
+                                <v-file-input
+                                    outlined
+                                    show-size
+                                    v-model="trailer"
+                                    accept="mp4"
+                                    label="Trailer"
+                                    prepend-icon=""
+                                    :error-messages="errors && errors.trailer ? errors.trailer : ''"
+                                ></v-file-input>
+                                <video controls class="preview_image" :src="trailerSrc"></video>
+                            </div>
+                        </template>
+                    </FormCard>
+                </v-flex>
             </v-flex>
             <v-flex d-flex justify-space-between class="mt-10">
                 <v-flex md12 lg6 class="pr-5">
@@ -64,8 +96,8 @@ import FormCard from '../../../components/Cards/FormCard.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
 import SubmitButton from '../../../components/Buttons/SubmitButton.vue'
 import CancelButton from '../../../components/Buttons/CancelButton.vue'
-import {VIDEO_NAME_RULE, VIDEO_DESCRIPTION_RULE, VIDEO_FILE_SIZE_RULE, VIDEO_FILE_TYPES_RULE} from '../../../helpers/Rules' 
-import {NAME_MESSAGE, DESCRIPTION_MESSAGE, VIDEO_FILE_SIZE_MESSAGE, VIDEO_FILE_TYPES_MESSAGE} from '../../../helpers/Messages' 
+import {COURSE_NAME_RULE, COURSE_DESCRIPTION_RULE, ID_RULE, TRAILER_FILE_SIZE_RULE, VIDEO_FILE_TYPES_RULE, IMAGE_FILE_TYPES_RULE, IMAGE_FILE_SIZE_RULE} from '../../../helpers/Rules' 
+import {NAME_MESSAGE, DESCRIPTION_MESSAGE, CATEGORY_MESSAGE, TRAILER_FILE_SIZE_MESSAGE, TRAILER_FILE_TYPES_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE} from '../../../helpers/Messages' 
 
 export default {
     components: {
@@ -78,41 +110,80 @@ export default {
     data() {
         return {
             form: {
-                name: '',
-                description: '',
+                name:           '',
+                description:    '',
+                course_id:    '',
             },
-            file: null,
+            image: null,
+            trailer: null,
             loading: false,
             errors: null,
             rules: {
-                name:           v => VIDEO_NAME_RULE.test(v)        || NAME_MESSAGE,
-                description:    v => VIDEO_DESCRIPTION_RULE.test(v) || DESCRIPTION_MESSAGE,
+                name:           v => COURSE_NAME_RULE.test(v)           || NAME_MESSAGE,
+                description:    v => COURSE_DESCRIPTION_RULE.test(v)    || DESCRIPTION_MESSAGE,
+                course_id:      v => ID_RULE.test(v)                    || CATEGORY_MESSAGE,
             },
         }
+    },
+
+    created() {
+        this.$store.dispatch('CourseState/getCourses');
+    },
+
+    computed: {
+        courses() {
+            const courses = this.$store.getters['CourseState/courses'];
+            return courses ? courses.data : [];
+        },
+
+        imageSrc() {
+            return this.image ? URL.createObjectURL(this.image) : null;
+        },
+
+        trailerSrc() {
+            return this.trailer ? URL.createObjectURL(this.trailer) : null;
+        },
+    },
+
+    watch: {
+        trailer() {
+            this.validateTrailer();
+        },
+
+        image() {
+            this.validateImage();
+        },
     },
 
     methods: {
         submit() {
             this.errors = null;
             
-            this.validateFile();
+            this.validateTrailer();
+            this.validateImage();
 
             if(!this.$refs.form.validate() || this.errors) {
                 return;
             }
 
             this.loading = true;
-            this.$store.dispatch('CourseAreaState/createCourseArea', {...this.form, file: this.file})
+            
+            const course = this.courses.find(course => course.id === this.form.course_id);
+            if(course) {
+                this.form.course_name = course.name;
+            }
+            console.log('this.form', this.form);
+            this.$store.dispatch('CourseAreaState/createCourseArea', {...this.form, image: this.image, trailer: this.trailer})
                 .then(res => {
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: `CourseArea ${this.form.name} created successfully`
+                        message: `Course Area ${this.form.name} created successfully`
                     });
-                    this.$router.push('/content/lessons')
+                    this.$router.push('/content/course-areas')
                 })
                 .catch(err => {
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to create the lesson',
+                        message: 'Failed to create the Course Area',
                         type: 'error',
                         time: 2000
                     });
@@ -122,22 +193,50 @@ export default {
                 });
         },
 
-        validateFile() {
-            if(!this.file) {
+        validateTrailer() {
+            if(this.errors) {
+                this.errors.trailer = null;
+            }
+
+            if(!this.trailer) {
                 return this.errors = {
-                    file: 'File is required'
+                    trailer: 'Trailer is required'
                 };
             }
 
-            if(!VIDEO_FILE_TYPES_RULE.includes(this.file.type)) {
+            if(!VIDEO_FILE_TYPES_RULE.includes(this.trailer.type)) {
                 return this.errors = {
-                    file: VIDEO_FILE_TYPES_MESSAGE
+                    trailer: TRAILER_FILE_TYPES_MESSAGE
                 };
             }
 
-            if(this.file.size > VIDEO_FILE_SIZE_RULE) {
+            if(this.trailer.size > TRAILER_FILE_SIZE_RULE) {
                 return this.errors = {
-                    file: VIDEO_FILE_SIZE_MESSAGE
+                    trailer: TRAILER_FILE_SIZE_MESSAGE
+                };
+            }
+        },
+
+        validateImage() {
+            if(this.errors) {
+                this.errors.image = null;
+            }
+
+            if(!this.image) {
+                return this.errors = {
+                    image: 'Image is required'
+                };
+            }
+
+            if(!IMAGE_FILE_TYPES_RULE.includes(this.image.type)) {
+                return this.errors = {
+                    image: IMAGE_FILE_TYPES_MESSAGE
+                };
+            }
+
+            if(this.image.size > IMAGE_FILE_SIZE_RULE) {
+                return this.errors = {
+                    image: IMAGE_FILE_SIZE_MESSAGE
                 };
             }
         }
@@ -146,4 +245,11 @@ export default {
 </script>
 
 <style scoped>
+
+    .preview_image {
+        max-height: 120px;
+        min-height: 120px;
+        width: 100%;
+    }
+
 </style>

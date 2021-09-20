@@ -9,7 +9,7 @@
 
         <TableCard
             :headers="headers"
-            :items="lessons"
+            :items="courseAreas"
             :loading="loadingCourseAreas"
             :filerStatus="statuses"
             viewable
@@ -39,8 +39,9 @@ export default {
         return {
             headers: [
                 { text: 'Name',         value: 'name' },
-                { text: 'Description',  value: 'description' },
-                { text: 'CourseArea',        value: 'lesson' },
+                { text: 'Category',     value: 'course_category_name' },
+                { text: 'Course',       value: 'course_name' },
+                { text: 'Lessons',      value: 'lessons_count' },
                 { text: 'Created At',   value: 'created_at' },
                 { text: 'Status',       value: 'status',    align: 'right' },
                 { text: 'Actions',      value: 'actions',   align: 'right' },
@@ -52,21 +53,21 @@ export default {
     },
 
     computed: {
-        lessons() {
-            let lessons = this.$store.getters['CourseAreaState/lessons'];
+        courseAreas() {
+            let courseAreas = this.$store.getters['CourseAreaState/courseAreas'];
 
-            if(!lessons) {
+            if(!courseAreas) {
                 return [];
             }
 
             // filter by status
-            lessons = lessons.data.filter(lesson => this.filterStatuses.includes(lesson.status))
-
-            return lessons;
+            courseAreas = courseAreas.data.filter(lesson => this.filterStatuses.includes(lesson.status))
+            console.log('courseAreas', courseAreas);
+            return courseAreas;
         },
 
         loadingCourseAreas() {
-            return !this.$store.getters['CourseAreaState/lessons'];
+            return !this.$store.getters['CourseAreaState/courseAreas'];
         }
     },
 
@@ -77,7 +78,7 @@ export default {
         },
 
         viewItem(item) {
-            this.$router.push('/lessons/show/' + item.id)
+            this.$router.push('/content/course-areas/show/' + item.id)
         },
 
         filterByStatus(statuses) {

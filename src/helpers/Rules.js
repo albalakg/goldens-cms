@@ -14,4 +14,4 @@ export const PRICE_RULE                 = /^[\d\.]{0,7}$/;
 export const DISCOUNT_RULE              = /^[\d\.]{0,3}$/;
 export const COURSE_NAME_RULE           = /.{2,40}/;
 export const COURSE_DESCRIPTION_RULE    = /.{2,40}/;
-export const CATEGORY_RULE              = /\d{1,10}/;
+export const ID_RULE                    = /\d{1,10}/;

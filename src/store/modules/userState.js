@@ -78,7 +78,7 @@ const UserState = {
                 })
                 .catch(err => {
                     dispatch('MessageState/addMessage', {
-                        message: 'Failed to fetch the users',
+                        message: 'Failed to fetch Users',
                         type: 'error',
                     }, {root:true});
                     console.warn('getUsers: ', err);

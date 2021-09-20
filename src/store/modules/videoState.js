@@ -59,7 +59,7 @@ const VideoState = {
                 })
                 .catch(err => {
                     dispatch('MessageState/addMessage', {
-                        message: 'Failed to fetch the videos',
+                        message: 'Failed to fetch Videos',
                         type: 'error',
                     }, {root:true});
                     console.warn('getVideos: ', err);

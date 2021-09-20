@@ -3,7 +3,7 @@
         
         <div v-if="editedCourseArea">
             <TopCard 
-                :text="'CourseArea ' + editedCourseArea.full_name"
+                :text="'CourseArea ' + editedCourseArea.name"
             />
 
             <br>
@@ -34,16 +34,22 @@
 <script>
 import FormLoader from '../../../components/Loaders/FormLoader.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
+import CourseAreaDetails from '../../../components/CourseArea/CourseAreaDetails.vue'
 
 export default {
     components: {
         FormLoader,
         TopCard,
+        CourseAreaDetails,
     },
 
     data() {
         return {
             tabs: [
+                { 
+                    text: 'Details', 
+                    component: 'CourseAreaDetails', 
+                },
             ],
             editedCourseArea: null,
         }
@@ -68,6 +74,7 @@ export default {
     methods: {
         async getCourseArea() {
             this.editedCourseArea = await this.$store.dispatch('CourseAreaState/getCourseArea', this.$route.params.courseAreaID);
+            console.log('editedCourseArea', this.editedCourseArea);
         },
 
         submit() {

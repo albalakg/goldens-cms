@@ -59,7 +59,7 @@ const LessonState = {
                 })
                 .catch(err => {
                     dispatch('MessageState/addMessage', {
-                        message: 'Failed to fetch the lessons',
+                        message: 'Failed to fetch Lessons',
                         type: 'error',
                     }, {root:true});
                     console.warn('getLessons: ', err);

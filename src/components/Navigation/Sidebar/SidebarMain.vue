@@ -76,6 +76,31 @@ export default {
                             text: 'Videos',
                             url: '/content/videos',
                         },
+                        {
+                            text: 'Tests',
+                            url: '/content/tests',
+                        },
+                    ]
+                },
+                {
+                    text: 'Support',
+                    url: '/support',
+                    icon: 'mdi-face-agent',
+                },
+                {
+                    text: 'Settings',
+                    url: '/settings',
+                    childrenUrl: '/settings/terms-conditions',
+                    icon: 'mdi-cog',
+                    children: [
+                        {
+                            text: 'Terms & Conditions',
+                            url: '/settings/terms-conditions',
+                        },
+                        {
+                            text: 'Cookies',
+                            url: '/settings/cookies',
+                        },
                     ]
                 },
             ]

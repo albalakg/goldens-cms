@@ -39,8 +39,9 @@ export default {
         return {
             headers: [
                 { text: 'Name',         value: 'name' },
-                { text: 'Description',  value: 'description' },
-                { text: 'Lesson',        value: 'lesson' },
+                { text: 'Category',     value: 'course_category_name' },
+                { text: 'Course',       value: 'course_name' },
+                { text: 'Course Area',  value: 'course_area_name' },
                 { text: 'Created At',   value: 'created_at' },
                 { text: 'Status',       value: 'status',    align: 'right' },
                 { text: 'Actions',      value: 'actions',   align: 'right' },
