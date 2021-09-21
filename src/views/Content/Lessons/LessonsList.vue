@@ -78,7 +78,7 @@ export default {
         },
 
         viewItem(item) {
-            this.$router.push('/lessons/show/' + item.id)
+            this.$router.push('/content/lessons/show/' + item.id)
         },
 
         filterByStatus(statuses) {

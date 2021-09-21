@@ -95,7 +95,7 @@ const LessonState = {
             return new Promise((resolve, reject) => {
                 axios.post('cms/lessons/update', lessonData)
                     .then(res => {
-                        commit('SET_UPDATED_LESSON', res.data.data);
+                        commit('SET_UPDATED_LESSON', lessonData);
                         resolve(res.data);
                     })
                     .catch(err => {

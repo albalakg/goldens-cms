@@ -3,7 +3,7 @@
         
         <div v-if="editedLesson">
             <TopCard 
-                :text="'Lesson ' + editedLesson.full_name"
+                :text="'Lesson ' + editedLesson.name"
             />
 
             <br>
@@ -34,16 +34,22 @@
 <script>
 import FormLoader from '../../../components/Loaders/FormLoader.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
+import LessonDetails from '../../../components/Lessons/LessonDetails.vue'
 
 export default {
     components: {
         FormLoader,
         TopCard,
+        LessonDetails,
     },
 
     data() {
         return {
             tabs: [
+                { 
+                    text: 'Details', 
+                    component: 'LessonDetails', 
+                },
             ],
             editedLesson: null,
         }

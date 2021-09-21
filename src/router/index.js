@@ -70,7 +70,7 @@ const routes = [
         component: () => import('../views/Content/Lessons/LessonsCreate.vue'),
       },
       {
-        path: 'show/:userID',
+        path: 'show/:lessonID',
         name: 'LessonsShow',
         component: () => import('../views/Content/Lessons/LessonsShow.vue'),
       },
