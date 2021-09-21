@@ -10,7 +10,6 @@
 export default {
 
     created() {
-        this.$store.dispatch('LessonState/getLessons');
     },
 
 }

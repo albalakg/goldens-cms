@@ -9,10 +9,6 @@
 <script>
 export default {
 
-    created() {
-        this.$store.dispatch('VideoState/getVideos');
-    },
-
 }
 </script>
 

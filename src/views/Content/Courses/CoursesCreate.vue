@@ -33,6 +33,7 @@
                                 <v-autocomplete
                                     outlined
                                     :items="courseCategories"
+                                    :loading="!courseCategories.length"
                                     item-text="name"
                                     item-value="id"
                                     v-model="form.category_id"
@@ -116,7 +117,7 @@ import TopCard from '../../../components/Cards/TopCard.vue'
 import SubmitButton from '../../../components/Buttons/SubmitButton.vue'
 import CancelButton from '../../../components/Buttons/CancelButton.vue'
 import {COURSE_NAME_RULE, COURSE_DESCRIPTION_RULE, CATEGORY_RULE, PRICE_RULE, DISCOUNT_RULE, TRAILER_FILE_SIZE_RULE, VIDEO_FILE_TYPES_RULE, IMAGE_FILE_TYPES_RULE, IMAGE_FILE_SIZE_RULE} from '../../../helpers/Rules' 
-import {NAME_MESSAGE, DESCRIPTION_MESSAGE, CATEGORY_MESSAGE, TRAILER_FILE_SIZE_MESSAGE, TRAILER_FILE_TYPES_MESSAGE, PRICE_MESSAGE, DISCOUNT_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE} from '../../../helpers/Messages' 
+import {NAME_MESSAGE, DESCRIPTION_MESSAGE, CATEGORY_MESSAGE, TRAILER_FILE_SIZE_MESSAGE, TRAILER_FILE_TYPES_MESSAGE, PRICE_MESSAGE, DISCOUNT_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE, TRAILER_MESSAGE, IMAGE_MESSAGE} from '../../../helpers/Messages' 
 
 export default {
     components: {
@@ -147,10 +148,6 @@ export default {
                 discount:       v => DISCOUNT_RULE.test(v)              || DISCOUNT_MESSAGE,
             },
         }
-    },
-
-    created() {
-        this.$store.dispatch('CourseCategoryState/getCourseCategories');
     },
 
     computed: {
@@ -202,7 +199,6 @@ export default {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: 'Failed to create the course',
                         type: 'error',
-                        time: 2000
                     });
                 })
                 .finally(() => {
@@ -217,7 +213,7 @@ export default {
 
             if(!this.trailer) {
                 return this.errors = {
-                    trailer: 'Trailer is required'
+                    trailer: TRAILER_MESSAGE
                 };
             }
 
@@ -241,7 +237,7 @@ export default {
 
             if(!this.image) {
                 return this.errors = {
-                    image: 'Image is required'
+                    image: IMAGE_MESSAGE
                 };
             }
 

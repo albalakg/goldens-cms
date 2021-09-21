@@ -98,7 +98,6 @@ export default {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: 'Failed to create the course',
                         type: 'error',
-                        time: 2000
                     });
                 })
                 .finally(() => {

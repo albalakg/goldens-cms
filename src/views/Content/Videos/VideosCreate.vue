@@ -66,7 +66,7 @@ import TopCard from './../../../components/Cards/TopCard.vue'
 import SubmitButton from './../../../components/Buttons/SubmitButton.vue'
 import CancelButton from './../../../components/Buttons/CancelButton.vue'
 import {VIDEO_NAME_RULE, VIDEO_DESCRIPTION_RULE, VIDEO_FILE_SIZE_RULE, VIDEO_FILE_TYPES_RULE} from './../../../helpers/Rules' 
-import {NAME_MESSAGE, DESCRIPTION_MESSAGE, VIDEO_FILE_SIZE_MESSAGE, VIDEO_FILE_TYPES_MESSAGE} from './../../../helpers/Messages' 
+import {NAME_MESSAGE, DESCRIPTION_MESSAGE, VIDEO_FILE_SIZE_MESSAGE, VIDEO_FILE_TYPES_MESSAGE, FILE_MESSAGE} from './../../../helpers/Messages' 
 
 export default {
     components: {
@@ -121,7 +121,6 @@ export default {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: 'Failed to create the video',
                         type: 'error',
-                        time: 2000
                     });
                 })
                 .finally(() => {
@@ -132,7 +131,7 @@ export default {
         validateFile() {
             if(!this.file) {
                 return this.errors = {
-                    file: 'File is required'
+                    file: FILE_MESSAGE
                 };
             }
 

@@ -46,3 +46,16 @@
 .no_decoration {
     text-decoration: none;
 }
+
+.text_editor {
+    height: 300px;
+    margin-bottom: 115px;
+}
+
+.text_editor .ql-toolbar{
+    border-radius: 6px 6px 0 0;
+}
+
+.text_editor .ql-container{
+    border-radius: 0 0 6px 6px;
+}

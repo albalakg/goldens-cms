@@ -81,7 +81,7 @@ const LessonState = {
                 const packageToSend = serialize(lessonData, { indices: true });
                 axios.post('cms/lessons/create', packageToSend, FORM_DATA_CONFIG)
                     .then(res => {
-                        commit('SET_NEW_LESSON', lessonData);
+                        commit('SET_NEW_LESSON', res.data.data);
                         resolve(res.data);
                     })
                     .catch(err => {
