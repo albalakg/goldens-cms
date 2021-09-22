@@ -1,14 +1,14 @@
 <template>
-    <v-container fluid class="courseArea_show_wrapper">
+    <v-container fluid class="courseCategory_show_wrapper">
         
-        <div v-if="editedCourseArea">
+        <div v-if="editedCourseCategory">
             <TopCard 
-                :text="'Course Area ' + editedCourseArea.name"
+                :text="'Course Category ' + editedCourseCategory.name"
             />
 
             <br>
             
-            <v-tabs vertical class="courseArea_show_card">
+            <v-tabs vertical class="courseCategory_show_card">
                 <template v-for="(tab, index) in tabs">
                     <v-tab :key="index">
                         {{tab.text}}
@@ -19,7 +19,7 @@
                     <v-tab-item :key="index">
 
                         <div class="pl-5">
-                            <component :courseArea="editedCourseArea" :is="tab.component" />
+                            <component :courseCategory="editedCourseCategory" :is="tab.component" />
                         </div>
                     </v-tab-item>
                 </template>
@@ -34,13 +34,13 @@
 <script>
 import FormLoader from '../../../components/Loaders/FormLoader.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
-import CourseAreaDetails from '../../../components/CourseArea/CourseAreaDetails.vue'
+import CourseCategoryDetails from '../../../components/CourseCategory/CourseCategoryDetails.vue'
 
 export default {
     components: {
         FormLoader,
         TopCard,
-        CourseAreaDetails,
+        CourseCategoryDetails,
     },
 
     data() {
@@ -48,33 +48,33 @@ export default {
             tabs: [
                 { 
                     text: 'Details', 
-                    component: 'CourseAreaDetails', 
+                    component: 'CourseCategoryDetails', 
                 },
             ],
-            editedCourseArea: null,
+            editedCourseCategory: null,
         }
     },
 
     created() {
-        return this.getCourseArea();
+        return this.getCourseCategory();
     },
 
     watch: {
-        courseAreas() {
-            this.getCourseArea();
+        courseCategories() {
+            this.getCourseCategory();
         }
     },
 
     computed: {
-        courseAreas() {
-            return this.$store.getters['CourseAreaState/courseAreas'];
+        courseCategories() {
+            return this.$store.getters['CourseCategoryState/courseCategories'];
         }
     },
 
     methods: {
-        async getCourseArea() {
-            this.editedCourseArea = await this.$store.dispatch('CourseAreaState/getCourseArea', this.$route.params.courseAreaID);
-            console.log('editedCourseArea', this.editedCourseArea);
+        async getCourseCategory() {
+            this.editedCourseCategory = await this.$store.dispatch('CourseCategoryState/getCourseCategory', this.$route.params.courseCategoryID);
+            console.log('editedCourseCategory', this.editedCourseCategory);
         },
 
         submit() {
@@ -85,19 +85,19 @@ export default {
 
             this.loading = true;
             
-            this.$store.dispatch('CourseAreaState/createCourseArea', this.form)
+            this.$store.dispatch('CourseCategoryState/createCourseCategory', this.form)
                 .then(res => {
                     console.log('res', res);
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: `CourseArea ${this.form.first_name} ${this.form.last_name} created successfully`
+                        message: `CourseCategory ${this.form.first_name} ${this.form.last_name} created successfully`
                     });
-                    this.$router.push('/courseAreas')
+                    this.$router.push('/courseCategories')
                 })
                 .catch(err => {
                     console.log('err', err);
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to create the courseArea',
+                        message: 'Failed to create the courseCategory',
                         type: 'error',
                     });
                 })
@@ -111,7 +111,7 @@ export default {
 
 <style scoped>
 
-    .courseArea_show_card {
+    .courseCategory_show_card {
         min-height: 70vh;
     }
 

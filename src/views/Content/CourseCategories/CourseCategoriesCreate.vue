@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <TopCard 
-            text="Create Course"
+            text="Create Course Category"
         />
         
         <br>
@@ -30,35 +30,6 @@
                                     label="Description"
                                     :rules="[rules.description]"
                                 ></v-textarea>
-                                <v-autocomplete
-                                    outlined
-                                    :items="courseCategories"
-                                    :loading="!courseCategories.length"
-                                    item-text="name"
-                                    item-value="id"
-                                    v-model="form.category_id"
-                                    label="Category"
-                                    :rules="[rules.category_id]"
-                                ></v-autocomplete>
-                                <v-flex d-flex>
-                                    <v-text-field
-                                        outlined
-                                        v-model="form.price"
-                                        label="Price"
-                                        :rules="[rules.price]"
-                                        autocomplete="off"
-                                        class="pr-3"
-                                    ></v-text-field>
-                                    <v-text-field
-                                        outlined
-                                        v-model="form.discount"
-                                        label="Discount"
-                                        hint="discount in precentage %"
-                                        :rules="[rules.discount]"
-                                        autocomplete="off"
-                                        class="pl-3"
-                                    ></v-text-field>
-                                </v-flex>
                             </div>
                         </template>
                     </FormCard>
@@ -78,16 +49,6 @@
                                     :error-messages="errors && errors.image ? errors.image : ''"
                                 ></v-file-input>
                                 <img class="preview_image" :src="imageSrc" alt="">
-                                <v-file-input
-                                    outlined
-                                    show-size
-                                    v-model="trailer"
-                                    accept="mp4"
-                                    label="Trailer"
-                                    prepend-icon=""
-                                    :error-messages="errors && errors.trailer ? errors.trailer : ''"
-                                ></v-file-input>
-                                <video controls class="preview_image" :src="trailerSrc"></video>
                             </div>
                         </template>
                     </FormCard>
@@ -116,8 +77,8 @@ import FormCard from '../../../components/Cards/FormCard.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
 import SubmitButton from '../../../components/Buttons/SubmitButton.vue'
 import CancelButton from '../../../components/Buttons/CancelButton.vue'
-import {COURSE_NAME_RULE, COURSE_DESCRIPTION_RULE, ID_RULE, PRICE_RULE, DISCOUNT_RULE, TRAILER_FILE_SIZE_RULE, VIDEO_FILE_TYPES_RULE, IMAGE_FILE_TYPES_RULE, IMAGE_FILE_SIZE_RULE} from '../../../helpers/Rules' 
-import {NAME_MESSAGE, DESCRIPTION_MESSAGE, CATEGORY_MESSAGE, TRAILER_FILE_SIZE_MESSAGE, TRAILER_FILE_TYPES_MESSAGE, PRICE_MESSAGE, DISCOUNT_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE, TRAILER_MESSAGE, IMAGE_MESSAGE} from '../../../helpers/Messages' 
+import {COURSE_NAME_RULE, COURSE_DESCRIPTION_RULE, ID_RULE, IMAGE_FILE_TYPES_RULE, IMAGE_FILE_SIZE_RULE} from '../../../helpers/Rules' 
+import {NAME_MESSAGE, DESCRIPTION_MESSAGE, CATEGORY_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE, IMAGE_MESSAGE} from '../../../helpers/Messages' 
 
 export default {
     components: {
@@ -132,44 +93,26 @@ export default {
             form: {
                 name:           '',
                 description:    '',
-                category_id:    '',
-                price:          '',
-                discount:       '',
+                course_id:    '',
             },
             image: null,
-            trailer: null,
             loading: false,
             errors: null,
             rules: {
                 name:           v => COURSE_NAME_RULE.test(v)           || NAME_MESSAGE,
                 description:    v => COURSE_DESCRIPTION_RULE.test(v)    || DESCRIPTION_MESSAGE,
-                category_id:    v => ID_RULE.test(v)                    || CATEGORY_MESSAGE,
-                price:          v => PRICE_RULE.test(v)                 || PRICE_MESSAGE,
-                discount:       v => DISCOUNT_RULE.test(v)              || DISCOUNT_MESSAGE,
+                course_id:      v => ID_RULE.test(v)                    || CATEGORY_MESSAGE,
             },
         }
     },
 
     computed: {
-        courseCategories() {
-            const categories = this.$store.getters['CourseCategoryState/courseCategories'];
-            return categories ? categories.data : [];
-        },
-
         imageSrc() {
             return this.image ? URL.createObjectURL(this.image) : null;
-        },
-
-        trailerSrc() {
-            return this.trailer ? URL.createObjectURL(this.trailer) : null;
         },
     },
 
     watch: {
-        trailer() {
-            this.validateTrailer();
-        },
-
         image() {
             this.validateImage();
         },
@@ -179,7 +122,6 @@ export default {
         submit() {
             this.errors = null;
             
-            this.validateTrailer();
             this.validateImage();
 
             if(!this.$refs.form.validate() || this.errors) {
@@ -187,47 +129,24 @@ export default {
             }
 
             this.loading = true;
-            this.$store.dispatch('CourseState/createCourse', {...this.form, image: this.image, trailer: this.trailer})
+            
+            this.$store.dispatch('CourseCategoryState/createCourseCategory', {...this.form, image: this.image})
                 .then(res => {
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: `Course ${this.form.name} created successfully`
+                        message: `Course Category ${this.form.name} created successfully`
                     });
-                    this.$router.push('/content/courses')
+                    this.$router.push('/content/course-categories')
                 })
                 .catch(err => {
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to create the course',
+                        message: 'Failed to create the Course Category',
                         type: 'error',
                     });
                 })
                 .finally(() => {
                     this.loading = false;
                 });
-        },
-
-        validateTrailer() {
-            if(this.errors) {
-                this.errors.trailer = null;
-            }
-
-            if(!this.trailer) {
-                return this.errors = {
-                    trailer: TRAILER_MESSAGE
-                };
-            }
-
-            if(!VIDEO_FILE_TYPES_RULE.includes(this.trailer.type)) {
-                return this.errors = {
-                    trailer: TRAILER_FILE_TYPES_MESSAGE
-                };
-            }
-
-            if(this.trailer.size > TRAILER_FILE_SIZE_RULE) {
-                return this.errors = {
-                    trailer: TRAILER_FILE_SIZE_MESSAGE
-                };
-            }
         },
 
         validateImage() {

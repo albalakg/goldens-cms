@@ -59,3 +59,8 @@
 .text_editor .ql-container{
     border-radius: 0 0 6px 6px;
 }
+
+.preview_image {
+    max-height: 120px;
+    min-height: 120px;
+}

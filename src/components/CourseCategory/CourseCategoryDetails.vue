@@ -24,15 +24,6 @@
                                     label="Description"
                                     :rules="[rules.description]"
                                 ></v-textarea>
-                                <v-autocomplete
-                                    outlined
-                                    :items="courses"
-                                    item-text="name"
-                                    item-value="id"
-                                    v-model="form.course_id"
-                                    label="Course"
-                                    :rules="[rules.course_id]"
-                                ></v-autocomplete>
                                 <v-select
                                     outlined
                                     :items="statuses"
@@ -60,16 +51,6 @@
                                     :error-messages="errors && errors.image ? errors.image : ''"
                                 ></v-file-input>
                                 <img class="preview_image" :src="imageSrc" alt="">
-                                <v-file-input
-                                    outlined
-                                    show-size
-                                    v-model="trailer"
-                                    accept="mp4"
-                                    label="Trailer"
-                                    prepend-icon=""
-                                    :error-messages="errors && errors.trailer ? errors.trailer : ''"
-                                ></v-file-input>
-                                <video controls class="preview_image" :src="trailerSrc"></video>
                             </div>
                         </template>
                     </FormCard>
@@ -111,7 +92,7 @@ export default {
     },
 
     props: {
-        courseArea: {
+        courseCategory: {
             type: Object,
             required: true
         }
@@ -150,12 +131,12 @@ export default {
 
         imageSrc() {
             return this.image ? URL.createObjectURL(this.image) : 
-                    this.courseArea.imageSrc ? this.courseArea.imageSrc : null;
+                    this.courseCategory.imageSrc ? this.courseCategory.imageSrc : null;
         },
 
         trailerSrc() {
             return this.trailer ? URL.createObjectURL(this.trailer) : 
-                    this.courseArea.trailerSrc ? this.courseArea.trailerSrc : null;
+                    this.courseCategory.trailerSrc ? this.courseCategory.trailerSrc : null;
         },
     },
 
@@ -172,7 +153,7 @@ export default {
     methods: {
         setData() {
             this.$store.dispatch('CourseState/getCourses');
-            this.form = {...this.courseArea};
+            this.form = {...this.courseCategory};
             
             if(typeof this.form.trailer === 'object') {
                 this.trailer = this.form.trailer;
@@ -200,17 +181,17 @@ export default {
                 this.form.course_name = course.name;
             }
             
-            this.$store.dispatch('CourseAreaState/updateCourseArea', {...this.form, image: this.image, trailer: this.trailer})
+            this.$store.dispatch('CourseCategoryState/updateCourseCategory', {...this.form, image: this.image, trailer: this.trailer})
                 .then(res => {
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: `Course Area ${this.form.name} updated successfully`
+                        message: `Course Category ${this.form.name} updated successfully`
                     });
-                    this.$router.push('/content/course-areas')
+                    this.$router.push('/content/course-categories')
                 })
                 .catch(err => {
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to update the Course Area',
+                        message: 'Failed to update the Course Category',
                         type: 'error',
                     });
                 })

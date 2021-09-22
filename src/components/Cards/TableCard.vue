@@ -100,10 +100,22 @@
                 </div>
             </template>
 
+            <template v-slot:item.price="props">
+                {{
+                    props.item.price ? props.item.price : 0
+                }}
+            </template>
+
             <template v-slot:item.discount="props">
                 {{
-                    props.item.discount
+                    props.item.discount ? props.item.discount : 0
                 }}%
+            </template>
+
+            <template v-slot:item.created_at="props">
+                {{
+                    props.item.created_at ? props.item.created_at : "Unknown"
+                }}
             </template>
 
         </v-data-table>
@@ -194,6 +206,7 @@
 import StatusChip from './../Status/StatusChip.vue';
 
 const DELETE_ACTION = 'delete';
+const NO_ACTION = 'Choose an action';
 
 export default {
     components: {
@@ -260,7 +273,7 @@ export default {
                 items: null,
             },
             selected: [],
-            multipleActionPickedItem: '',
+            multipleActionPickedItem: NO_ACTION,
             pickedStatusFilters: this.filerStatus ? this.filerStatus.map(status => status) : [],
             FILES_PATH: FILES_PATH,
             URL: URL
@@ -282,7 +295,7 @@ export default {
 
     computed: {
         multipleActionItems() {
-            const items = [];
+            const items = [NO_ACTION];
             if(this.deleteable) {
                 items.push('Delete')
             }
@@ -295,7 +308,7 @@ export default {
         },
 
         canActivateMultipleAction() {
-            return this.multipleActionPickedItem && this.selected.length;
+            return this.multipleActionPickedItem && this.multipleActionPickedItem !== NO_ACTION && this.selected.length;
         },
 
         showFilterSection() {
@@ -347,7 +360,7 @@ export default {
                 this.dialog.items       = this.selected;
                 this.dialog.action      = DELETE_ACTION;
                 this.dialog.title       = `Delete multiple records`;
-                this.dialog.text        = `Are you sure you want to delete ${this.mainField ? 'these records:' : 'the selected records?'}`;
+                this.dialog.text        = `Are you sure you want to delete ${this.mainField ? `these ${this.dialog.items.length} records:` : 'the selected records?'}`;
                 this.dialog.icon.name   = 'mdi-trash-can-outline';
                 this.dialog.icon.color  = 'red';
             } catch(err) {

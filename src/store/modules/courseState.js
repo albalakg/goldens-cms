@@ -96,7 +96,8 @@ const CourseState = {
 
         updateCourse({ commit }, courseData) {
             return new Promise((resolve, reject) => {
-                axios.post('cms/courses/update', courseData)
+                const packageToSend = serialize(courseData, { indices: true });
+                    axios.post('cms/courses/update', packageToSend, FORM_DATA_CONFIG)
                     .then(res => {
                         commit('SET_UPDATED_COURSE', res.data.data);
                         resolve(res.data);
@@ -108,7 +109,7 @@ const CourseState = {
             }) 
         },
 
-        deleteCourses({ commit }, course_ids) {
+        deleteCourses({ commit, dispatch }, course_ids) {
             return new Promise((resolve, reject) => {
                 axios.post('cms/courses/delete', { ids: course_ids })
                     .then(res => {
@@ -117,6 +118,10 @@ const CourseState = {
                     })
                     .catch(err => {
                         console.warn('deleteCourse: ', err.response.data);
+                        dispatch('MessageState/addMessage', {
+                            message: err.response.data.message,
+                            type: 'error',
+                        }, {root:true});
                         reject(err.response.data)
                     })
             }) 

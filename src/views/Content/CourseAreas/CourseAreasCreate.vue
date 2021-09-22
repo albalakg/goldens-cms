@@ -239,13 +239,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-    .preview_image {
-        max-height: 120px;
-        min-height: 120px;
-        width: 100%;
-    }
-
-</style>

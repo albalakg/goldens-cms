@@ -103,6 +103,31 @@ const routes = [
   },
   // ***** LESSONS END *****
 
+  // ***** COURSE CATEGORIES START *****
+  {
+    path: '/content/course-categories',
+    component: () => import('../views/Content/CourseCategories/CourseCategoriesIndex.vue'),
+    beforeEnter: Guard.admin,
+    children: [
+      {
+        path: '',
+        name: 'CourseCategories',
+        component: () => import('../views/Content/CourseCategories/CourseCategoriesList.vue'),
+      },
+      {
+        path: 'new',
+        name: 'CourseCategoriesCreate',
+        component: () => import('../views/Content/CourseCategories/CourseCategoriesCreate.vue'),
+      },
+      {
+        path: 'show/:courseCategoryID',
+        name: 'CourseCategoriesShow',
+        component: () => import('../views/Content/CourseCategories/CourseCategoriesShow.vue'),
+      },
+    ]
+  },
+  // ***** COURSE CATEGORIES END *****
+
   // ***** COURSE AREAS START *****
   {
     path: '/content/course-areas',

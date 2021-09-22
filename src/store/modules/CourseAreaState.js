@@ -113,7 +113,7 @@ const CourseAreaState = {
             }) 
     },
 
-        deleteCourseAreas({ commit }, courseArea_ids) {
+        deleteCourseAreas({ commit, dispatch }, courseArea_ids) {
             return new Promise((resolve, reject) => {
                 axios.post('cms/course-areas/delete', { ids: courseArea_ids })
                     .then(res => {
@@ -122,6 +122,10 @@ const CourseAreaState = {
                     })
                     .catch(err => {
                         console.warn('deleteCourseArea: ', err.response.data);
+                        dispatch('MessageState/addMessage', {
+                            message: err.response.data.message,
+                            type: 'error',
+                        }, {root:true});
                         reject(err.response.data)
                     })
             }) 

@@ -65,6 +65,10 @@ export default {
                             url: '/content/courses',
                         },
                         {
+                            text: 'Course Categories',
+                            url: '/content/course-categories',
+                        },
+                        {
                             text: 'Course Areas',
                             url: '/content/course-areas',
                         },
@@ -81,6 +85,11 @@ export default {
                             url: '/content/tests',
                         },
                     ]
+                },
+                {
+                    text: 'Orders',
+                    url: '/orders',
+                    icon: 'mdi-cart',
                 },
                 {
                     text: 'Support',
