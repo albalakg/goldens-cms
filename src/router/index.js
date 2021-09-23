@@ -155,6 +155,26 @@ const routes = [
 
   // ***** VIDEOS START *****
   {
+    path: '/content/tests',
+    component: () => import('../views/Content/Tests/TestsIndex.vue'),
+    beforeEnter: Guard.admin,
+    children: [
+      {
+        path: '',
+        name: 'Tests',
+        component: () => import('../views/Content/Tests/TestsList.vue'),
+      },
+      {
+        path: 'show/:testID',
+        name: 'TestsShow',
+        component: () => import('../views/Content/Tests/TestsShow.vue'),
+      },
+    ]
+  },
+  // ***** VIDEOS END *****
+
+  // ***** TESTS START *****
+  {
     path: '/content/videos',
     component: () => import('../views/Content/Videos/VideosIndex.vue'),
     beforeEnter: Guard.admin,
@@ -176,7 +196,7 @@ const routes = [
       },
     ]
   },
-  // ***** VIDEOS END *****
+  // ***** TESTS END *****
 
   {
     path: '*',

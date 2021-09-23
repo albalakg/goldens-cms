@@ -60,8 +60,7 @@ export default {
             }
 
             // filter by status
-            videos = videos.data.filter(video => this.filterStatuses.includes(video.status))
-            return videos;
+            return videos.data.filter(video => this.filterStatuses.includes(video.status))
         },
 
         loadingVideos() {

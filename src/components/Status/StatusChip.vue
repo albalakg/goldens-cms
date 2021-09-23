@@ -39,7 +39,7 @@ export default {
                 return this.colors[this.status];
             } catch(err) {
                 console.warn(err);
-                return 'red';
+                return this.colors[0];
             }
         },
 
@@ -52,7 +52,7 @@ export default {
                 return this.texts[this.status];
             } catch(err) {
                 console.warn(err);
-                return 'Error';
+                return 'Unknown';
             }
         },
     }

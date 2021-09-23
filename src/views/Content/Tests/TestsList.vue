@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <TopCard 
-            text="Lessons"
+            text="Tests"
             createable
         />
 
@@ -9,8 +9,8 @@
 
         <TableCard
             :headers="headers"
-            :items="lessons"
-            :loading="loadingLessons"
+            :items="tests"
+            :loading="loadingTests"
             :filerStatus="statuses"
             viewable
             deleteable
@@ -39,9 +39,8 @@ export default {
         return {
             headers: [
                 { text: 'Name',         value: 'name' },
-                { text: 'Category',     value: 'course_category_name' },
-                { text: 'Course',       value: 'course_name' },
-                { text: 'Course Area',  value: 'course_area_name' },
+                { text: 'Description',  value: 'description' },
+                { text: 'Test',        value: 'test' },
                 { text: 'Created At',   value: 'created_at' },
                 { text: 'Status',       value: 'status',    align: 'right' },
                 { text: 'Actions',      value: 'actions',   align: 'right' },
@@ -53,30 +52,30 @@ export default {
     },
 
     computed: {
-        lessons() {
-            let lessons = this.$store.getters['LessonState/lessons'];
+        tests() {
+            let tests = this.$store.getters['TestState/tests'];
 
-            if(!lessons) {
+            if(!tests) {
                 return [];
             }
 
             // filter by status
-            return lessons.data.filter(lesson => this.filterStatuses.includes(lesson.status))
+            return tests.data.filter(test => this.filterStatuses.includes(test.status))
         },
 
-        loadingLessons() {
-            return !this.$store.getters['LessonState/lessons'];
+        loadingTests() {
+            return !this.$store.getters['TestState/tests'];
         }
     },
 
     methods: {
        
         deleteItem(data) {
-            this.$store.dispatch('LessonState/deleteLessons', data)
+            this.$store.dispatch('TestState/deleteTests', data)
         },
 
         viewItem(item) {
-            this.$router.push('/content/lessons/show/' + item.id)
+            this.$router.push('/content/tests/show/' + item.id)
         },
 
         filterByStatus(statuses) {

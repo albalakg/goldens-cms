@@ -9,6 +9,7 @@ import CourseState          from './modules/CourseState'
 import CourseCategoryState  from './modules/CourseCategoryState'
 import CourseAreaState      from './modules/CourseAreaState'
 import LessonState          from './modules/LessonState'
+import TestState            from './modules/TestState'
 
 Vue.use(Vuex)
 
@@ -22,5 +23,6 @@ export default new Vuex.Store({
     CourseCategoryState,
     CourseAreaState,
     LessonState,
+    TestState,
   }
 })

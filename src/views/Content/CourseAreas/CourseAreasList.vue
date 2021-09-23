@@ -61,9 +61,7 @@ export default {
             }
 
             // filter by status
-            courseAreas = courseAreas.data.filter(lesson => this.filterStatuses.includes(lesson.status))
-            console.log('courseAreas', courseAreas);
-            return courseAreas;
+            return courseAreas.data.filter(lesson => this.filterStatuses.includes(lesson.status))
         },
 
         loadingCourseAreas() {

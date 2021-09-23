@@ -63,9 +63,7 @@ export default {
             }
 
             // filter by status
-            courses = courses.data.filter(course => this.filterStatuses.includes(course.status))
-
-            return courses;
+            return courses.data.filter(course => this.filterStatuses.includes(course.status))
         },
 
         loadingCourses() {

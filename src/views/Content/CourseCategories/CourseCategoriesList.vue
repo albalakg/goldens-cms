@@ -59,9 +59,7 @@ export default {
             }
 
             // filter by status
-            courseCategories = courseCategories.data.filter(lesson => this.filterStatuses.includes(lesson.status))
-            console.log('courseCategories', courseCategories);
-            return courseCategories;
+            return courseCategories.data.filter(lesson => this.filterStatuses.includes(lesson.status))
         },
 
         loadingCourseCategories() {
