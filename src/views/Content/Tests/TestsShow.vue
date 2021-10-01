@@ -1,16 +1,16 @@
 <template>
-    <v-container fluid class="video_show_wrapper">
+    <v-container fluid class="test_show_wrapper">
         
-        <div v-if="editedVideo">
+        <div v-if="editedTest">
             <TopCard 
-                :text="'Video ' + editedVideo.full_name"
+                :text="'Test'"
             />
 
             <br>
             
-            <v-tabs vertical class="video_show_card">
+            <v-tabs vertical class="test_show_card" v-model="currentTab">
                 <template v-for="(tab, index) in tabs">
-                    <v-tab :key="index">
+                    <v-tab :key="index" @click="setTab(index)">
                         {{tab.text}}
                     </v-tab>
                 </template>
@@ -19,7 +19,7 @@
                     <v-tab-item :key="index">
 
                         <div class="pl-5">
-                            <component :video="editedVideo" :is="tab.component" />
+                            <component :test="editedTest" :is="tab.component" />
                         </div>
                     </v-tab-item>
                 </template>
@@ -34,13 +34,15 @@
 <script>
 import FormLoader from '../../../components/Loaders/FormLoader.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
-import VideoDetails from '../../../components/Videos/VideoDetails.vue'
+import TestDetails from '../../../components/Tests/TestDetails.vue'
+import TestComments from '../../../components/Tests/TestComments.vue'
 
 export default {
     components: {
         FormLoader,
         TopCard,
-        VideoDetails,
+        TestDetails,
+        TestComments,
     },
 
     data() {
@@ -48,69 +50,61 @@ export default {
             tabs: [
                 { 
                     text: 'Details', 
-                    component: 'VideoDetails', 
+                    component: 'TestDetails', 
+                },
+                { 
+                    text: 'Comments', 
+                    component: 'TestComments', 
                 },
             ],
-            editedVideo: null,
+            editedTest: null,
+            currentTab: 0,
         }
     },
 
     created() {
-        return this.getVideo();
+        this.goToTab()
+        this.getTest();
     },
 
     watch: {
-        videos() {
-            this.getVideo();
+        tests() {
+            this.getTest();
         }
     },
 
     computed: {
-        videos() {
-            return this.$store.getters['VideoState/videos'];
+        tests() {
+            return this.$store.getters['TestState/tests'];
         }
     },
 
     methods: {
-        async getVideo() {
-            this.editedVideo = await this.$store.dispatch('VideoState/getVideo', this.$route.params.videoID);
+        async getTest() {
+            this.editedTest = await this.$store.dispatch('TestState/getTest', this.$route.params.testID);
         },
 
-        submit() {
-            this.errors = null;
-            if(!this.$refs.form.validate()) {
-                return;
-            }
-
-            this.loading = true;
-            
-            this.$store.dispatch('VideoState/createVideo', this.form)
-                .then(res => {
-                    console.log('res', res);
-                    this.$store.dispatch('MessageState/addMessage', {
-                        message: `Video ${this.form.first_name} ${this.form.last_name} created successfully`
-                    });
-                    this.$router.push('/videos')
-                })
-                .catch(err => {
-                    console.log('err', err);
-                    this.errors = err.errors;
-                    this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to create the video',
-                        type: 'error',
-                    });
-                })
-                .finally(() => {
-                    this.loading = false;
-                });
-        }
+        setTab(index) {
+            this.$router.push(
+                {
+                    path: this.$route.path,
+                    query: { 
+                        tab: index
+                    }
+                }
+            )
+        },
+        
+        goToTab() {
+            this.currentTab = Number(this.$route.query.tab);
+        },
     }
 }
 </script>
 
 <style scoped>
 
-    .video_show_card {
+    .test_show_card {
         min-height: 70vh;
     }
 

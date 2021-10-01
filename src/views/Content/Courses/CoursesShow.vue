@@ -7,10 +7,10 @@
             />
 
             <br>
-            
-            <v-tabs vertical class="course_show_card">
+
+            <v-tabs vertical class="course_show_card" v-model="currentTab">
                 <template v-for="(tab, index) in tabs">
-                    <v-tab :key="index">
+                    <v-tab :value="index" :key="index" @click="setTab(index)">
                         {{tab.text}}
                     </v-tab>
                 </template>
@@ -35,12 +35,14 @@
 import FormLoader from '../../../components/Loaders/FormLoader.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
 import CourseDetails from '../../../components/Courses/CourseDetails.vue'
+import CourseUsers from '../../../components/Courses/CourseUsers.vue'
 
 export default {
     components: {
         FormLoader,
         TopCard,
         CourseDetails,
+        CourseUsers,
     },
 
     data() {
@@ -50,13 +52,19 @@ export default {
                     text: 'Details', 
                     component: 'CourseDetails', 
                 },
+                { 
+                    text: 'Users', 
+                    component: 'CourseUsers', 
+                },
             ],
+            currentTab: 0,
             editedCourse: null,
         }
     },
 
     created() {
-        return this.getCourse();
+        this.getCourse();
+        this.goToTab()
     },
 
     watch: {
@@ -72,6 +80,10 @@ export default {
     },
 
     methods: {
+        goToTab() {
+            this.currentTab = Number(this.$route.query.tab);
+        },
+
         async getCourse() {
             this.editedCourse = await this.$store.dispatch('CourseState/getCourse', this.$route.params.courseID);
         },
@@ -103,6 +115,17 @@ export default {
                 .finally(() => {
                     this.loading = false;
                 });
+        },
+
+        setTab(index) {
+            this.$router.push(
+                {
+                    path: this.$route.path,
+                    query: { 
+                        tab: index
+                    }
+                }
+            )
         }
     }
 }

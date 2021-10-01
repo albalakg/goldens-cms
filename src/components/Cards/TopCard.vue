@@ -19,13 +19,22 @@ export default {
             type: String,
             required: true
         },
+        
         createable: {
             type: Boolean
+        },
+        
+        createLink: {
+            type: String,
         }
     },
 
     methods: {
         create() {
+            if(this.createLink) {
+                return this.$router.push(this.createLink);
+            }
+
             this.$router.push(this.$route.path + '/new');
         }
     }

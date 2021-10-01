@@ -51,13 +51,14 @@ export default {
 
   methods: {
     setInitialSettings() {
-      this.$store.dispatch('CourseAreaState/getCourseAreas');
-      this.$store.dispatch('LessonState/getLessons');
-      this.$store.dispatch('CourseState/getCourses');
-      this.$store.dispatch('VideoState/getVideos');
       this.$store.dispatch('UserState/getUsers');
+      this.$store.dispatch('CourseState/getCourses');
+      this.$store.dispatch('LessonState/getLessons');
+      this.$store.dispatch('VideoState/getVideos');
+      this.$store.dispatch('CourseAreaState/getCourseAreas');
       this.$store.dispatch('TestState/getTests');
       this.$store.dispatch('CourseCategoryState/getCourseCategories');
+      this.$store.dispatch('UserCourseState/getUsersCourses');
       this.$store.dispatch('AppState/updateLogState', Auth.isLogged());
       // this.$store.dispatch('AppState/updateItemsPerPage', window.screen.width > 1600 ? 10 : 5)
     }

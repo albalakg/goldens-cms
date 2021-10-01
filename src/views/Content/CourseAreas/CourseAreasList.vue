@@ -10,7 +10,7 @@
         <TableCard
             :headers="headers"
             :items="courseAreas"
-            :loading="loadingCourseAreas"
+            :loading="isLoading"
             :filerStatus="statuses"
             viewable
             deleteable
@@ -64,7 +64,7 @@ export default {
             return courseAreas.data.filter(lesson => this.filterStatuses.includes(lesson.status))
         },
 
-        loadingCourseAreas() {
+        isLoading() {
             return !this.$store.getters['CourseAreaState/courseAreas'];
         }
     },

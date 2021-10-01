@@ -14,7 +14,28 @@ const TestState = {
     },
 
     mutations: {
-        SET_UPDATED_TEST(state, testData) {
+        SET_NEW_TEST(state, testData) {
+            if(!state.tests) {
+                return;
+            }
+
+            state.tests.data.unshift(testData);
+        },
+
+        SET_NEW_TEST_COMMENT(state, commentData) {
+            if(!state.tests) {
+                return;
+            }
+
+            const testIndex = state.tests.data.findIndex(test => test.id === commentData.user_course_submission_id);
+            if(testIndex < 0) {
+                return;
+            }
+
+            state.tests.data[testIndex].comments.unshift(commentData);
+        },
+
+        SET_UPDATED_STATUS(state, testData) {
             if(!state.tests) {
                 return;
             }
@@ -24,8 +45,7 @@ const TestState = {
                 return;
             }
             
-            testData.created_at = state.tests.data[testIndex].created_at;
-            state.tests.data[testIndex] = testData;
+            state.tests.data[testIndex].status = testData.status;
         },
 
         SET_TESTS(state, tests) {
@@ -45,7 +65,7 @@ const TestState = {
                 return;
             }
 
-            axios.get('cms/tests')
+            axios.get('cms/user-courses/tests')
                 .then(res => {
                     commit('SET_TESTS', res.data.data);
                 })
@@ -68,12 +88,25 @@ const TestState = {
             })
         },
 
-        updateTest({ commit }, testData) {
+        createComment({ commit }, commentData) {
             return new Promise((resolve, reject) => {
-                const packageToSend = serialize(testData, { indices: true });
-                axios.post('cms/tests/update', packageToSend, FORM_DATA_CONFIG)
+                axios.post('cms/user-courses/tests/comment/create', commentData)
                     .then(res => {
-                        commit('SET_UPDATED_TEST', testData);
+                        commit('SET_NEW_TEST_COMMENT', res.data.data);
+                        resolve(res.data);
+                    })
+                    .catch(err => {
+                        console.warn('createComment: ', err.response.data);
+                        reject(err.response.data)
+                    })
+            }) 
+        },
+
+        updateStatus({ commit }, testData) {
+            return new Promise((resolve, reject) => {
+                axios.post('cms/user-courses/tests/status/update', testData)
+                    .then(res => {
+                        commit('SET_UPDATED_STATUS', testData);
                         resolve(res.data);
                     })
                     .catch(err => {
@@ -85,7 +118,7 @@ const TestState = {
 
         deleteTests({ commit }, test_ids) {
             return new Promise((resolve, reject) => {
-                axios.post('cms/tests/delete', { ids: test_ids })
+                axios.post('cms/user-courses/tests/delete', { ids: test_ids })
                     .then(res => {
                         commit('DELETE_TEST', test_ids);
                         resolve();

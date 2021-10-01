@@ -1,9 +1,9 @@
 <template>
     <v-container fluid class="user_show_wrapper">
         
-        <div v-if="editedUser">
+        <div v-if="isReady">
             <TopCard 
-                :text="'User ' + editedUser.full_name"
+                :text="'User\'s ' + user.full_name + ' Course'"
             />
 
             <br>
@@ -19,12 +19,18 @@
                     <v-tab-item :key="index">
 
                         <div class="pl-5">
-                            <component :user="editedUser" :is="tab.component" />
+                            <component 
+                                :userCourse="userCourse" 
+                                :user="user" 
+                                :course="course" 
+                                :is="tab.component" 
+                            />
                         </div>
                     </v-tab-item>
                 </template>
             </v-tabs>
         </div>
+
 
         <FormLoader v-else />
 
@@ -32,25 +38,21 @@
 </template>
 
 <script>
-import FormLoader from '../../components/Loaders/FormLoader.vue'
-import TopCard from '../../components/Cards/TopCard.vue'
-import UserDetails from '../../components/Users/UserDetails.vue'
-import UserSecurity from '../../components/Users/UserSecurity.vue'
-import UserSupport from '../../components/Users/UserSupport.vue'
-import UserOrders from '../../components/Users/UserOrders.vue'
-import UserActivity from '../../components/Users/UserActivity.vue'
-import UserCourses from '../../components/Users/UserCourses.vue'
+import FormLoader from '../../../components/Loaders/FormLoader.vue'
+import TopCard from '../../../components/Cards/TopCard.vue'
+import UserCourseDetails from './../../../components/UserCourse/UserCourseDetails.vue'
+import UserCourseProgress from './../../../components/UserCourse/UserCourseProgress.vue'
+import UserCourseExtensions from './../../../components/UserCourse/UserCourseExtensions.vue'
+import UserCourseSubmissions from './../../../components/UserCourse/UserCourseSubmissions.vue'
 
 export default {
     components: {
         FormLoader,
         TopCard,
-        UserDetails,
-        UserSecurity,
-        UserSupport,
-        UserOrders,
-        UserActivity,
-        UserCourses,
+        UserCourseDetails,
+        UserCourseProgress,
+        UserCourseExtensions,
+        UserCourseSubmissions,
     },
 
     data() {
@@ -58,54 +60,54 @@ export default {
             tabs: [
                 { 
                     text: 'Details', 
-                    component: 'UserDetails', 
+                    component: 'UserCourseDetails', 
                 },
                 { 
-                    text: 'Security', 
-                    component: 'UserSecurity', 
+                    text: 'Progress', 
+                    component: 'UserCourseProgress', 
                 },
                 { 
-                    text: 'Support', 
-                    component: 'UserSupport', 
+                    text: 'Extensions', 
+                    component: 'UserCourseExtensions', 
                 },
                 { 
-                    text: 'Courses', 
-                    component: 'UserCourses', 
-                },
-                { 
-                    text: 'Orders', 
-                    component: 'UserOrders', 
-                },
-                { 
-                    text: 'Activity', 
-                    component: 'UserActivity', 
+                    text: 'Submissions',
+                    component: 'UserCourseSubmissions', 
                 },
             ],
             currentTab: 0,
-            editedUser: null,
+            userCourse: null,
+            user: null,
+            course: null,
         }
     },
 
     created() {
         this.goToTab()
-        this.getUser();
+        this.getUserCourse();
     },
 
     watch: {
-        users() {
-            this.getUser();
+        users_courses() {
+            this.getUserCourse();
         }
     },
 
     computed: {
-        users() {
-            return this.$store.getters['UserState/users'];
+        users_courses() {
+            return this.$store.getters['UserCourseState/users_courses'];
+        },
+
+        isReady() {
+            return this.user && this.userCourse && this.course;
         }
     },
 
     methods: {
-        async getUser() {
-            this.editedUser = await this.$store.dispatch('UserState/getUser', this.$route.params.userID);
+        async getUserCourse() {
+            this.userCourse = await this.$store.dispatch('UserCourseState/getById', this.$route.params.userCourseID);
+            this.user       = await this.$store.dispatch('UserState/getUser', this.userCourse.user_id);
+            this.course     = await this.$store.dispatch('CourseState/getCourse', this.userCourse.course_id);
         },
 
         submit() {

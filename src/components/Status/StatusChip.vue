@@ -15,6 +15,9 @@ export default {
         status: {
             type: Number,
             required: true
+        },
+        customText: {
+            type: Array
         }
     },
 
@@ -45,11 +48,11 @@ export default {
 
         text() {
             try {
-                if(!this.texts[this.status]) {
-                    throw new Error('Text not found');
+                if(this.customText ? !this.customText[this.status] : !this.texts[this.status]) {
+                    throw new Error('Text not found for status: ' + this.status);
                 }
 
-                return this.texts[this.status];
+                return this.customText ? this.customText[this.status] : this.texts[this.status];
             } catch(err) {
                 console.warn(err);
                 return 'Unknown';

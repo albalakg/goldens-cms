@@ -4,6 +4,12 @@ export const STATUSES = [
   'Pending',
 ];
 
+export const PROGRESS_STATUSES = [
+  'Failed',
+  'Done',
+  'In Progress',
+];
+
 export const STATUSES_SELECTION = [
   {
     'text': 'Inactive',

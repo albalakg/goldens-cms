@@ -64,3 +64,9 @@
     max-height: 120px;
     min-height: 120px;
 }
+
+.comment_text {
+    max-height: 250px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}

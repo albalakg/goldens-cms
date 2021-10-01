@@ -30,7 +30,7 @@ export default {
 
     computed: {
         isActive() {
-            return this.link.url === this.$route.path;
+            return this.$route.path.includes(this.link.url);
         }
     },
 

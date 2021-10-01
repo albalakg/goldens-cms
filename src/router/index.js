@@ -153,6 +153,21 @@ const routes = [
   },
   // ***** COURSE AREAS END *****
 
+  // ***** USERS COURSES START *****
+  {
+    path: '/users/users-courses/new',
+    name: 'UsersCoursesCreate',
+    component: () => import('../views/Users/UsersCourses/UsersCoursesCreate.vue'),
+    beforeEnter: Guard.admin,
+  },
+  {
+    path: '/users/users-courses/show/:userCourseID',
+    name: 'UsersCoursesShow',
+    component: () => import('../views/Users/UsersCourses/UsersCoursesShow.vue'),
+    beforeEnter: Guard.admin,
+  },
+  // ***** USERS COURSES END *****
+
   // ***** VIDEOS START *****
   {
     path: '/content/tests',

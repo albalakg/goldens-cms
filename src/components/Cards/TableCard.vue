@@ -82,6 +82,50 @@
                 </a>
             </template>
 
+            <template v-slot:item.full_name="props">
+                <div v-if="props.item.user_id">
+                    <router-link :to="`/users/show/${props.item.user_id}`">
+                        {{props.item.full_name}}
+                    </router-link>
+                </div>
+                <span v-else>
+                    {{props.item.full_name}}
+                </span>
+            </template>
+
+            <template v-slot:item.course_name="props">
+                <div v-if="props.item.course_id">
+                    <router-link :to="`/content/courses/show/${props.item.course_id}`">
+                        {{props.item.course_name}}
+                    </router-link>
+                </div>
+                <span v-else>
+                    {{props.item.course_name}}
+                </span>
+            </template>
+
+            <template v-slot:item.course_lesson_name="props">
+                <div v-if="props.item.course_lesson_id">
+                    <router-link :to="`/content/lessons/show/${props.item.course_lesson_id}`">
+                        {{props.item.course_lesson_name}}
+                    </router-link>
+                </div>
+                <span v-else>
+                    {{props.item.course_lesson_name}}
+                </span>
+            </template>
+
+            <template v-slot:item.course_area_name="props">
+                <div v-if="props.item.course_area_id">
+                    <router-link :to="`/content/course-areas/show/${props.item.course_area_id}`">
+                        {{props.item.course_area_name}}
+                    </router-link>
+                </div>
+                <span v-else>
+                    {{props.item.course_area_name}}
+                </span>
+            </template>
+
             <template v-slot:item.phone="props">
                 <a class="no_decoration" :href="`tel:${props.item.phone}`" title="Click to call">
                     {{props.item.phone}}
@@ -90,6 +134,7 @@
 
             <template v-slot:item.status="props">
                 <StatusChip 
+                    :customText="statusTexts"
                     :status="props.item.status"
                 />
             </template>
@@ -233,6 +278,10 @@ export default {
         },
 
         filerStatus: {
+            type: Array
+        },
+
+        statusTexts: {
             type: Array
         },
 
