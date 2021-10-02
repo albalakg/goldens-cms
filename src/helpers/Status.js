@@ -10,6 +10,21 @@ export const PROGRESS_STATUSES = [
   'In Progress',
 ];
 
+export const PROGRESS_SELECTION = [
+  {
+    'text': 'Failed',
+    'value': 0
+  },
+  {
+    'text': 'Done',
+    'value': 1
+  },
+  {
+    'text': 'In Progress',
+    'value': 2
+  }
+];
+
 export const STATUSES_SELECTION = [
   {
     'text': 'Inactive',

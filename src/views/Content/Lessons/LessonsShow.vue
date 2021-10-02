@@ -86,14 +86,12 @@ export default {
             
             this.$store.dispatch('LessonState/createLesson', this.form)
                 .then(res => {
-                    console.log('res', res);
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Lesson ${this.form.first_name} ${this.form.last_name} created successfully`
                     });
                     this.$router.push('/lessons')
                 })
                 .catch(err => {
-                    console.log('err', err);
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
                         message: 'Failed to create the lesson',

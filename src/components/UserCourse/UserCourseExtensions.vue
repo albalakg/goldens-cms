@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid>
+    <div>
         <v-card class="pa-3">
             <v-flex d-flex>
                 <div>
@@ -31,7 +31,7 @@
                 @filterByStatus="filterByStatus"
             />
         </v-card>
-    </v-container>
+    </div>
 </template>
 
 <script>
@@ -46,11 +46,9 @@ export default {
     data() {
         return {
             headers: [
-                { text: 'Name',         value: 'course_lesson_name' },
-                { text: 'Course Area',  value: 'course_area_name' },
-                { text: 'Started At',   value: 'created_at' },
-                { text: 'Finished At',  value: 'finished_at' },
-                { text: 'Status',       value: 'status',    align: 'right' },
+                { text: 'Days',         value: 'days' },
+                { text: 'Created At',   value: 'created_at' },
+                { text: 'Created By',   value: 'created_by' },
             ],
             statuses: STATUSES_SELECTION,
             filterStatuses: STATUSES_VALUES,
@@ -98,7 +96,6 @@ export default {
             data = data.filter(item => this.filterStatuses.includes(item.status))
 
             data.forEach(item => {
-                console.log('item', item);
                 const lesson = this.lessons.data.find(lesson => lesson.id === item.course_lesson_id);
                 item.course_lesson_name = lesson.name; 
                 item.course_lesson_id   = lesson.id; 
@@ -114,7 +111,8 @@ export default {
 
             if(this.userCourse.extenstions) {
                 days = this.userCourse.extenstions.reduce((prevItem, nextItem) => {
-                    console.log(prevItem, nextItem);
+                    console.log('prevItem', prevItem);
+                    console.log('nextItem', nextItem);
                 })
             }
             

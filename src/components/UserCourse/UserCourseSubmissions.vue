@@ -1,23 +1,23 @@
 <template>
-    <v-container fluid>
-        <v-card class="pa-5">
-            <TableCard
-                :headers="headers"
-                :items="items"
-                :loading="isLoading"
-                :filerStatus="statuses"
-                searchable
-                :statusTexts="statusTexts"
-                mainField="full_name"
-                @filterByStatus="filterByStatus"
-            />
-        </v-card>
-    </v-container>
+    <v-card class="pa-5">
+        <TableCard
+            :headers="headers"
+            :items="items"
+            :loading="isLoading"
+            :filerStatus="statuses"
+            searchable
+            viewable
+            :statusTexts="statusTexts"
+            mainField="full_name"
+            @view="viewItem"
+            @filterByStatus="filterByStatus"
+        />
+    </v-card>
 </template>
 
 <script>
 import TableCard from './../Cards/TableCard.vue'
-import { STATUSES_SELECTION, STATUSES_VALUES } from './../../helpers/Status'
+import { STATUSES_SELECTION, STATUSES_VALUES, PROGRESS_STATUSES } from './../../helpers/Status'
 
 export default {
     components: {
@@ -27,19 +27,16 @@ export default {
     data() {
         return {
             headers: [
-                { text: 'Name',         value: 'course_lesson_name' },
-                { text: 'Course Area',  value: 'course_area_name' },
-                { text: 'Started At',   value: 'created_at' },
-                { text: 'Finished At',  value: 'finished_at' },
+                { text: 'Course',       value: 'course_name' },
+                { text: 'Video',        value: 'video' },
+                { text: 'Comment',      value: 'comment' },
+                { text: 'Created At',   value: 'created_at' },
                 { text: 'Status',       value: 'status',    align: 'right' },
+                { text: 'Actions',      value: 'actions',   align: 'right' },
             ],
             statuses: STATUSES_SELECTION,
             filterStatuses: STATUSES_VALUES,
-            statusTexts: [
-                'None',
-                'Done',
-                'In Progress',
-            ]
+            statusTexts: PROGRESS_STATUSES
         }
     },
     
@@ -62,15 +59,14 @@ export default {
 
     computed: {
         isLoading() {
-            return !this.userCourse.progress;
-        },
-
-        lessons() {
-            return this.$store.getters['LessonState/lessons'];
+            return !this.$store.getters['TestState/tests']
         },
 
         items() {
-            let data = this.userCourse.progress ? this.userCourse.progress.data : [];
+            const tests     = this.$store.getters['TestState/tests'];
+            const courses   = this.$store.getters['CourseState/courses'];
+
+            let data = tests ? tests.data : [];
             if(!data.length) {
                 return data;
             }
@@ -79,12 +75,11 @@ export default {
             data = data.filter(item => this.filterStatuses.includes(item.status))
 
             data.forEach(item => {
-                console.log('item', item);
-                const lesson = this.lessons.data.find(lesson => lesson.id === item.course_lesson_id);
-                item.course_lesson_name = lesson.name; 
-                item.course_lesson_id   = lesson.id; 
-                item.course_area_name   = lesson.course_area_name; 
-                item.course_area_id     = lesson.course_area_id; 
+                const course = courses.data.find(course => course.id === item.user_course.course_id);
+                if(course) {
+                    item.course_name    = course.name;
+                    item.course_id      = course.id;
+                }
             });
 
             return data;
@@ -102,7 +97,11 @@ export default {
     methods: {
         filterByStatus(statuses) {
             this.filterStatuses = statuses;
-        }
+        },
+
+        viewItem(item) {
+            this.$router.push('/content/tests/show/' + item.id)
+        },
     }
 }
 </script>

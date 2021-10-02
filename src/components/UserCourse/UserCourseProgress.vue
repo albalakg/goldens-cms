@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid>
+    <div>
         <v-card class="pa-5">
             <v-card-title primary-title>
                 Finished Lessons {{userCourse.finished_lessons_count}} / {{totalLessons}}
@@ -20,7 +20,7 @@
                 @filterByStatus="filterByStatus"
             />
         </v-card>
-    </v-container>
+    </div>
 </template>
 
 <script>
@@ -35,7 +35,7 @@ export default {
     data() {
         return {
             headers: [
-                { text: 'Name',         value: 'course_lesson_name' },
+                { text: 'Lesson',       value: 'course_lesson_name' },
                 { text: 'Course Area',  value: 'course_area_name' },
                 { text: 'Started At',   value: 'created_at' },
                 { text: 'Finished At',  value: 'finished_at' },
@@ -83,7 +83,6 @@ export default {
             data = data.filter(item => this.filterStatuses.includes(item.status))
 
             data.forEach(item => {
-                console.log('item', item);
                 const lesson = this.lessons.data.find(lesson => lesson.id === item.course_lesson_id);
                 item.course_lesson_name = lesson.name; 
                 item.course_lesson_id   = lesson.id; 

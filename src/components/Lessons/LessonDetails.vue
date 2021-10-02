@@ -138,7 +138,6 @@ export default {
     },
 
     created(){
-        console.log('this.les', this.lesson);
         this.form = {...this.lesson};
         this.course_id = this.lesson.course_id;
     },

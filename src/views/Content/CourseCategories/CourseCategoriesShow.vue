@@ -74,7 +74,6 @@ export default {
     methods: {
         async getCourseCategory() {
             this.editedCourseCategory = await this.$store.dispatch('CourseCategoryState/getCourseCategory', this.$route.params.courseCategoryID);
-            console.log('editedCourseCategory', this.editedCourseCategory);
         },
 
         submit() {
@@ -87,14 +86,12 @@ export default {
             
             this.$store.dispatch('CourseCategoryState/createCourseCategory', this.form)
                 .then(res => {
-                    console.log('res', res);
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `CourseCategory ${this.form.first_name} ${this.form.last_name} created successfully`
                     });
                     this.$router.push('/courseCategories')
                 })
                 .catch(err => {
-                    console.log('err', err);
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
                         message: 'Failed to create the courseCategory',

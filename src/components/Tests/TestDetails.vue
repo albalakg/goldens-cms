@@ -1,13 +1,22 @@
 <template>
     <v-card class="pa-5">
         <v-list>
+            <div class="user_course_link">
+                <router-link :to="`/users/users-courses/show/${test.user_course_id}`">
+                    <span>
+                        User's Course
+                    </span>
+                </router-link> 
+            </div>
             <v-list-item>
                 <v-list-item-content>
                     <v-list-item-title>
                         User
                     </v-list-item-title>
                     <v-list-item-subtitle>
-                        {{user.full_name}}
+                        <router-link :to="`/users/show/${user.id}`">
+                            {{user.full_name}}
+                        </router-link>
                     </v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
@@ -17,7 +26,9 @@
                         Course
                     </v-list-item-title>
                     <v-list-item-subtitle>
-                        {{course.name}}
+                        <router-link :to="`/content/courses/show/${course.id}`">
+                            {{course.name}}
+                        </router-link>
                     </v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
@@ -96,7 +107,7 @@
 </template>
 
 <script>
-import { STATUSES_SELECTION } from './../../helpers/Status'
+import { PROGRESS_SELECTION } from './../../helpers/Status'
 import SubmitButton from '../../components/Buttons/SubmitButton.vue'
 
 export default {
@@ -117,7 +128,7 @@ export default {
                 status: null
             },
             loading: false,
-            statuses: STATUSES_SELECTION
+            statuses: PROGRESS_SELECTION
         }
     },
 
@@ -147,7 +158,6 @@ export default {
                         message: `Updated the Test's status successfully`
                     });
                 }).catch(err => {
-                    console.log('12312');
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
                         message: 'Failed to update the Test\'s status',
@@ -164,4 +174,9 @@ export default {
 </script>
 
 <style scoped>
+    .user_course_link {
+        position: absolute;
+        right: 2%;    
+        z-index: 2;
+    }
 </style>

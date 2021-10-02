@@ -1,65 +1,64 @@
 <template>
-    <v-container fluid>
-        <v-card class="pa-5">
+    <v-card class="pa-5">
 
-            <v-flex mx-auto xs12 md6 lg4 d-flex justify-center>
-                <v-form class="w100" @submit.prevent="submit()" ref="form">
-                    <v-card-title primary-title>
-                        Total {{comments.length}} Comments
+        <v-flex mx-auto xs12 md6 lg4 d-flex justify-center>
+            <v-form class="w100" @submit.prevent="submit()" ref="form">
+                <v-card-title primary-title>
+                    Total {{comments.length}} Comments
+                </v-card-title>
+                <v-textarea
+                    outlined
+                    v-model="form.comment"
+                    counter
+                    maxlength="5000"
+                    label="Comment"
+                    :rules="[rules.comment]"
+                ></v-textarea>
+                <SubmitButton
+                    :loading="loading"
+                    @submit="submit()"
+                />
+            </v-form>
+        </v-flex>
+
+        <br>
+
+        <v-timeline
+            :dense="$vuetify.breakpoint.smAndDown"
+            >
+            <v-timeline-item
+                v-for="(comment, index) in comments"
+                :key="index"
+                :color="comment.created_by === test.user_course.user_id ? 'red' : 'blue'"
+            >
+                <span slot="opposite">
+                    {{comment.human_time}}
+                </span>
+                <v-card class="elevation-2">
+                    <v-card-title class="text-h5 pb-0">
+                            {{comment.full_name}} 
                     </v-card-title>
-                    <v-textarea
-                        outlined
-                        v-model="form.comment"
-                        counter
-                        maxlength="5000"
-                        label="Comment"
-                        :rules="[rules.comment]"
-                    ></v-textarea>
-                    <SubmitButton
-                        :loading="loading"
-                        @submit="submit()"
-                    />
-                </v-form>
-            </v-flex>
-
-            <br>
-
-            <v-timeline
-                :dense="$vuetify.breakpoint.smAndDown"
-                >
-                <v-timeline-item
-                    v-for="(comment, index) in comments"
-                    :key="index"
-                >
-                    <span slot="opposite">
-                        {{comment.human_time}}
-                    </span>
-                    <v-card class="elevation-2">
-                        <v-card-title class="text-h5 pb-0">
-                                {{comment.full_name}} 
-                        </v-card-title>
-                    <v-card-text class="comment_text">
-                        {{comment.comment}}                    
-                    </v-card-text>
-                    <div class="pl-4 pb-3 pr-5">
-                        <small>
-                            <v-flex d-flex justify-space-between>
-                                <span>
-                                    {{comment.created_at}}
-                                </span>
-                                <router-link :to="`/users/show/${comment.created_by}`">
-                                    <strong :class="`${comment.created_by === test.user_course.user_id ? 'teal' : 'black'}--text`">
-                                        {{comment.created_by === test.user_course.user_id ? 'Customer' : 'Tester'}}
-                                    </strong>
-                                </router-link>
-                            </v-flex>
-                        </small>
-                    </div>
-                    </v-card>
-                </v-timeline-item>
-            </v-timeline>
-        </v-card>
-    </v-container>
+                <v-card-text class="comment_text">
+                    {{comment.comment}}                    
+                </v-card-text>
+                <div class="pl-4 pb-3 pr-5">
+                    <small>
+                        <v-flex d-flex justify-space-between>
+                            <span>
+                                {{comment.created_at}}
+                            </span>
+                            <router-link :to="`/users/show/${comment.created_by}`">
+                                <strong :class="`${comment.created_by === test.user_course.user_id ? 'teal' : 'black'}--text`" :title="`Show ${comment.full_name}`">
+                                    {{comment.created_by === test.user_course.user_id ? 'Customer' : 'Tester'}}
+                                </strong>
+                            </router-link>
+                        </v-flex>
+                    </small>
+                </div>
+                </v-card>
+            </v-timeline-item>
+        </v-timeline>
+    </v-card>
 </template>
 
 <script>

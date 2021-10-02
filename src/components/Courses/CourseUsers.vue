@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid>
+    <div>
         <TopCard 
             text="User's Courses"
             createable
@@ -22,7 +22,7 @@
             @view="viewItem"
             @filterByStatus="filterByStatus"
         />
-    </v-container>
+    </div>
 </template>
 
 <script>

@@ -169,7 +169,7 @@ export default {
             if(course) {
                 this.form.course_name = course.name;
             }
-            console.log('this.form', this.form);
+
             this.$store.dispatch('CourseAreaState/createCourseArea', {...this.form, image: this.image, trailer: this.trailer})
                 .then(res => {
                     this.$store.dispatch('MessageState/addMessage', {

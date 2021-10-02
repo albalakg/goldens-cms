@@ -98,14 +98,12 @@ export default {
             
             this.$store.dispatch('CourseState/createCourse', this.form)
                 .then(res => {
-                    console.log('res', res);
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Course ${this.form.first_name} ${this.form.last_name} created successfully`
                     });
                     this.$router.push('/courses')
                 })
                 .catch(err => {
-                    console.log('err', err);
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
                         message: 'Failed to create the course',

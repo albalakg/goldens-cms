@@ -1,108 +1,105 @@
 <template>
-    <v-container fluid>
-        <v-form @submit.prevent="submit()" ref="form">
-            <v-flex d-flex>
-                <v-flex xs12 lg6 class="pr-5">
-                    <FormCard
-                        title="Details"
-                    >
-                        <template slot="content">
-                            <div class="px-4">
+    <v-form @submit.prevent="submit()" ref="form">
+        <v-flex d-flex>
+            <v-flex xs12 lg6 class="pr-5">
+                <FormCard
+                    title="Details"
+                >
+                    <template slot="content">
+                        <div class="px-4">
+                            <v-text-field
+                                outlined
+                                v-model="form.name"
+                                label="Name"
+                                counter
+                                maxlength="30"
+                                :rules="[rules.name]"
+                            ></v-text-field>
+                            <v-textarea
+                                outlined
+                                v-model="form.description"
+                                counter
+                                maxlength="1000"
+                                label="Description"
+                                :rules="[rules.description]"
+                            ></v-textarea>
+                            <v-autocomplete
+                                outlined
+                                :items="courseCategories"
+                                :loading="!courseCategories.length"
+                                item-text="name"
+                                item-value="id"
+                                v-model="form.category_id"
+                                label="Category"
+                                :rules="[rules.category_id]"
+                            ></v-autocomplete>
+                            <v-flex d-flex>
                                 <v-text-field
                                     outlined
-                                    v-model="form.name"
-                                    label="Name"
-                                    counter
-                                    maxlength="30"
-                                    :rules="[rules.name]"
+                                    v-model="form.price"
+                                    label="Price"
+                                    :rules="[rules.price]"
+                                    autocomplete="off"
+                                    class="pr-3"
                                 ></v-text-field>
-                                <v-textarea
+                                <v-text-field
                                     outlined
-                                    v-model="form.description"
-                                    counter
-                                    maxlength="1000"
-                                    label="Description"
-                                    :rules="[rules.description]"
-                                ></v-textarea>
-                                <v-autocomplete
-                                    outlined
-                                    :items="courseCategories"
-                                    :loading="!courseCategories.length"
-                                    item-text="name"
-                                    item-value="id"
-                                    v-model="form.category_id"
-                                    label="Category"
-                                    :rules="[rules.category_id]"
-                                ></v-autocomplete>
-                                <v-flex d-flex>
-                                    <v-text-field
-                                        outlined
-                                        v-model="form.price"
-                                        label="Price"
-                                        :rules="[rules.price]"
-                                        autocomplete="off"
-                                        class="pr-3"
-                                    ></v-text-field>
-                                    <v-text-field
-                                        outlined
-                                        v-model="form.discount"
-                                        label="Discount"
-                                        hint="discount in precentage %"
-                                        :rules="[rules.discount]"
-                                        autocomplete="off"
-                                        class="pl-3"
-                                    ></v-text-field>
-                                </v-flex>
-                            </div>
-                        </template>
-                    </FormCard>
-                </v-flex>
-                <v-flex xs12 lg6 class="pl-5">
-                    <FormCard
-                        title="Files"
-                    >
-                        <template slot="content">
-                            <div class="px-4">
-                                <v-file-input
-                                    outlined
-                                    show-size
-                                    v-model="image"
-                                    label="Image"
-                                    prepend-icon=""
-                                    :error-messages="errors && errors.image ? errors.image : ''"
-                                ></v-file-input>
-                                <img class="preview_image" :src="imageSrc" alt="">
-                                <v-file-input
-                                    outlined
-                                    show-size
-                                    v-model="trailer"
-                                    accept="mp4"
-                                    label="Trailer"
-                                    prepend-icon=""
-                                    :error-messages="errors && errors.trailer ? errors.trailer : ''"
-                                ></v-file-input>
-                                <video controls class="preview_image" :src="trailerSrc"></video>
-                            </div>
-                        </template>
-                    </FormCard>
-                </v-flex>
+                                    v-model="form.discount"
+                                    label="Discount"
+                                    hint="discount in precentage %"
+                                    :rules="[rules.discount]"
+                                    autocomplete="off"
+                                    class="pl-3"
+                                ></v-text-field>
+                            </v-flex>
+                        </div>
+                    </template>
+                </FormCard>
             </v-flex>
-            <v-flex d-flex justify-space-between class="mt-10">
-                <v-flex md12 lg6 class="pr-5">
-                    <CancelButton 
-                        goBack
-                    />
-                </v-flex>
-                <v-flex md12 lg6 class="pl-5">
-                    <SubmitButton
-                        :loading="loading"
-                        @submit="submit()"
-                    />
-                </v-flex>
+            <v-flex xs12 lg6 class="pl-5">
+                <FormCard
+                    title="Files"
+                >
+                    <template slot="content">
+                        <div class="px-4">
+                            <v-file-input
+                                outlined
+                                show-size
+                                v-model="image"
+                                label="Image"
+                                prepend-icon=""
+                                :error-messages="errors && errors.image ? errors.image : ''"
+                            ></v-file-input>
+                            <img class="preview_image" :src="imageSrc" alt="">
+                            <v-file-input
+                                outlined
+                                show-size
+                                v-model="trailer"
+                                accept="mp4"
+                                label="Trailer"
+                                prepend-icon=""
+                                :error-messages="errors && errors.trailer ? errors.trailer : ''"
+                            ></v-file-input>
+                            <video controls class="preview_image" :src="trailerSrc"></video>
+                        </div>
+                    </template>
+                </FormCard>
             </v-flex>
-        </v-form>
-
-    </v-container>
+        </v-flex>
+        <v-flex d-flex justify-space-between class="mt-10">
+            <v-flex md12 lg6 class="pr-5">
+                <CancelButton 
+                    goBack
+                />
+            </v-flex>
+            <v-flex md12 lg6 class="pl-5">
+                <SubmitButton
+                    :loading="loading"
+                    @submit="submit()"
+                />
+            </v-flex>
+        </v-flex>
+    </v-form>
 </template>
 
 <script>

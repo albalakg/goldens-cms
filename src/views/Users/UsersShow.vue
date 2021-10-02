@@ -118,14 +118,12 @@ export default {
             
             this.$store.dispatch('UserState/createUser', this.form)
                 .then(res => {
-                    console.log('res', res);
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `User ${this.form.first_name} ${this.form.last_name} created successfully`
                     });
                     this.$router.push('/users')
                 })
                 .catch(err => {
-                    console.log('err', err);
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
                         message: 'Failed to create the user',
