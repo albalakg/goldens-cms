@@ -12,7 +12,8 @@ import LessonState          from './modules/LessonState'
 import TestState            from './modules/TestState'
 import UserCourseState      from './modules/UserCourseState'
 import OrderState           from './modules/OrderState'
-import SupportState           from './modules/SupportState'
+import SupportState         from './modules/SupportState'
+import SearchState          from './modules/SearchState'
 
 Vue.use(Vuex)
 
@@ -30,5 +31,6 @@ export default new Vuex.Store({
     UserCourseState,
     OrderState,
     SupportState,
+    SearchState,
   }
 })

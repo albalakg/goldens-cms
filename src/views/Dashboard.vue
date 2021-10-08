@@ -1,6 +1,6 @@
 <template>
 <v-container fluid>
-    <v-flex v-if="!loading">
+    <v-flex v-if="!isLoading">
         <v-flex md4 xl3 class="mx-2">
             <DashboardCard 
                 
@@ -42,7 +42,6 @@ export default {
 
     data() {
         return {
-            loading: true,
             attrs: {
                 class: 'mb-6',
                 boilerplate: true,
@@ -54,13 +53,12 @@ export default {
     computed: {
         totalUsers() {
             return this.$store.getters['UserState/totalUsers'];
+        },
+
+        isLoading() {
+            return this.$store.getters['AppState/isLoading'];
         }
     },
-
-    async created() {
-        await this.$store.dispatch('UserState/getGlobalUsers');
-        this.loading = false;
-    }
 }
 </script>
 

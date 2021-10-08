@@ -88,6 +88,28 @@ const OrderState = {
             })
         },
 
+        async searchByOrderNumber({dispatch}, searchInput) {
+            return await dispatch('searchByInput', {searchInput, field: 'order_number', field_name: 'order number'}); 
+        },
+                
+        searchByInput({state}, data) {
+            const results = [];
+            state.orders.forEach(order => {
+            if(order && order[data.field]) {
+                const field = order[data.field].toLowerCase();
+                if(field.includes(data.searchInput)) {
+                    results.push({
+                        text: order.order_number,
+                        component: 'Order',
+                        type: `Order's ${data.field_name ? data.field_name : data.field}`,
+                        path: `/orders/show/${order.id}` 
+                    })
+                }
+            }
+            });
+            return results;  
+        },
+
         updateOrderStatus({ commit }, orderData) {
             return new Promise((resolve, reject) => {
                 axios.post('cms/orders/status/update', orderData)

@@ -1,43 +1,39 @@
 <template>
-    <v-flex 
-        class="toolbar_wrapper fixed"
-        :class="sidebarIsOpen ? 'toolbar_wrapper_mini' : ''"
-    >
-        <v-card
-            color="grey lighten-4"
-            flat
-            tile
+    <div>
+        <v-flex 
+            class="toolbar_wrapper fixed"
+            :class="sidebarIsOpen ? 'toolbar_wrapper_mini' : ''"
         >
-            <v-toolbar dense>
-            <v-app-bar-nav-icon 
-                class="toolbar_menu ml-3"
-                @click="toggleSidebar()"
-            ></v-app-bar-nav-icon>
+            <v-card
+                color="grey lighten-4"
+                flat
+                tile
+            >
+                <v-toolbar dense>
+                <v-app-bar-nav-icon 
+                    class="toolbar_menu ml-3"
+                    @click="toggleSidebar()"
+                ></v-app-bar-nav-icon>
 
-            <v-toolbar-title>{{name}}</v-toolbar-title>
+                <v-toolbar-title>{{name}}</v-toolbar-title>
 
-            <v-spacer></v-spacer>
+                <v-spacer></v-spacer>
 
-            <v-btn icon>
-                <v-icon>mdi-magnify</v-icon>
-            </v-btn>
+                <v-btn icon @click="toggleSearch()">
+                    <v-icon>mdi-magnify</v-icon>
+                </v-btn>
 
-            <v-btn icon @click="logout()">
-                <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn>
-            </v-toolbar>
-        </v-card>
-    </v-flex>
+                <v-btn icon @click="logout()">
+                    <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+                </v-toolbar>
+            </v-card>
+        </v-flex>
+    </div>
 </template>
 
 <script>
 export default {
-    data() {
-        return {
-
-        }
-    },
-
     computed: {
         name() {
             return this.$store.getters['AppState/appName'];
@@ -55,6 +51,10 @@ export default {
 
         logout() {
             Auth.logout()
+        },
+
+        toggleSearch() {
+            this.searchState = this.$store.dispatch('AppState/updateGlobalSearchState', true)
         }
     }
 }

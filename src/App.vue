@@ -8,8 +8,10 @@
     </span>
     
     <v-main>
+      <SearchCard />
       <transition name="fade" mode="out-in">
         <router-view
+          :key="$route.path"
           class="app_content"
           :class="`
             ${sidebarIsOpen && logged ? 'app_content_mini' : ''}
@@ -27,12 +29,14 @@
 import Sidebar from './components/Navigation/Sidebar/SidebarMain.vue';
 import Topbar from './components/Navigation/Topbar/TopbarMain.vue';
 import PrimaryMessage from './components/Messages/PrimaryMessage.vue';
+import SearchCard from './components/Navigation/Topbar/SearchCard.vue';
 
 export default {
   components: {
     Sidebar,
     Topbar,
-    PrimaryMessage
+    PrimaryMessage,
+    SearchCard
   },
 
   created() {
@@ -63,7 +67,7 @@ export default {
       this.$store.dispatch('CourseCategoryState/getCourseCategories');
       this.$store.dispatch('UserCourseState/getUsersCourses');
       this.$store.dispatch('AppState/updateLogState', Auth.isLogged());
-      // this.$store.dispatch('AppState/updateItemsPerPage', window.screen.width > 1600 ? 10 : 5)
+      this.$store.dispatch('AppState/updateItemsPerPage', window.screen.width > 1600 ? 10 : 5)
     }
   }
 

@@ -76,20 +76,16 @@ const CourseState = {
 
         createCourse({ commit }, courseData) {
             return new Promise((resolve, reject) => {
-                try {
-                    const packageToSend = serialize(courseData, { indices: true });
-                    axios.post('cms/courses/create', packageToSend, FORM_DATA_CONFIG)
-                    .then(res => {
-                            commit('SET_NEW_COURSE', courseData);
-                            resolve(res.data);
-                        })
-                        .catch(err => {
-                            console.warn('createCourse: ', err.response.data);
-                            reject(err.response.data)
-                        })
-                } catch(er) {
-                    console.log('er', er);
-                }
+                const packageToSend = serialize(courseData, { indices: true });
+                axios.post('cms/courses/create', packageToSend, FORM_DATA_CONFIG)
+                .then(res => {
+                        commit('SET_NEW_COURSE', courseData);
+                        resolve(res.data);
+                    })
+                    .catch(err => {
+                        console.warn('createCourse: ', err.response.data);
+                        reject(err.response.data)
+                    })
             }) 
         },
 

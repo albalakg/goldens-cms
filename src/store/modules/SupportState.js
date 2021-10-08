@@ -99,6 +99,29 @@ const SupportState = {
             })
         },
 
+        
+        async searchBySupportNumber({dispatch}, searchInput) {
+            return await dispatch('searchByInput', {searchInput, field: 'support_number', field_name: 'support number'}); 
+        },
+                
+        searchByInput({state}, data) {
+            const results = [];
+            state.support_tickets.forEach(support => {
+            if(support && support[data.field]) {
+                const field = support[data.field].toLowerCase();
+                if(field.includes(data.searchInput)) {
+                    results.push({
+                        text: support.support_number,
+                        component: 'Support',
+                        type: `Support's ${data.field_name ? data.field_name : data.field}`,
+                        path: `/support/show/${support.id}` 
+                    })
+                }
+            }
+            });
+            return results;  
+        },
+
         getSupportCategory({ state }, supportCategoryID) {
             return new Promise((resolve, reject) => {
                 if(state.support_tickets) {

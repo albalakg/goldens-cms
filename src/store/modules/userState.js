@@ -95,6 +95,37 @@ const UserState = {
             })
         },
 
+        async searchByName({dispatch}, searchInput) {
+            return await dispatch('searchByInput', {searchInput, field: 'full_name', field_name: 'name'}); 
+        },
+
+        async searchByEmail({dispatch}, searchInput) {
+            return await dispatch('searchByInput', {searchInput, field: 'email'}); 
+        },
+
+        async searchByPhone({dispatch}, searchInput) {
+            return await dispatch('searchByInput', {searchInput, field: 'phone'}); 
+        },
+                
+        searchByInput({state}, data) {
+            const results = [];
+            state.users.forEach(user => {
+            if(user && user[data.field]) {
+                const field = user[data.field].toLowerCase();
+                if(field.includes(data.searchInput)) {
+                    const text = data.field === 'name' ? field : field + ` (${user.full_name})`;
+                    results.push({
+                        text: text,
+                        component: 'User',
+                        type: `User's ${data.field_name ? data.field_name : data.field}`,
+                        path: `/users/show/${user.id}` 
+                    })
+                }
+            }
+            });
+            return results;  
+        },
+
         createUser({ commit }, userData) {
             return new Promise((resolve, reject) => {
                 axios.post('cms/users/create', userData)
