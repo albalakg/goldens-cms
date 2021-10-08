@@ -46,7 +46,7 @@ export default {
             links: [
                 {
                     text: 'Dashboard',
-                    url: '/dashboard',
+                    url: '/',
                     icon: 'mdi-view-dashboard'
                 },
                 {

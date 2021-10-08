@@ -22,7 +22,7 @@ const routes = [
   // ***** AUTH END *****
 
   {
-    path: '/dashboard',
+    path: '/',
     name: 'Dashboard',
     beforeEnter: Guard.admin,
     component: () => import('../views/Dashboard.vue')

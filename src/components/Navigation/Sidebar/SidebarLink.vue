@@ -72,7 +72,13 @@ export default {
 
     computed: {
         isActive() {
-            return this.$route.path.includes(this.link.url);
+            if(this.link.url === '/') {
+                return this.$route.path === '/';
+            }
+
+            if(this.link.url !== '/') {
+                return this.$route.path.includes(this.link.url);
+            }
         },
 
         hasChildren() {

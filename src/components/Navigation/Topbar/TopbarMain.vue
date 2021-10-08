@@ -23,9 +23,39 @@
                     <v-icon>mdi-magnify</v-icon>
                 </v-btn>
 
-                <v-btn icon @click="logout()">
-                    <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
+                <v-menu
+                    offset-y
+                >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                            icon
+                            v-bind="attrs"
+                            v-on="on"
+                        >
+                            <v-icon>mdi-dots-vertical</v-icon>
+                        </v-btn>
+                    </template>
+
+                    <v-list class="py-0">
+                        <v-list-item
+                            v-for="(item, i) in profile_items"
+                            :key="i"
+                            @click="goToItem(item)"
+                        >   
+                            
+                            <v-list-item-title>
+                                <v-flex d-flex align-center>
+                                    <v-icon class="mr-5">
+                                        {{item.icon}}
+                                    </v-icon>
+                                    <span>
+                                        {{ item.text }}
+                                    </span>
+                                </v-flex>
+                            </v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
                 </v-toolbar>
             </v-card>
         </v-flex>
@@ -34,8 +64,26 @@
 
 <script>
 export default {
+    data() {
+        return {
+            profile_items: [
+                {
+                    text: 'Profile',
+                    icon: 'mdi-account',
+                    url: '/users/show/' + Auth.id(),
+                },
+                {
+                    text: 'Logout',
+                    icon: 'mdi-logout',
+                    url: '/logout',
+                },
+            ]
+        }    
+    }, 
+
     computed: {
         name() {
+            console.log('Auth.id()', Auth.id());
             return this.$store.getters['AppState/appName'];
         },
 
@@ -55,6 +103,10 @@ export default {
 
         toggleSearch() {
             this.searchState = this.$store.dispatch('AppState/updateGlobalSearchState', true)
+        },
+
+        goToItem(item) {
+            this.$router.push(item.url);
         }
     }
 }

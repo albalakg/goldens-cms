@@ -1,4 +1,6 @@
 import router from '../router'
+import axios from "axios";
+
 const COOKIE_NAME = 'GoldensToken';
 
 class Auth {
@@ -30,7 +32,8 @@ class Auth {
     }
 
     id() {
-        return this.get() ? this.get().subject : null;
+        console.log('this.get()', this.get());
+        return this.get() ? this.get().id : null;
     }
 
     token() {

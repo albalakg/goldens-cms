@@ -1,7 +1,10 @@
 <template>
 <v-container fluid>
     <v-flex v-if="!isLoading">
-        <v-flex md4 xl3 class="mx-2">
+        <h1>
+            COMING SOON
+        </h1>
+        <!-- <v-flex md4 xl3 class="mx-2">
             <DashboardCard 
                 
             />
@@ -20,7 +23,7 @@
             <DashboardCard 
                 
             />
-        </v-flex>
+        </v-flex> -->
     </v-flex>
     <div v-else>
         <v-skeleton-loader

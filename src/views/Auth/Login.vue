@@ -105,7 +105,7 @@ export default {
 
         loggedSuccessfully() {
             this.$store.dispatch('AppState/updateLogState', true);
-            this.$router.push('/dashboard');
+            this.$router.push('/');
         },
 
         setLoading(status) {
