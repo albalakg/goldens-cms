@@ -96,7 +96,7 @@ export default {
 
     methods: {
         goToLink() {
-            if(this.$route.path !== this.link.url) {
+            if(this.$route.path !== this.link.childrenUrl) {
                 this.$router.push(this.link.childrenUrl ? this.link.childrenUrl : this.link.url);
             }
         },
