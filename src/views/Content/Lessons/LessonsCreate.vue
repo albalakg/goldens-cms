@@ -92,7 +92,7 @@ import FormCard from '../../../components/Cards/FormCard.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
 import SubmitButton from '../../../components/Buttons/SubmitButton.vue'
 import CancelButton from '../../../components/Buttons/CancelButton.vue'
-import {ID_RULE, VIDEO_NAME_RULE, VIDEO_DESCRIPTION_RULE} from '../../../helpers/Rules' 
+import {ID_RULE, NAME_RULE, VIDEO_DESCRIPTION_RULE} from '../../../helpers/Rules' 
 import {NAME_MESSAGE, DESCRIPTION_MESSAGE, COURSE_AREA_MESSAGE, VIDEO_MESSAGE} from '../../../helpers/Messages' 
 import { VueEditor } from "vue2-editor";
 
@@ -117,7 +117,7 @@ export default {
             loading: false,
             errors: null,
             rules: {
-                name:           v => VIDEO_NAME_RULE.test(v)        || NAME_MESSAGE,
+                name:           v => NAME_RULE.test(v)              || NAME_MESSAGE,
                 content:        v => VIDEO_DESCRIPTION_RULE.test(v) || DESCRIPTION_MESSAGE,
                 course_area_id: v => ID_RULE.test(v)                || COURSE_AREA_MESSAGE,
                 video_id:       v => ID_RULE.test(v)                || VIDEO_MESSAGE,

@@ -3,9 +3,6 @@
 
         <v-flex mx-auto xs12 md6 lg4 d-flex justify-center>
             <v-form class="w100" @submit.prevent="submit()" ref="form">
-                <v-card-title primary-title>
-                    Total {{comments.length}} Comments
-                </v-card-title>
                 <v-textarea
                     outlined
                     v-model="form.comment"
@@ -62,10 +59,10 @@
 </template>
 
 <script>
-import TableCard from './../Cards/TableCard.vue'
+import TableCard from '../Cards/TableCard.vue'
 import {COMMENT_RULE} from '../../helpers/Rules' 
 import {COMMENT_MESSAGE} from '../../helpers/Messages' 
-import SubmitButton from '../../components/Buttons/SubmitButton.vue'
+import SubmitButton from '../Buttons/SubmitButton.vue'
 
 export default {
     components: {
@@ -97,7 +94,7 @@ export default {
             const users = this.$store.getters['UserState/users'];
 
             const comments = this.test.comments.map(comment => {
-                const user = users.data.find(user => user.id === comment.created_by);
+                const user = users.find(user => user.id === comment.created_by);
                 comment.full_name = user ? user.full_name : 'Unknown';
                 
                 return comment;

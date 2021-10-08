@@ -35,14 +35,14 @@
 import FormLoader from '../../../components/Loaders/FormLoader.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
 import TestDetails from '../../../components/Tests/TestDetails.vue'
-import TestComments from '../../../components/Tests/TestComments.vue'
+import TestHistory from '../../../components/Tests/TestHistory.vue'
 
 export default {
     components: {
         FormLoader,
         TopCard,
         TestDetails,
-        TestComments,
+        TestHistory,
     },
 
     data() {
@@ -53,8 +53,8 @@ export default {
                     component: 'TestDetails', 
                 },
                 { 
-                    text: 'Comments', 
-                    component: 'TestComments', 
+                    text: 'History', 
+                    component: 'TestHistory', 
                 },
             ],
             editedTest: null,

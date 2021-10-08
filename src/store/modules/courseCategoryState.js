@@ -6,7 +6,6 @@ const CourseCategoryState = {
 
     state: {
         courseCategories: null,
-        totalCourseCategories: null,
     },
 
     getters: {
@@ -19,7 +18,7 @@ const CourseCategoryState = {
                 return;
             }
 
-            state.courseCategories.data.unshift(courseCategoryData);
+            state.courseCategories.unshift(courseCategoryData);
         },
 
         SET_UPDATED_COURSE_CATEGORY(state, courseCategoryData) {
@@ -27,13 +26,13 @@ const CourseCategoryState = {
                 return;
             }
             
-            const courseCategoryIndex = state.courseCategories.data.findIndex(courseCategory => courseCategory.id === courseCategoryData.id);
+            const courseCategoryIndex = state.courseCategories.findIndex(courseCategory => courseCategory.id === courseCategoryData.id);
             if(courseCategoryIndex < 0) {
                 return;
             }
 
-            courseCategoryData.created_at = state.courseCategories.data[courseCategoryIndex].created_at;
-            state.courseCategories.data[courseCategoryIndex] = {...courseCategoryData};
+            courseCategoryData.created_at = state.courseCategories[courseCategoryIndex].created_at;
+            state.courseCategories[courseCategoryIndex] = {...courseCategoryData};
         },
 
         SET_COURSE_CATEGORIES(state, courseCategories) {
@@ -41,8 +40,8 @@ const CourseCategoryState = {
         },
 
         DELETE_COURSE_CATEGORY(state, courseCategory_ids) {
-            if(state.courseCategories.data) {
-                state.courseCategories.data = state.courseCategories.data.filter(courseCategory => !courseCategory_ids.includes(courseCategory.id));
+            if(state.courseCategories) {
+                state.courseCategories = state.courseCategories.filter(courseCategory => !courseCategory_ids.includes(courseCategory.id));
             }
         }
     },
@@ -69,7 +68,7 @@ const CourseCategoryState = {
         getCourseCategory({ state }, courseCategoryID) {
             return new Promise((resolve, reject) => {
                 if(state.courseCategories) {
-                    resolve(state.courseCategories.data.find(courseCategory => courseCategory.id == courseCategoryID))
+                    resolve(state.courseCategories.find(courseCategory => courseCategory.id == courseCategoryID))
                 } else {
                     resolve(null)
                 }

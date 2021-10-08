@@ -116,7 +116,7 @@ import FormCard from '../../../components/Cards/FormCard.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
 import SubmitButton from '../../../components/Buttons/SubmitButton.vue'
 import CancelButton from '../../../components/Buttons/CancelButton.vue'
-import {COURSE_NAME_RULE, COURSE_DESCRIPTION_RULE, ID_RULE, TRAILER_FILE_SIZE_RULE, VIDEO_FILE_TYPES_RULE, IMAGE_FILE_TYPES_RULE, IMAGE_FILE_SIZE_RULE} from '../../../helpers/Rules' 
+import {NAME_RULE, DESCRIPTION_RULE, ID_RULE, TRAILER_FILE_SIZE_RULE, VIDEO_FILE_TYPES_RULE, IMAGE_FILE_TYPES_RULE, IMAGE_FILE_SIZE_RULE} from '../../../helpers/Rules' 
 import {NAME_MESSAGE, DESCRIPTION_MESSAGE, CATEGORY_MESSAGE, TRAILER_FILE_SIZE_MESSAGE, TRAILER_FILE_TYPES_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE, TRAILER_MESSAGE, IMAGE_MESSAGE} from '../../../helpers/Messages' 
 
 export default {
@@ -141,9 +141,9 @@ export default {
             loading: false,
             errors: null,
             rules: {
-                name:           v => COURSE_NAME_RULE.test(v)           || NAME_MESSAGE,
-                description:    v => COURSE_DESCRIPTION_RULE.test(v)    || DESCRIPTION_MESSAGE,
-                category_id:    v => ID_RULE.test(v)                    || CATEGORY_MESSAGE,
+                name:           v => NAME_RULE.test(v)           || NAME_MESSAGE,
+                description:    v => DESCRIPTION_RULE.test(v)    || DESCRIPTION_MESSAGE,
+                category_id:    v => ID_RULE.test(v)             || CATEGORY_MESSAGE,
             },
         }
     },

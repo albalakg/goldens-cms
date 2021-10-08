@@ -11,11 +11,11 @@
             :headers="headers"
             :items="users"
             :loading="loadingUsers"
-            :filerStatus="statuses"
+            :filterStatus="statuses"
             viewable
             deleteable
             searchable
-            multipleEdit
+            multiple
             mainField="full_name"
             @delete="deleteItem"
             @view="viewItem"
@@ -60,7 +60,7 @@ export default {
             }
 
             // filter by status
-            users = users.data.filter(user => this.filterStatuses.includes(user.status))
+            users = users.filter(user => this.filterStatuses.includes(user.status))
 
             return users;
         },

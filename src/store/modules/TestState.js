@@ -6,7 +6,6 @@ const TestState = {
 
     state: {
         tests: null,
-        totalTests: null,
     },
 
     getters: {
@@ -19,7 +18,7 @@ const TestState = {
                 return;
             }
 
-            state.tests.data.unshift(testData);
+            state.tests.unshift(testData);
         },
 
         SET_NEW_TEST_COMMENT(state, commentData) {
@@ -27,12 +26,12 @@ const TestState = {
                 return;
             }
 
-            const testIndex = state.tests.data.findIndex(test => test.id === commentData.user_course_submission_id);
+            const testIndex = state.tests.findIndex(test => test.id === commentData.user_course_submission_id);
             if(testIndex < 0) {
                 return;
             }
 
-            state.tests.data[testIndex].comments.unshift(commentData);
+            state.tests[testIndex].comments.unshift(commentData);
         },
 
         SET_UPDATED_STATUS(state, testData) {
@@ -40,12 +39,12 @@ const TestState = {
                 return;
             }
             
-            const testIndex = state.tests.data.findIndex(test => test.id === testData.id);
+            const testIndex = state.tests.findIndex(test => test.id === testData.id);
             if(testIndex < 0) {
                 return;
             }
             
-            state.tests.data[testIndex].status = testData.status;
+            state.tests[testIndex].status = testData.status;
         },
 
         SET_TESTS(state, tests) {
@@ -53,8 +52,8 @@ const TestState = {
         },
 
         DELETE_TEST(state, test_ids) {
-            if(state.tests.data) {
-                state.tests.data = state.tests.data.filter(test => !test_ids.includes(test.id));
+            if(state.tests) {
+                state.tests = state.tests.filter(test => !test_ids.includes(test.id));
             }
         }
     },
@@ -81,7 +80,7 @@ const TestState = {
         getTest({ state }, testID) {
             return new Promise((resolve, reject) => {
                 if(state.tests) {
-                    resolve(state.tests.data.find(test => test.id == testID))
+                    resolve(state.tests.find(test => test.id == testID))
                 } else {
                     resolve(null)
                 }

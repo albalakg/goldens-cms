@@ -6,7 +6,6 @@ const CourseAreaState = {
 
     state: {
         courseAreas: null,
-        totalCourseAreas: null,
     },
 
     getters: {
@@ -19,7 +18,7 @@ const CourseAreaState = {
                 return;
             }
 
-            state.courseAreas.data.unshift(courseAreaData);
+            state.courseAreas.unshift(courseAreaData);
         },
 
         SET_UPDATED_COURSE_AREA(state, courseAreaData) {
@@ -27,13 +26,13 @@ const CourseAreaState = {
                 return;
             }
             
-            const courseAreaIndex = state.courseAreas.data.findIndex(courseArea => courseArea.id === courseAreaData.id);
+            const courseAreaIndex = state.courseAreas.findIndex(courseArea => courseArea.id === courseAreaData.id);
             if(courseAreaIndex < 0) {
                 return;
             }
 
-            courseAreaData.created_at = state.courseAreas.data[courseAreaIndex].created_at;
-            state.courseAreas.data[courseAreaIndex] = {...courseAreaData};
+            courseAreaData.created_at = state.courseAreas[courseAreaIndex].created_at;
+            state.courseAreas[courseAreaIndex] = {...courseAreaData};
         },
 
         SET_COURSE_AREAS(state, courseAreas) {
@@ -41,8 +40,8 @@ const CourseAreaState = {
         },
 
         DELETE_COURSE_AREA(state, courseArea_ids) {
-            if(state.courseAreas.data) {
-                state.courseAreas.data = state.courseAreas.data.filter(courseArea => !courseArea_ids.includes(courseArea.id));
+            if(state.courseAreas) {
+                state.courseAreas = state.courseAreas.filter(courseArea => !courseArea_ids.includes(courseArea.id));
             }
         }
     },
@@ -69,7 +68,7 @@ const CourseAreaState = {
         getCourseArea({ state }, courseAreaID) {
             return new Promise((resolve, reject) => {
                 if(state.courseAreas) {
-                    resolve(state.courseAreas.data.find(courseArea => courseArea.id == courseAreaID))
+                    resolve(state.courseAreas.find(courseArea => courseArea.id == courseAreaID))
                 } else {
                     resolve(null)
                 }

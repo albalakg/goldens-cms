@@ -1,19 +1,19 @@
 <template>
     <v-container fluid>
         <TopCard 
-            text="Tests"
+            text="Orders"
         />
 
         <br>
 
         <TableCard
             :headers="headers"
-            :items="tests"
-            :loading="loadingTests"
+            :items="orders"
+            :loading="loadingOrders"
             :filterStatus="statuses"
             viewable
             searchable
-            multiple
+            mainField="name"
             @view="viewItem"
             @filterByStatus="filterByStatus"
         />
@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import TopCard from '../../../components/Cards/TopCard.vue'
-import TableCard from '../../../components/Cards/TableCard.vue'
-import { STATUSES_VALUES, PROGRESS_SELECTION } from '../../../helpers/Status'
+import TopCard from '../../components/Cards/TopCard.vue'
+import TableCard from '../../components/Cards/TableCard.vue'
+import { ORDER_SELECTION, STATUSES_VALUES } from '../../helpers/Status'
 
 export default {
     components: {
@@ -34,57 +34,58 @@ export default {
     data() {
         return {
             headers: [
+                { text: 'Order ID',     value: 'order_number' },
                 { text: 'User',         value: 'full_name' },
                 { text: 'Course',       value: 'course_name' },
-                { text: 'Video',        value: 'video' },
-                { text: 'Comment',      value: 'comment' },
+                { text: 'Price',        value: 'price' },
                 { text: 'Created At',   value: 'created_at' },
                 { text: 'Status',       value: 'status',    align: 'right' },
                 { text: 'Actions',      value: 'actions',   align: 'right' },
             ],
             search: '',
-            statuses: PROGRESS_SELECTION,
-            filterStatuses: STATUSES_VALUES, 
+            statuses: ORDER_SELECTION,
+            filterStatuses: STATUSES_VALUES
         }
     },
 
     computed: {
-        tests() {
-            let tests       = this.$store.getters['TestState/tests'];
+        orders() {
+            let orders      = this.$store.getters['OrderState/orders'];
             const users     = this.$store.getters['UserState/users'];
             const courses   = this.$store.getters['CourseState/courses'];
 
-            if(!tests) {
+            if(!orders) {
                 return [];
             }
-
+                
             // filter by status
-            const data = tests.filter(test => this.filterStatuses.includes(test.status))
-
-            data.forEach(item => {
-                const user = users.find(user => user.id === item.user_course.user_id);
+            orders = orders.filter(order => this.filterStatuses.includes(order.status))
+            
+            orders.forEach(item => {
+                const user = users.find(user => user.id === item.user_id);
                 if(user) {
                     item.full_name  = user.full_name;
                     item.user_id    = user.id;
                 }
-                const course = courses.find(course => course.id === item.user_course.course_id);
+
+                const course = courses.find(course => course.id === item.content_id);
                 if(course) {
                     item.course_name    = course.name;
                     item.course_id      = course.id;
                 }
             });
 
-            return data;
+            return orders;
         },
 
-        loadingTests() {
-            return !this.$store.getters['TestState/tests'];
+        loadingOrders() {
+            return !this.$store.getters['OrderState/orders'];
         }
     },
 
     methods: {
         viewItem(item) {
-            this.$router.push('/content/tests/show/' + item.id)
+            this.$router.push('/orders/show/' + item.id)
         },
 
         filterByStatus(statuses) {

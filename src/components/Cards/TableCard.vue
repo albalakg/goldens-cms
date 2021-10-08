@@ -12,7 +12,7 @@
             <v-flex 
                 d-flex 
                 :class="searchable ? 'mt-5' : ''" 
-                v-if="filerStatus"
+                v-if="filterStatus"
             >
                 <v-select
                    
@@ -20,7 +20,7 @@
                     dense
                     item-value="value"
                     item-text="text"
-                    :items="filerStatus"
+                    :items="filterStatus"
                     v-model="pickedStatusFilters"
                     label="Filter by status"
                     small-chips
@@ -34,7 +34,7 @@
             :headers="headers"
             :items="items"
             class="elevation-1"
-            :show-select="multipleEdit"
+            :show-select="multiple"
             pagination.sync="pagination"
             item-key="id"
             :items-per-page="itemsPerPage"
@@ -93,6 +93,17 @@
                 </span>
             </template>
 
+            <template v-slot:item.support_category="props">
+                <div v-if="props.item.support_category_id">
+                    <router-link :to="`/support/categories/show/${props.item.support_category_id}`">
+                        {{props.item.support_category}}
+                    </router-link>
+                </div>
+                <span v-else>
+                    {{props.item.support_category}}
+                </span>
+            </template>
+
             <template v-slot:item.course_name="props">
                 <div v-if="props.item.course_id">
                     <router-link :to="`/content/courses/show/${props.item.course_id}`">
@@ -148,7 +159,7 @@
             <template v-slot:item.price="props">
                 {{
                     props.item.price ? props.item.price : 0
-                }}
+                }} NIS
             </template>
 
             <template v-slot:item.discount="props">
@@ -167,7 +178,7 @@
 
         <br>
 
-        <v-card class="pa-3" v-if="multipleEdit">
+        <v-card class="pa-3" v-if="multiple">
             <v-flex d-flex>
                 <v-select
                     :items="multipleActionItems"
@@ -277,11 +288,7 @@ export default {
             type: Boolean,
         },
 
-        filerStatus: {
-            type: Array
-        },
-
-        statusTexts: {
+        filterStatus: {
             type: Array
         },
 
@@ -301,7 +308,7 @@ export default {
             type: String,
         },
 
-        multipleEdit: {
+        multiple: {
             type: Boolean,
         },
     },
@@ -323,7 +330,7 @@ export default {
             },
             selected: [],
             multipleActionPickedItem: NO_ACTION,
-            pickedStatusFilters: this.filerStatus ? this.filerStatus.map(status => status) : [],
+            pickedStatusFilters: this.filterStatus ? this.filterStatus.map(status => status) : [],
             FILES_PATH: FILES_PATH,
             URL: URL
         }
@@ -361,8 +368,13 @@ export default {
         },
 
         showFilterSection() {
-            return this.searchable || this.filerStatus
+            return this.searchable || this.filterStatus
         },
+
+        statusTexts() {
+            return this.filterStatus.map(item => item.text);
+        },
+
     },
 
     methods: {
@@ -396,7 +408,7 @@ export default {
                 this.dialog.icon.name   = 'mdi-trash-can-outline';
                 this.dialog.icon.color  = 'red';
             } catch(err) {
-                console.warn('multipleActionDelete: ' + err);
+                console.warn('actionDelete: ' + err);
                 this.dialogActionFailed('Sorry, failed to delete the record');
             }
         },

@@ -17,7 +17,7 @@ const UserState = {
                 return;
             }
 
-            state.users.data.unshift(userData);
+            state.users.unshift(userData);
         },
 
         SET_UPDATED_USER(state, userData) {
@@ -25,15 +25,15 @@ const UserState = {
                 return;
             }
             
-            const userIndex = state.users.data.findIndex(user => user.id === userData.id);
+            const userIndex = state.users.findIndex(user => user.id === userData.id);
             if(userIndex < 0) {
                 return;
             }
 
-            userData.email = state.users.data[userIndex].email;
-            userData.created_at = state.users.data[userIndex].created_at;
+            userData.email = state.users[userIndex].email;
+            userData.created_at = state.users[userIndex].created_at;
             userData.full_name = userData.first_name + ' ' + userData.last_name;
-            state.users.data[userIndex] = {...userData};
+            state.users[userIndex] = {...userData};
         },
 
         SET_UPDATED_USER_EMAIL(state, userData) {
@@ -41,17 +41,17 @@ const UserState = {
                 return;
             }
 
-            const userIndex = state.users.data.findIndex(user => user.id === userData.id);
+            const userIndex = state.users.findIndex(user => user.id === userData.id);
             if(userIndex < 0) {
                 return;
             }
             
-            state.users.data[userIndex].email = userData.email;
+            state.users[userIndex].email = userData.email;
         },
 
         SET_USERS(state, users) {
             // add full name
-            users.data = users.data.map(user => {
+            users = users.map(user => {
                 user.full_name = user.first_name + ' ' + user.last_name;
                 return user; 
             })
@@ -60,8 +60,8 @@ const UserState = {
         },
 
         DELETE_USER(state, user_ids) {
-            if(state.users.data) {
-                state.users.data = state.users.data.filter(user => !user_ids.includes(user.id));
+            if(state.users) {
+                state.users = state.users.filter(user => !user_ids.includes(user.id));
             }
         }
     },
@@ -88,7 +88,7 @@ const UserState = {
         getUser({ state }, userID) {
             return new Promise((resolve, reject) => {
                 if(state.users) {
-                    resolve(state.users.data.find(user => user.id == userID))
+                    resolve(state.users.find(user => user.id == userID))
                 } else {
                     resolve(null)
                 }

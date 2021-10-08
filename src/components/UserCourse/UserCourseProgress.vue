@@ -13,9 +13,8 @@
                 :headers="headers"
                 :items="items"
                 :loading="isLoading"
-                :filerStatus="statuses"
+                :filterStatus="statusTexts"
                 searchable
-                :statusTexts="statusTexts"
                 mainField="full_name"
                 @filterByStatus="filterByStatus"
             />
@@ -25,7 +24,7 @@
 
 <script>
 import TableCard from './../Cards/TableCard.vue'
-import { STATUSES_SELECTION, STATUSES_VALUES, PROGRESS_STATUSES } from './../../helpers/Status'
+import { STATUSES_VALUES, PROGRESS_STATUSES } from './../../helpers/Status'
 
 export default {
     components: {
@@ -41,7 +40,6 @@ export default {
                 { text: 'Finished At',  value: 'finished_at' },
                 { text: 'Status',       value: 'status',    align: 'right' },
             ],
-            statuses: STATUSES_SELECTION,
             filterStatuses: STATUSES_VALUES,
             statusTexts: PROGRESS_STATUSES
         }
@@ -83,7 +81,7 @@ export default {
             data = data.filter(item => this.filterStatuses.includes(item.status))
 
             data.forEach(item => {
-                const lesson = this.lessons.data.find(lesson => lesson.id === item.course_lesson_id);
+                const lesson = this.lessons.find(lesson => lesson.id === item.course_lesson_id);
                 item.course_lesson_name = lesson.name; 
                 item.course_lesson_id   = lesson.id; 
                 item.course_area_name   = lesson.course_area_name; 
@@ -94,7 +92,7 @@ export default {
         },
 
         totalLessons() {
-            return this.lessons.data.filter(lesson => lesson.course_id === this.course.id).length;
+            return this.lessons.filter(lesson => lesson.course_id === this.course.id).length;
         }
     },
 

@@ -12,11 +12,11 @@
             :headers="headers"
             :items="users_courses"
             :loading="isLoading"
-            :filerStatus="statuses"
+            :filterStatus="statuses"
             viewable
             deleteable
             searchable
-            multipleEdit
+            multiple
             mainField="name"
             @delete="deleteItem"
             @view="viewItem"
@@ -65,14 +65,14 @@ export default {
             }
 
             // filter by status
-            let data = users_courses.data.filter(item => this.filterStatuses.includes(item.status));
+            let data = users_courses.filter(item => this.filterStatuses.includes(item.status));
 
             // filter by user
             data = data.filter(item => item.user_id === Number(this.$route.params.userID));
 
             // add user name
             data.forEach((item) => {
-                const course = courses.data.find(course => course.id === item.course_id)
+                const course = courses.find(course => course.id === item.course_id)
                 item.course_name = course ? course.name : 'Unknown';
             });
             

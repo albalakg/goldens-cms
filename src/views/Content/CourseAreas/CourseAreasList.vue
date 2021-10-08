@@ -11,11 +11,11 @@
             :headers="headers"
             :items="courseAreas"
             :loading="isLoading"
-            :filerStatus="statuses"
+            :filterStatus="statuses"
             viewable
             deleteable
             searchable
-            multipleEdit
+            multiple
             mainField="name"
             @delete="deleteItem"
             @view="viewItem"
@@ -61,7 +61,7 @@ export default {
             }
 
             // filter by status
-            return courseAreas.data.filter(lesson => this.filterStatuses.includes(lesson.status))
+            return courseAreas.filter(lesson => this.filterStatuses.includes(lesson.status))
         },
 
         isLoading() {

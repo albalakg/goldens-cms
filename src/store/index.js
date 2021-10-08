@@ -11,6 +11,8 @@ import CourseAreaState      from './modules/CourseAreaState'
 import LessonState          from './modules/LessonState'
 import TestState            from './modules/TestState'
 import UserCourseState      from './modules/UserCourseState'
+import OrderState           from './modules/OrderState'
+import SupportState           from './modules/SupportState'
 
 Vue.use(Vuex)
 
@@ -26,5 +28,7 @@ export default new Vuex.Store({
     LessonState,
     TestState,
     UserCourseState,
+    OrderState,
+    SupportState,
   }
 })

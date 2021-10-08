@@ -18,11 +18,11 @@ const UserCourseState = {
 
         ADD_COURSE_TO_USER(state, user_course) {
             user_course.finished_lessons_count = 0;
-            state.users_courses.data.unshift(user_course);
+            state.users_courses.unshift(user_course);
         },
 
         SET_USER_COURSE_PROGRESS(state, data) {
-            state.users_courses.data.forEach(item => {
+            state.users_courses.forEach(item => {
                 if(item.id === data.id) {
                     item.progress = data.progress;
                 }
@@ -50,7 +50,7 @@ const UserCourseState = {
         },
 
         getUserCourseProgress({ state, commit, dispatch }, userCourseID) {
-            const userCourse = state.users_courses.data.find(item => item.id === Number(userCourseID));
+            const userCourse = state.users_courses.find(item => item.id === Number(userCourseID));
             if(userCourse && userCourse.progress) {
                 return;
             }
@@ -93,7 +93,7 @@ const UserCourseState = {
         getById({ state }, id) {
             return new Promise((resolve) => {
                 if(state.users_courses) {
-                    const data = state.users_courses.data.find(item => item.id === Number(id))
+                    const data = state.users_courses.find(item => item.id === Number(id))
                     resolve(data);
                 }
             })
@@ -102,7 +102,7 @@ const UserCourseState = {
         getByUser({ state }, user_id) {
             return new Promise((resolve) => {
                 if(state.users_courses) {
-                    const data = state.users_courses.data.filter(item => item.user_id === Number(user_id))
+                    const data = state.users_courses.filter(item => item.user_id === Number(user_id))
                     resolve(data);
                 }
             })
@@ -111,7 +111,7 @@ const UserCourseState = {
         getByCourse({ state }, course_id) {
             return new Promise((resolve) => {
                 if(state.users_courses) {
-                    const data = state.users_courses.data.filter(item => item.course_id === Number(course_id))
+                    const data = state.users_courses.filter(item => item.course_id === Number(course_id))
                     resolve(data);
                 }
             })

@@ -168,7 +168,7 @@ const routes = [
   },
   // ***** USERS COURSES END *****
 
-  // ***** VIDEOS START *****
+  // ***** TESTS START *****
   {
     path: '/content/tests',
     component: () => import('../views/Content/Tests/TestsIndex.vue'),
@@ -186,9 +186,9 @@ const routes = [
       },
     ]
   },
-  // ***** VIDEOS END *****
+  // ***** TESTS END *****
 
-  // ***** TESTS START *****
+  // ***** VIDEOS START *****
   {
     path: '/content/videos',
     component: () => import('../views/Content/Videos/VideosIndex.vue'),
@@ -211,7 +211,72 @@ const routes = [
       },
     ]
   },
-  // ***** TESTS END *****
+  // ***** VIDEOS END *****
+
+  // ***** ORDERS START *****
+  {
+    path: '/orders',
+    component: () => import('../views/Orders/OrdersIndex.vue'),
+    beforeEnter: Guard.admin,
+    children: [
+      {
+        path: '',
+        name: 'Orders',
+        component: () => import('../views/Orders/OrdersList.vue'),
+      },
+      {
+        path: 'show/:orderID',
+        name: 'OrdersShow',
+        component: () => import('../views/Orders/OrdersShow.vue'),
+      },
+    ]
+  },
+  // ***** ORDERS END *****
+
+  // ***** SUPPORT TICKETS START *****
+  {
+    path: '/support/tickets',
+    component: () => import('../views/Support/Tickets/SupportTicketIndex.vue'),
+    beforeEnter: Guard.admin,
+    children: [
+      {
+        path: '',
+        name: 'SupportTicket',
+        component: () => import('../views/Support/Tickets/SupportTicketList.vue'),
+      },
+      {
+        path: 'show/:supportID',
+        name: 'SupportTicketShow',
+        component: () => import('../views/Support/Tickets/SupportTicketShow.vue'),
+      },
+    ]
+  },
+  // ***** SUPPORT TICKETS END *****
+
+  // ***** SUPPORT CATEGORIES START *****
+  {
+    path: '/support/categories',
+    component: () => import('../views/Support/Categories/SupportCategoryIndex'),
+    beforeEnter: Guard.admin,
+    children: [
+      {
+        path: '',
+        name: 'SupportCategory',
+        component: () => import('../views/Support/Categories/SupportCategoryList.vue'),
+      },
+      {
+        path: 'new',
+        name: 'SupportCategoryCreate',
+        component: () => import('../views/Support/Categories/SupportCategoryCreate.vue'),
+      },
+      {
+        path: 'show/:supportCategoryID',
+        name: 'SupportCategoryShow',
+        component: () => import('../views/Support/Categories/SupportCategoryShow.vue'),
+      },
+    ]
+  },
+  // ***** SUPPORT CATEGORIES END *****
 
   {
     path: '*',

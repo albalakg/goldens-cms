@@ -1,13 +1,6 @@
 <template>
     <v-card class="pa-5">
         <v-list>
-            <div class="user_course_link">
-                <router-link :to="`/users/users-courses/show/${test.user_course_id}`">
-                    <span>
-                        User's Course
-                    </span>
-                </router-link> 
-            </div>
             <v-list-item>
                 <v-list-item-content>
                     <v-list-item-title>
@@ -35,20 +28,10 @@
             <v-list-item>
                 <v-list-item-content>
                     <v-list-item-title>
-                        Video
+                        Price
                     </v-list-item-title>
                     <v-list-item-subtitle>
-                        <video controls :src="test.video"></video>
-                    </v-list-item-subtitle>
-                </v-list-item-content>
-            </v-list-item>
-            <v-list-item>
-                <v-list-item-content>
-                    <v-list-item-title>
-                        Comment
-                    </v-list-item-title>
-                    <v-list-item-subtitle>
-                        {{test.comment}}
+                        {{order.price}} NIS
                     </v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
@@ -58,17 +41,17 @@
                         Created At
                     </v-list-item-title>
                     <v-list-item-subtitle>
-                        {{test.created_at}}
+                        {{order.created_at}}
                     </v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="test.finished_at">
+            <v-list-item v-if="order.finished_at">
                 <v-list-item-content>
                     <v-list-item-title>
                         Finished At
                     </v-list-item-title>
                     <v-list-item-subtitle>
-                        {{test.finished_at}}
+                        {{order.finished_at}}
                     </v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
@@ -79,7 +62,7 @@
                     </v-list-item-title>
                     <v-list-item-subtitle>
                         <v-form>
-                            <v-flex d-flex>
+                            <v-flex d-flex justify-space-between>
                                 <v-flex xs11>
                                     <v-select
                                         outlined
@@ -89,7 +72,7 @@
                                         v-model="form.status"
                                     ></v-select>
                                 </v-flex>
-                                <v-flex xs1 class="ml-5">
+                                <v-flex xs1 class="ml-5 mr-3">
                                     <SubmitButton 
                                         text="Update"
                                         :height="55"
@@ -107,8 +90,8 @@
 </template>
 
 <script>
-import { PROGRESS_SELECTION } from './../../helpers/Status'
-import SubmitButton from '../../components/Buttons/SubmitButton.vue'
+import { ORDER_SELECTION } from '../../helpers/Status'
+import SubmitButton from '../Buttons/SubmitButton.vue'
 
 export default {
     components: {
@@ -116,7 +99,7 @@ export default {
     },
 
     props: {
-        test: {
+        order: {
             type: Object,
             required: true
         }
@@ -128,42 +111,42 @@ export default {
                 status: null
             },
             loading: false,
-            statuses: PROGRESS_SELECTION
+            statuses: ORDER_SELECTION
         }
     },
 
     computed: {
         user() {
             const users     = this.$store.getters['UserState/users'];
-            return users.find(user => user.id === this.test.user_course.user_id);
+            return users.find(user => user.id === this.order.user_id);
         },
 
         course() {
             const courses   = this.$store.getters['CourseState/courses'];
-            return courses.find(course => course.id === this.test.user_course.course_id);
+            return courses.find(course => course.id === this.order.content_id);
         },
     },
 
     created() {
-        this.form.status    = this.test.status
-        this.form.id        = this.test.id
+        this.form.status    = this.order.status
+        this.form.id        = this.order.id
     },
 
     methods: {
         submit() {
             this.loading = true;
-            this.$store.dispatch('TestState/updateStatus', this.form)
+            this.$store.dispatch('OrderState/updateOrderStatus', this.form)
                 .then(res => {
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: `Updated the Test's status successfully`
+                        message: `Updated the Order's status successfully`
                     });
                 }).catch(err => {
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to update the Test\'s status',
+                        message: 'Failed to update the Order\'s status',
                         type: 'error',
                     });
-                    this.form.status = this.test.status
+                    this.form.status = this.order.status
                 })
                 .finally(() => {
                     this.loading = false;
@@ -172,11 +155,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-    .user_course_link {
-        position: absolute;
-        right: 2%;    
-        z-index: 2;
-    }
-</style>

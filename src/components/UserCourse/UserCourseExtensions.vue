@@ -24,9 +24,8 @@
                 :headers="headers"
                 :items="items"
                 :loading="isLoading"
-                :filerStatus="statuses"
+                :filterStatus="statuses"
                 searchable
-                :statusTexts="statusTexts"
                 mainField="full_name"
                 @filterByStatus="filterByStatus"
             />
@@ -52,11 +51,6 @@ export default {
             ],
             statuses: STATUSES_SELECTION,
             filterStatuses: STATUSES_VALUES,
-            statusTexts: [
-                'None',
-                'Done',
-                'In Progress',
-            ]
         }
     },
     
@@ -96,7 +90,7 @@ export default {
             data = data.filter(item => this.filterStatuses.includes(item.status))
 
             data.forEach(item => {
-                const lesson = this.lessons.data.find(lesson => lesson.id === item.course_lesson_id);
+                const lesson = this.lessons.find(lesson => lesson.id === item.course_lesson_id);
                 item.course_lesson_name = lesson.name; 
                 item.course_lesson_id   = lesson.id; 
                 item.course_area_name   = lesson.course_area_name; 

@@ -6,7 +6,6 @@ const CourseState = {
 
     state: {
         courses: null,
-        totalCourses: null,
     },
 
     getters: {
@@ -18,7 +17,7 @@ const CourseState = {
             if(!state.courses) {
                 return;
             }
-            state.courses.data.unshift(courseData);
+            state.courses.unshift(courseData);
         },
 
         SET_UPDATED_COURSE(state, courseData) {
@@ -26,13 +25,13 @@ const CourseState = {
                 return;
             }
             
-            const courseIndex = state.courses.data.findIndex(course => course.id === courseData.id);
+            const courseIndex = state.courses.findIndex(course => course.id === courseData.id);
             if(courseIndex < 0) {
                 return;
             }
 
-            courseData.created_at = state.courses.data[courseIndex].created_at;
-            state.courses.data[courseIndex] = {...courseData};
+            courseData.created_at = state.courses[courseIndex].created_at;
+            state.courses[courseIndex] = {...courseData};
         },
 
         SET_COURSES(state, courses) {
@@ -40,8 +39,8 @@ const CourseState = {
         },
 
         DELETE_COURSE(state, course_ids) {
-            if(state.courses.data) {
-                state.courses.data = state.courses.data.filter(course => !course_ids.includes(course.id));
+            if(state.courses) {
+                state.courses = state.courses.filter(course => !course_ids.includes(course.id));
             }
         }
     },
@@ -68,7 +67,7 @@ const CourseState = {
         getCourse({ state }, courseID) {
             return new Promise((resolve, reject) => {
                 if(state.courses) {
-                    resolve(state.courses.data.find(course => course.id == courseID))
+                    resolve(state.courses.find(course => course.id == courseID))
                 } else {
                     resolve(null)
                 }

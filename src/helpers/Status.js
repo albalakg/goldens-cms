@@ -4,6 +4,27 @@ export const STATUSES = [
   'Pending',
 ];
 
+export const STATUSES_SELECTION = [
+  {
+    'text': 'Inactive',
+    'value': 0
+  },
+  {
+    'text': 'Active',
+    'value': 1
+  },
+  {
+    'text': 'Pending',
+    'value': 2
+  }
+];
+
+export const STATUSES_VALUES = [
+  0, 1, 2
+];
+
+
+
 export const PROGRESS_STATUSES = [
   'Failed',
   'Done',
@@ -25,25 +46,26 @@ export const PROGRESS_SELECTION = [
   }
 ];
 
-export const STATUSES_SELECTION = [
+
+
+
+export const ORDER_STATUSES = [
+  'Canceled',
+  'Done',
+  'In Progress',
+];
+
+export const ORDER_SELECTION = [
   {
-    'text': 'Inactive',
+    'text': 'Canceled',
     'value': 0
   },
   {
-    'text': 'Active',
+    'text': 'Done',
     'value': 1
   },
   {
-    'text': 'Pending',
+    'text': 'In Progress',
     'value': 2
   }
 ];
-
-export const STATUSES_VALUES = [
-  0, 1, 2
-];
-
-export const INACTIVE = 0;
-export const ACTIVE   = 1;
-export const PENDING  = 1;

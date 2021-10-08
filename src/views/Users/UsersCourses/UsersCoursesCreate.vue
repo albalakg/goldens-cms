@@ -172,12 +172,12 @@ export default {
     computed: {
         courses() {
             const courses = this.$store.getters['CourseState/courses'];
-            return courses ? courses.data : [];
+            return courses ? courses : [];
         },
         
         users() {
             const users = this.$store.getters['UserState/users'];
-            return users ? users.data : [];
+            return users ? users : [];
         },
 
         async course() {

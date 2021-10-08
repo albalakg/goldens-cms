@@ -6,7 +6,6 @@ const VideoState = {
 
     state: {
         videos: null,
-        totalVideos: null,
     },
 
     getters: {
@@ -19,7 +18,7 @@ const VideoState = {
                 return;
             }
 
-            state.videos.data.unshift(videoData);
+            state.videos.unshift(videoData);
         },
 
         SET_UPDATED_VIDEO(state, videoData) {
@@ -27,13 +26,13 @@ const VideoState = {
                 return;
             }
             
-            const videoIndex = state.videos.data.findIndex(video => video.id === videoData.id);
+            const videoIndex = state.videos.findIndex(video => video.id === videoData.id);
             if(videoIndex < 0) {
                 return;
             }
             
-            videoData.created_at = state.videos.data[videoIndex].created_at;
-            state.videos.data[videoIndex] = videoData;
+            videoData.created_at = state.videos[videoIndex].created_at;
+            state.videos[videoIndex] = videoData;
         },
 
         SET_VIDEOS(state, videos) {
@@ -41,8 +40,8 @@ const VideoState = {
         },
 
         DELETE_VIDEO(state, video_ids) {
-            if(state.videos.data) {
-                state.videos.data = state.videos.data.filter(video => !video_ids.includes(video.id));
+            if(state.videos) {
+                state.videos = state.videos.filter(video => !video_ids.includes(video.id));
             }
         }
     },
@@ -69,7 +68,7 @@ const VideoState = {
         getVideo({ state }, videoID) {
             return new Promise((resolve, reject) => {
                 if(state.videos) {
-                    resolve(state.videos.data.find(video => video.id == videoID))
+                    resolve(state.videos.find(video => video.id == videoID))
                 } else {
                     resolve(null)
                 }

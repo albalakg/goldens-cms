@@ -6,7 +6,6 @@ const LessonState = {
 
     state: {
         lessons: null,
-        totalLessons: null,
     },
 
     getters: {
@@ -19,7 +18,7 @@ const LessonState = {
                 return;
             }
 
-            state.lessons.data.unshift(lessonData);
+            state.lessons.unshift(lessonData);
         },
 
         SET_UPDATED_LESSON(state, lessonData) {
@@ -27,13 +26,13 @@ const LessonState = {
                 return;
             }
             
-            const lessonIndex = state.lessons.data.findIndex(lesson => lesson.id === lessonData.id);
+            const lessonIndex = state.lessons.findIndex(lesson => lesson.id === lessonData.id);
             if(lessonIndex < 0) {
                 return;
             }
 
-            lessonData.created_at = state.lessons.data[lessonIndex].created_at;
-            state.lessons.data[lessonIndex] = {...lessonData};
+            lessonData.created_at = state.lessons[lessonIndex].created_at;
+            state.lessons[lessonIndex] = {...lessonData};
         },
 
         SET_LESSONS(state, lessons) {
@@ -41,8 +40,8 @@ const LessonState = {
         },
 
         DELETE_LESSON(state, lesson_ids) {
-            if(state.lessons.data) {
-                state.lessons.data = state.lessons.data.filter(lesson => !lesson_ids.includes(lesson.id));
+            if(state.lessons) {
+                state.lessons = state.lessons.filter(lesson => !lesson_ids.includes(lesson.id));
             }
         }
     },
@@ -69,7 +68,7 @@ const LessonState = {
         getLesson({ state }, lessonID) {
             return new Promise((resolve, reject) => {
                 if(state.lessons) {
-                    resolve(state.lessons.data.find(lesson => lesson.id == lessonID))
+                    resolve(state.lessons.find(lesson => lesson.id == lessonID))
                 } else {
                     resolve(null)
                 }

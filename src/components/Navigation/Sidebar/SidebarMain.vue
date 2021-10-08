@@ -93,8 +93,18 @@ export default {
                 },
                 {
                     text: 'Support',
-                    url: '/support',
+                    url: '/support/tickets',
                     icon: 'mdi-face-agent',
+                    children: [
+                        {
+                            text: 'Tickets',
+                            url: '/support/tickets',
+                        },
+                        {
+                            text: 'Categories',
+                            url: '/support/categories',
+                        }
+                    ]
                 },
                 {
                     text: 'Settings',

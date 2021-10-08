@@ -65,7 +65,7 @@ import TopCard from './../../components/Cards/TopCard.vue'
 import SubmitButton from './../../components/Buttons/SubmitButton.vue'
 import CancelButton from './../../components/Buttons/CancelButton.vue'
 import { STATUSES_SELECTION } from './../../helpers/Status'
- import {VIDEO_NAME_RULE, VIDEO_DESCRIPTION_RULE, VIDEO_FILE_SIZE_RULE, VIDEO_FILE_TYPES_RULE} from './../../helpers/Rules' 
+ import {NAME_RULE, VIDEO_DESCRIPTION_RULE, VIDEO_FILE_SIZE_RULE, VIDEO_FILE_TYPES_RULE} from './../../helpers/Rules' 
 import {NAME_MESSAGE, DESCRIPTION_MESSAGE, VIDEO_FILE_SIZE_MESSAGE, VIDEO_FILE_TYPES_MESSAGE} from './../../helpers/Messages' 
 
 export default {
@@ -93,7 +93,7 @@ export default {
             loading: false,
             errors: null,
             rules: {
-                name:           v => VIDEO_NAME_RULE.test(v)        || NAME_MESSAGE,
+                name:           v => NAME_RULE.test(v)        || NAME_MESSAGE,
                 description:    v => VIDEO_DESCRIPTION_RULE.test(v) || DESCRIPTION_MESSAGE,
             },
             statuses: STATUSES_SELECTION

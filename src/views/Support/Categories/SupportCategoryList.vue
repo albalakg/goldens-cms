@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <TopCard 
-            text="Videos"
+            text="Support Categories"
             createable
         />
 
@@ -9,25 +9,23 @@
 
         <TableCard
             :headers="headers"
-            :items="videos"
-            :loading="loadingVideos"
+            :items="support_categories"
+            :loading="loadingSupport_tickets"
             :filterStatus="statuses"
-            viewable
             deleteable
             searchable
             multiple
             mainField="name"
             @delete="deleteItems"
-            @view="viewItem"
             @filterByStatus="filterByStatus"
         />
     </v-container>
 </template>
 
 <script>
-import TopCard from './../../../components/Cards/TopCard.vue'
-import TableCard from './../../../components/Cards/TableCard.vue'
-import { STATUSES_SELECTION, STATUSES_VALUES } from './../../../helpers/Status'
+import TopCard from '../../../components/Cards/TopCard.vue'
+import TableCard from '../../../components/Cards/TableCard.vue'
+import { STATUSES_SELECTION, STATUSES_VALUES } from '../../../helpers/Status'
 
 export default {
     components: {
@@ -39,8 +37,6 @@ export default {
         return {
             headers: [
                 { text: 'Name',         value: 'name' },
-                { text: 'Description',  value: 'description' },
-                { text: 'Video',        value: 'video' },
                 { text: 'Created At',   value: 'created_at' },
                 { text: 'Status',       value: 'status',    align: 'right' },
                 { text: 'Actions',      value: 'actions',   align: 'right' },
@@ -52,30 +48,27 @@ export default {
     },
 
     computed: {
-        videos() {
-            let videos = this.$store.getters['VideoState/videos'];
+        support_categories() {
+            let support_categories = this.$store.getters['SupportState/support_categories'];
 
-            if(!videos) {
+            if(!support_categories) {
                 return [];
             }
 
             // filter by status
-            return videos.filter(video => this.filterStatuses.includes(video.status))
+            support_categories = support_categories.filter(support => this.filterStatuses.includes(support.status))
+
+            return support_categories;
         },
 
-        loadingVideos() {
-            return !this.$store.getters['VideoState/videos'];
+        loadingSupport_tickets() {
+            return !this.$store.getters['SupportState/support_categories'];
         }
     },
 
     methods: {
-       
         deleteItems(data) {
-            this.$store.dispatch('VideoState/deleteVideos', data)
-        },
-
-        viewItem(item) {
-            this.$router.push('/content/videos/show/' + item.id)
+            this.$store.dispatch('SupportState/deleteSupportCategories', data)
         },
 
         filterByStatus(statuses) {
