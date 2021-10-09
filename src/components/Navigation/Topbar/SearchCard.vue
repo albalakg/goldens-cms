@@ -84,6 +84,10 @@ export default {
         },
 
         enterResult(result) {
+            if(!result) {
+                return;
+            }
+            
             this.$router.push(result.path);
             setTimeout(() => {
                 this.resetSearch();

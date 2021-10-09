@@ -45,7 +45,6 @@
                                         outlined
                                         v-model="form.price"
                                         label="Price"
-                                        :rules="[rules.price]"
                                         autocomplete="off"
                                         class="pr-3"
                                     ></v-text-field>
@@ -54,7 +53,6 @@
                                         v-model="form.discount"
                                         label="Discount"
                                         hint="discount in precentage %"
-                                        :rules="[rules.discount]"
                                         autocomplete="off"
                                         class="pl-3"
                                     ></v-text-field>
@@ -151,7 +149,7 @@ export default {
     computed: {
         courseCategories() {
             const categories = this.$store.getters['CourseCategoryState/courseCategories'];
-            return categories ? categories.data : [];
+            return categories ? categories : [];
         },
 
         imageSrc() {

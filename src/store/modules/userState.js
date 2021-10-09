@@ -111,8 +111,8 @@ const UserState = {
             const results = [];
             state.users.forEach(user => {
             if(user && user[data.field]) {
-                const field = user[data.field].toLowerCase();
-                if(field.includes(data.searchInput)) {
+                const field = user[data.field];
+                if(field.toLowerCase().includes(data.searchInput)) {
                     const text = data.field === 'name' ? field : field + ` (${user.full_name})`;
                     results.push({
                         text: text,

@@ -96,8 +96,8 @@ const OrderState = {
             const results = [];
             state.orders.forEach(order => {
             if(order && order[data.field]) {
-                const field = order[data.field].toLowerCase();
-                if(field.includes(data.searchInput)) {
+                const field = order[data.field];
+                if(field.toLowerCase().includes(data.searchInput)) {
                     results.push({
                         text: order.order_number,
                         component: 'Order',

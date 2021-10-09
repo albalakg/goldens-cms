@@ -155,7 +155,7 @@ export default {
     computed: {
         courseCategories() {
             const categories = this.$store.getters['CourseCategoryState/courseCategories'];
-            return categories ? categories.data : [];
+            return categories ? categories : [];
         },
 
         imageSrc() {

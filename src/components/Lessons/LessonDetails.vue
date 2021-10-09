@@ -144,23 +144,23 @@ export default {
 
     computed: {
         courseAreas() {
-            let data = {...this.$store.getters['CourseAreaState/courseAreas']};
+            let data = this.$store.getters['CourseAreaState/courseAreas'];
 
-            if(this.course_id && data && data.data) {
-                data.data = data.data.filter(item => item.course_id === this.course_id);
+            if(this.course_id && data) {
+                data = data.filter(item => item.course_id === this.course_id);
             }
 
-            return data ? data.data : [];
+            return data ? data : [];
         },
 
         courses() {
             const data = this.$store.getters['CourseState/courses'];
-            return data ? data.data : [];
+            return data ? data : [];
         },
 
         videos() {
             const data = this.$store.getters['VideoState/videos'];
-            return data ? data.data : [];
+            return data ? data : [];
         },
     },
 

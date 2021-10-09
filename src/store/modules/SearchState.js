@@ -32,7 +32,17 @@ const SearchState = {
             {
                 field: 'name',
                 components: ['UserState/searchByName'],
-                template: /\w+/
+                template: /.+/
+            },
+            {
+                field: 'name',
+                components: ['CourseState/searchByName'],
+                template: /.+/
+            },
+            {
+                field: 'name',
+                components: ['LessonState/searchByName'],
+                template: /.+/
             },
             {
                 field: 'email',

@@ -74,6 +74,29 @@ const LessonState = {
                 }
             })
         },
+        
+        async searchByName({dispatch}, searchInput) {
+            return await dispatch('searchByInput', {searchInput, field: 'name', field_name: 'name'}); 
+        },
+                
+        searchByInput({state}, data) {
+            const results = [];
+            state.lessons.forEach(lesson => {
+            if(lesson && lesson[data.field]) {
+                const field = lesson[data.field];
+                if(field.toLowerCase().includes(data.searchInput)) {
+                    const text = data.field === 'name' ? field : field + ` (${lesson.name})`;
+                    results.push({
+                        text: text,
+                        component: 'Lesson',
+                        type: `Lesson's ${data.field_name ? data.field_name : data.field}`,
+                        path: `/content/lessons/show/${lesson.id}` 
+                    })
+                }
+            }
+            });
+            return results;  
+        },
 
         createLesson({ commit }, lessonData) {
             return new Promise((resolve, reject) => {

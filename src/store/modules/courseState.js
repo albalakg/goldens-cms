@@ -74,6 +74,29 @@ const CourseState = {
             })
         },
 
+        async searchByName({dispatch}, searchInput) {
+            return await dispatch('searchByInput', {searchInput, field: 'name', field_name: 'name'}); 
+        },
+                
+        searchByInput({state}, data) {
+            const results = [];
+            state.courses.forEach(course => {
+            if(course && course[data.field]) {
+                const field = course[data.field];
+                if(field.toLowerCase().includes(data.searchInput)) {
+                    const text = data.field === 'name' ? field : field + ` (${course.name})`;
+                    results.push({
+                        text: text,
+                        component: 'Course',
+                        type: `Course's ${data.field_name ? data.field_name : data.field}`,
+                        path: `/content/courses/show/${course.id}` 
+                    })
+                }
+            }
+            });
+            return results;  
+        },
+
         createCourse({ commit }, courseData) {
             return new Promise((resolve, reject) => {
                 const packageToSend = serialize(courseData, { indices: true });

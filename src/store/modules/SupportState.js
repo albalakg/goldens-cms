@@ -113,8 +113,8 @@ const SupportState = {
             const results = [];
             state.support_tickets.forEach(support => {
             if(support && support[data.field]) {
-                const field = support[data.field].toLowerCase();
-                if(field.includes(data.searchInput)) {
+                const field = support[data.field];
+                if(field.toLowerCase().includes(data.searchInput)) {
                     results.push({
                         text: support.support_number,
                         component: 'Support',
