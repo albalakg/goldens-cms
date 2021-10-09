@@ -83,7 +83,6 @@ export default {
 
     computed: {
         name() {
-            console.log('Auth.id()', Auth.id());
             return this.$store.getters['AppState/appName'];
         },
 

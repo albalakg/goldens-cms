@@ -3,14 +3,14 @@
         
         <div v-if="editedSupport">
             <TopCard 
-                :text="'Support ' + editedSupport.full_name"
+                :text="'Support ' + editedSupport.support_number"
             />
 
             <br>
             
-            <v-tabs vertical class="support_show_card">
+            <v-tabs vertical class="support_show_card" v-model="currentTab">
                 <template v-for="(tab, index) in tabs">
-                    <v-tab :key="index">
+                    <v-tab :key="index" @click="setTab(index)">
                         {{tab.text}}
                     </v-tab>
                 </template>
@@ -19,7 +19,7 @@
                     <v-tab-item :key="index">
 
                         <div class="pl-5">
-                            <component :support="editedSupport" :is="tab.component" />
+                            <component :supportTicket="editedSupport" :is="tab.component" />
                         </div>
                     </v-tab-item>
                 </template>
@@ -34,13 +34,15 @@
 <script>
 import FormLoader from '../../../components/Loaders/FormLoader.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
-import SupportDetails from '../../../components/Support/SupportDetails.vue'
+import SupportDetails from '../../../components/Support/SupportTickets/SupportTicketDetails.vue'
+import SupportHistory from '../../../components/Support/SupportTickets/SupportTicketHistory.vue'
 
 export default {
     components: {
         FormLoader,
         TopCard,
         SupportDetails,
+        SupportHistory,
     },
 
     data() {
@@ -50,13 +52,18 @@ export default {
                     text: 'Details', 
                     component: 'SupportDetails', 
                 },
+                { 
+                    text: 'History', 
+                    component: 'SupportHistory', 
+                },
             ],
             editedSupport: null,
         }
     },
 
     created() {
-        return this.getSupport();
+        this.goToTab()
+        this.getSupport();
     },
 
     watch: {
@@ -101,7 +108,22 @@ export default {
                 .finally(() => {
                     this.loading = false;
                 });
-        }
+        },
+
+        setTab(index) {
+            this.$router.push(
+                {
+                    path: this.$route.path,
+                    query: { 
+                        tab: index
+                    }
+                }
+            )
+        },
+        
+        goToTab() {
+            this.currentTab = Number(this.$route.query.tab);
+        },
     }
 }
 </script>

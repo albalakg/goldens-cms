@@ -32,7 +32,6 @@ class Auth {
     }
 
     id() {
-        console.log('this.get()', this.get());
         return this.get() ? this.get().id : null;
     }
 

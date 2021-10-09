@@ -16,11 +16,9 @@ const SupportState = {
 
     mutations: {
         SET_NEW_SUPPORT_CATEGORY(state, data) {
-            if(!state.support_categories) {
-                return;
+            if(state.support_categories) {
+                state.support_categories.unshift(data);
             }
-
-            state.support_categories.unshift(data);
         },
 
         SET_UPDATED_SUPPORT_TICKET(state, supportData) {
@@ -49,6 +47,14 @@ const SupportState = {
             if(state.support_categories) {
                 state.support_categories = state.support_categories.filter(support => !ids.includes(support.id));
             }
+        },
+
+        SET_NEW_SUPPORT_TICKET_MESSAGE(state, data) {
+            state.support_tickets.forEach(ticket => {
+                if(ticket.id === data.support_ticket_id) {
+                    ticket.messages.unshift(data);
+                }
+            })
         }
     },
 
@@ -98,7 +104,6 @@ const SupportState = {
                 }
             })
         },
-
         
         async searchBySupportNumber({dispatch}, searchInput) {
             return await dispatch('searchByInput', {searchInput, field: 'support_number', field_name: 'support number'}); 
@@ -137,6 +142,20 @@ const SupportState = {
                 axios.post('cms/support/categories/create', supportData)
                     .then(res => {
                         commit('SET_NEW_SUPPORT_CATEGORY', res.data.data);
+                        resolve(res.data);
+                    })
+                    .catch(err => {
+                        console.warn('createSupportCategory: ', err);
+                        reject(err.response.data)
+                    })
+            }) 
+        },
+
+        createSupportTicketMessage({ commit }, supportData) {
+            return new Promise((resolve, reject) => {
+                axios.post('cms/support/tickets/messages/create', supportData)
+                    .then(res => {
+                        commit('SET_NEW_SUPPORT_TICKET_MESSAGE', res.data.data);
                         resolve(res.data);
                     })
                     .catch(err => {

@@ -87,7 +87,7 @@ export default {
 
     methods: {
         viewItem(item) {
-            this.$router.push('/content/support_tickets/show/' + item.id)
+            this.$router.push('/support/tickets/show/' + item.id)
         },
 
         filterByStatus(statuses) {

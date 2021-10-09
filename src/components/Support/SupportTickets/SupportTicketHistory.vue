@@ -5,11 +5,11 @@
             <v-form class="w100" @submit.prevent="submit()" ref="form">
                 <v-textarea
                     outlined
-                    v-model="form.comment"
+                    v-model="form.message"
                     counter
                     maxlength="5000"
                     label="Comment"
-                    :rules="[rules.comment]"
+                    :rules="[rules.message]"
                 ></v-textarea>
                 <SubmitButton
                     :loading="loading"
@@ -22,31 +22,31 @@
 
         <v-timeline
             :dense="$vuetify.breakpoint.smAndDown"
-            >
+        >
             <v-timeline-item
-                v-for="(comment, index) in comments"
+                v-for="(message, index) in messages"
                 :key="index"
-                :color="comment.created_by === test.user_course.user_id ? 'red' : 'blue'"
+                :color="message.created_by === supportTicket.user_id ? 'red' : 'blue'"
             >
                 <span slot="opposite">
-                    {{comment.human_time}}
+                    {{message.human_time}}
                 </span>
                 <v-card class="elevation-2">
                     <v-card-title class="text-h5 pb-0">
-                        {{comment.full_name}} 
+                        {{message.full_name}} 
                     </v-card-title>
-                <v-card-text class="comment_text">
-                    {{comment.comment}}                    
+                <v-card-text class="message_text">
+                    {{message.message}}                    
                 </v-card-text>
                 <div class="pl-4 pb-3 pr-5">
                     <small>
                         <v-flex d-flex justify-space-between>
                             <span>
-                                {{comment.created_at}}
+                                {{message.created_at}}
                             </span>
-                            <router-link :to="`/users/show/${comment.created_by}`">
-                                <strong :class="`${comment.created_by === test.user_course.user_id ? 'teal' : 'black'}--text`" :title="`Show ${comment.full_name}`">
-                                    {{comment.created_by === test.user_course.user_id ? 'Customer' : 'Tester'}}
+                            <router-link :to="`/users/show/${message.created_by}`">
+                                <strong :class="`${message.created_by === supportTicket.created_by ? 'teal' : 'black'}--text`" :title="`Show ${message.full_name}`">
+                                    {{message.created_by === supportTicket.user_id ? 'Customer' : 'Support'}}
                                 </strong>
                             </router-link>
                         </v-flex>
@@ -59,10 +59,10 @@
 </template>
 
 <script>
-import TableCard from '../Cards/TableCard.vue'
-import {COMMENT_RULE} from '../../helpers/Rules' 
-import {COMMENT_MESSAGE} from '../../helpers/Messages' 
-import SubmitButton from '../Buttons/SubmitButton.vue'
+import TableCard from '../../Cards/TableCard.vue'
+import {COMMENT_RULE} from '../../../helpers/Rules' 
+import {COMMENT_MESSAGE} from '../../../helpers/Messages' 
+import SubmitButton from '../../Buttons/SubmitButton.vue'
 
 export default {
     components: {
@@ -73,39 +73,42 @@ export default {
     data() {
         return {
             form: {
-                comment: ''
+                message: ''
             },
             rules: {
-                comment: v => COMMENT_RULE.test(v) || COMMENT_MESSAGE,
+                message: v => COMMENT_RULE.test(v) || COMMENT_MESSAGE,
             },
             loading: false
         }
     },
     
     props: {
-        test: {
+        supportTicket: {
             type: Object,
             required: true
         }
     },
 
     computed: {
-        comments() {
+        messages() {
             const users = this.$store.getters['UserState/users'];
+            if(!users) {
+                return [];
+            }
 
-            const comments = this.test.comments.map(comment => {
-                const user = users.find(user => user.id === comment.created_by);
-                comment.full_name = user ? user.full_name : 'Unknown';
+            const messages = this.supportTicket.messages.map(message => {
+                const user = users.find(user => user.id === message.created_by);
+                message.full_name = user ? user.full_name : 'Unknown';
                 
-                return comment;
+                return message;
             });
 
-            return comments;
+            return messages;
         }
     },
 
     created() {
-        this.form.user_course_submission_id = this.test.id;
+        this.form.support_ticket_id = this.supportTicket.id;
     },
 
     methods: {
@@ -117,22 +120,22 @@ export default {
             }
 
             this.loading = true;
-            this.$store.dispatch('TestState/createComment', this.form)
+            this.$store.dispatch('SupportState/createSupportTicketMessage', this.form)
                 .then(res => {
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: `Comment created successfully`
+                        message: `Message created successfully`
                     });
                 })
                 .catch(err => {
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to create the comment',
+                        message: 'Failed to create the message',
                         type: 'error',
                     });
                 })
                 .finally(() => {
                     this.loading = false;
-                    this.form.comment = '';
+                    this.form.message = '';
                     this.$refs.form.reset()
                 });
         }
