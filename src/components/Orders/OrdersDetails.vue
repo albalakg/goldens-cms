@@ -74,6 +74,8 @@
                                 </v-flex>
                                 <v-flex xs1 class="ml-5 mr-3">
                                     <SubmitButton 
+                                        :disabled="canSubmit"
+                                        :title="canSubmit ? 'Need to change the status to update' : ''"
                                         text="Update"
                                         :height="55"
                                         :loading="loading"
@@ -92,10 +94,12 @@
 <script>
 import { ORDER_SELECTION } from '../../helpers/Status'
 import SubmitButton from '../Buttons/SubmitButton.vue'
+import StatusChip from './../Status/StatusChip.vue';
 
 export default {
     components: {
-        SubmitButton
+        SubmitButton,
+        StatusChip
     },
 
     props: {
@@ -125,6 +129,10 @@ export default {
             const courses   = this.$store.getters['CourseState/courses'];
             return courses.find(course => course.id === this.order.content_id);
         },
+
+        canSubmit() {
+            return this.form.status === this.order.status;
+        }
     },
 
     created() {

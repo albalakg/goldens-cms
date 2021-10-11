@@ -1,20 +1,22 @@
 <template>
-    <v-btn
-        :loading="loading"
-        :class="loading ? 'disabled' : ''"
-        :height="height"
-        block
-        :type="type"
-        @click="submit()"
-        dark
-        color="purple darken-4"
-    >
-        <slot name="content">
-        </slot>
-        <strong>
-            {{text}}
-        </strong>
-    </v-btn>
+    <span :title="title ? title : ''">
+        <v-btn
+            :loading="loading"
+            :class="loading || disabled ? 'disabled' : ''"
+            :height="height"
+            block
+            :type="type"
+            @click="submit()"
+            dark
+            color="purple darken-4"
+        >
+            <slot name="content">
+            </slot>
+            <strong>
+                {{text}}
+            </strong>
+        </v-btn>
+    </span>
 </template>
 
 <script>
@@ -31,7 +33,16 @@ export default {
             default: 'button',
         },
 
+        title: {
+            type: String,
+            default: 'button',
+        },
+
         loading: {
+            type: Boolean,
+        },
+
+        disabled: {
             type: Boolean,
         },
 

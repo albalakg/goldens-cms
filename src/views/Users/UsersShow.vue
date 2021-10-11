@@ -75,11 +75,7 @@ export default {
                 { 
                     text: 'Orders', 
                     component: 'UserOrders', 
-                },
-                { 
-                    text: 'Activity', 
-                    component: 'UserActivity', 
-                },
+                }
             ],
             currentTab: 0,
             editedUser: null,

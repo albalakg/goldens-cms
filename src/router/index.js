@@ -278,6 +278,46 @@ const routes = [
   },
   // ***** SUPPORT CATEGORIES END *****
 
+  // ***** POLICIES TERMS AND CONDITIONS START *****
+  {
+    path: '/policies/terms-and-conditions',
+    component: () => import('../views/Policies/TermsAndConditions/TermsAndConditionsIndex'),
+    beforeEnter: Guard.admin,
+    children: [
+      {
+        path: '',
+        name: 'TermsAndConditions',
+        component: () => import('../views/Policies/TermsAndConditions/TermsAndConditionsList.vue'),
+      },
+      {
+        path: 'new',
+        name: 'TermsAndConditionsCreate',
+        component: () => import('../views/Policies/TermsAndConditions/TermsAndConditionsCreate.vue'),
+      },
+    ]
+  },
+  // ***** POLICIES TERMS AND CONDITIONS END *****
+
+  // ***** POLICIES COOKIES START *****
+  {
+    path: '/policies/cookies',
+    component: () => import('../views/Policies/Cookies/CookiesIndex'),
+    beforeEnter: Guard.admin,
+    children: [
+      {
+        path: '',
+        name: 'Cookies',
+        component: () => import('../views/Policies/Cookies/CookiesList.vue'),
+      },
+      {
+        path: 'new',
+        name: 'CookiesCreate',
+        component: () => import('../views/Policies/Cookies/CookiesCreate.vue'),
+      },
+    ]
+  },
+  // ***** POLICIES COOKIES END *****
+
   {
     path: '*',
     name: 'PageNotFound',

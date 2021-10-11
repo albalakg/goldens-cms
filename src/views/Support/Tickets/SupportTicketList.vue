@@ -9,7 +9,7 @@
         <TableCard
             :headers="headers"
             :items="support_tickets"
-            :loading="loadingSupport_tickets"
+            :loading="isLoading"
             :filterStatus="statuses"
             viewable
             searchable
@@ -80,7 +80,7 @@ export default {
             return support_tickets;
         },
 
-        loadingSupport_tickets() {
+        isLoading() {
             return !this.$store.getters['SupportState/support_tickets'];
         }
     },

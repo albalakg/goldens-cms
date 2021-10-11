@@ -108,18 +108,18 @@ export default {
                     ]
                 },
                 {
-                    text: 'Settings',
-                    url: '/settings',
-                    childrenUrl: '/settings/terms-conditions',
-                    icon: 'mdi-cog',
+                    text: 'Policies',
+                    url: '/policies',
+                    childrenUrl: '/policies/terms-and-conditions',
+                    icon: 'mdi-notebook-multiple',
                     children: [
                         {
                             text: 'Terms & Conditions',
-                            url: '/settings/terms-conditions',
+                            url: '/policies/terms-and-conditions',
                         },
                         {
                             text: 'Cookies',
-                            url: '/settings/cookies',
+                            url: '/policies/cookies',
                         },
                     ]
                 },

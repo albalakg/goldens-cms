@@ -105,6 +105,8 @@
                                 </v-flex>
                                 <v-flex xs1 class="ml-5">
                                     <SubmitButton 
+                                        :disabled="canSubmit"
+                                        :title="canSubmit ? 'Need to change the status to update' : ''"
                                         text="Update"
                                         :height="55"
                                         :loading="loading"
@@ -161,6 +163,10 @@ export default {
                 return {};
             }
             return categories.find(category => category.id === this.supportTicket.support_category_id);
+        },
+
+        canSubmit() {
+            return this.form.status === this.supportTicket.status;
         }
     },
 

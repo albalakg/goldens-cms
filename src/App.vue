@@ -66,6 +66,8 @@ export default {
       this.$store.dispatch('SupportState/getSupportCategories');
       this.$store.dispatch('CourseCategoryState/getCourseCategories');
       this.$store.dispatch('UserCourseState/getUsersCourses');
+      this.$store.dispatch('PoliciesState/getCookies');
+      this.$store.dispatch('PoliciesState/getTermsAndConditions');
       this.$store.dispatch('AppState/updateLogState', Auth.isLogged());
       this.$store.dispatch('AppState/updateItemsPerPage', window.screen.width > 1600 ? 10 : 5)
     }
