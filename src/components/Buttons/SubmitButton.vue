@@ -1,5 +1,5 @@
 <template>
-    <span :title="title ? title : ''">
+    <v-flex :title="title ? title : ''">
         <v-btn
             :loading="loading"
             :class="loading || disabled ? 'disabled' : ''"
@@ -16,7 +16,7 @@
                 {{text}}
             </strong>
         </v-btn>
-    </span>
+    </v-flex>
 </template>
 
 <script>

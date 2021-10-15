@@ -30,16 +30,6 @@
                                     label="Description"
                                     :rules="[rules.description]"
                                 ></v-textarea>
-                                <v-autocomplete
-                                    outlined
-                                    :items="courses"
-                                    :loading="!courses.length"
-                                    item-text="name"
-                                    item-value="id"
-                                    v-model="form.course_id"
-                                    label="Course"
-                                    :rules="[rules.course_id]"
-                                ></v-autocomplete>
                             </div>
                         </template>
                     </FormCard>
@@ -73,6 +63,37 @@
                         </template>
                     </FormCard>
                 </v-flex>
+            </v-flex>
+            <br>
+            <v-flex>
+                <FormCard
+                        title="Content"
+                    >
+                        <template slot="content">
+                            <div class="px-4">
+                                <v-autocomplete
+                                    outlined
+                                    :items="courses"
+                                    :loading="!courses.length"
+                                    item-text="name"
+                                    item-value="id"
+                                    v-model="form.course_id"
+                                    label="Course"
+                                    :rules="[rules.course_id]"
+                                ></v-autocomplete>
+                                <v-combobox
+                                    outlined
+                                    item-value="id"
+                                    item-text="name"
+                                    :items="lessons"
+                                    multiple
+                                    v-model="form.lessons"
+                                    label="Lessons"
+                                    counter
+                                ></v-combobox>
+                            </div>
+                        </template>
+                    </FormCard>
             </v-flex>
             <v-flex d-flex justify-space-between class="mt-10">
                 <v-flex md12 lg6 class="pr-5">
@@ -113,7 +134,8 @@ export default {
             form: {
                 name:           '',
                 description:    '',
-                course_id:    '',
+                course_id:      '',
+                lessons:        []
             },
             image: null,
             trailer: null,
@@ -131,6 +153,17 @@ export default {
         courses() {
             const courses = this.$store.getters['CourseState/courses'];
             return courses ? courses : [];
+        },
+
+        lessons() {
+            const lessons = this.$store.getters['LessonState/lessons'];
+            if(!lessons) {
+                return [];
+            }
+
+            this.setFormLessons(lessons);
+
+            return lessons;
         },
 
         imageSrc() {
@@ -170,7 +203,15 @@ export default {
                 this.form.course_name = course.name;
             }
 
-            this.$store.dispatch('CourseAreaState/createCourseArea', {...this.form, image: this.image, trailer: this.trailer})
+            const data_to_send = {
+                ...this.form,
+                image: this.image,
+                trailer: this.trailer
+             }
+
+             data_to_send.lessons = this.form.lessons.map(lesson => lesson.id);
+
+            this.$store.dispatch('CourseAreaState/createCourseArea', data_to_send)
                 .then(res => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Course Area ${this.form.name} created successfully`
@@ -235,6 +276,10 @@ export default {
                     image: IMAGE_FILE_SIZE_MESSAGE
                 };
             }
+        },
+
+        setFormLessons(lessons) {
+            
         }
     }
 }

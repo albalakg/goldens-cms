@@ -72,7 +72,7 @@ export default {
         },
 
         items() {
-            let data = this.userCourse.progress ? this.userCourse.progress.data : [];
+            let data = this.userCourse.progress ? this.userCourse.progress : [];
             if(!data.length) {
                 return data;
             }

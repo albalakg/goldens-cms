@@ -4,19 +4,21 @@
         :class="isOpen ? '' : 'sidebar_closed'"
     >
         <div 
-            class="sidebar_content app_light_bg_opacity"
-            
+            class="sidebar_content"
         >
             
-            <div v-show="isOpen" class="sidebar_top_wrapper text-center">
-                <p class="white--text">
-                    Welcome, 
-                    <br>
-                    <strong>
-                        {{name}}
-                    </strong>
-                </p>
-            </div>
+            <v-flex align-center justify-space-between class="sidebar_top_wrapper text-center" :class="isOpen ? '' : 'sidebar_top_wrapper_closed'">
+                <h1 v-show="isOpen" class="logo white--text">
+                    GOLDENS 
+                </h1>
+                
+                <v-app-bar-nav-icon 
+                    xLarge
+                    dark
+                    class="toolbar_menu ml-3"
+                    @click="toggleSidebar()"
+                ></v-app-bar-nav-icon>
+            </v-flex>
             
             <div class="sidebar_links_wrapper mt-10">
                 <template v-for="(link, index) in links">
@@ -25,6 +27,24 @@
                         :link="link" 
                     />
                 </template>
+            </div>
+
+            <div class="sidebar_footer_profile">
+                <div class="mt-2 pointer" @click="enterProfile()">
+                    <strong>
+                        {{
+                            name
+                        }}
+                    </strong>
+                    <br>
+                    <small>
+                        {{
+                            role
+                        }}
+                    </small>
+                </div>
+
+                <v-icon @click="logout()" title="logout" class="pointer" color="white">mdi-logout</v-icon>
             </div>
 
         </div>
@@ -134,6 +154,26 @@ export default {
 
         name() {
             return Auth.fullName()
+        },
+
+        role() {
+            return Auth.role()
+        },
+    },
+
+    methods: {
+        toggleSidebar() {
+            this.$store.dispatch('AppState/updateSidebarState', !this.$store.getters['AppState/sidebarState'])
+        },
+
+        logout() {
+            this.$router.push('/logout');
+        },
+
+        enterProfile() {
+            if(this.$route.path !== '/users/show/' + Auth.id()) {
+                this.$router.push('/users/show/' + Auth.id())
+            }
         }
     }
 }
@@ -148,15 +188,49 @@ export default {
         z-index: 10;
     }
 
-    .sidebar_content {
-        height: calc(100vh - 96px);
-        width: 90%;
-        margin-left: 10%;
+    .sidebar_top_wrapper {
+        height: 48px;
+        padding: 10px;
+    }
+
+    .sidebar_top_wrapper_closed > button{
+        position: relative;
+        left: -45px;
+    }
+
+    .sidebar_links_wrapper {
+        height: calc(100vh - 146px);
         margin-top: 48px;
         border-radius: 10px 0 0 10px;
         padding: 20px;
         overflow-y: auto
     }
+
+    .sidebar_footer_profile {
+        color: #fff;
+        position: relative;
+        background-color: #ffffff1a;
+        height: 58px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 15px;
+    }
+
+    .sidebar_footer_profile small {
+        position: relative;
+        top: -5px;
+    }
+
+    // .sidebar_content {
+    //     height: calc(100vh - 96px);
+    //     width: 90%;
+    //     margin-left: 10%;
+    //     margin-top: 48px;
+    //     border-radius: 10px 0 0 10px;
+    //     padding: 20px;
+    //     overflow-y: auto
+    // }
 
     // V2 design
     // Also change background-color to yellow

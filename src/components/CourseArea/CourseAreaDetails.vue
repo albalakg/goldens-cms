@@ -32,6 +32,15 @@
                                 label="Course"
                                 :rules="[rules.course_id]"
                             ></v-autocomplete>
+                            <v-combobox
+                                outlined
+                                item-value="id"
+                                item-text="name"
+                                :items="lessons"
+                                label="Lessons"
+                                multiple
+                                v-model="form.lessons"
+                            ></v-combobox>
                             <v-select
                                 outlined
                                 :items="statuses"
@@ -39,6 +48,7 @@
                                 item-value="value"
                                 v-model="form.status"
                                 label="Status"
+                                counter
                             ></v-select>
                         </div>
                     </template>
@@ -121,6 +131,7 @@ export default {
                 description:    '',
                 course_id:      '',
                 status:         '',
+                lessons:        [],
             },
             image: null,
             trailer: null,
@@ -143,6 +154,11 @@ export default {
         courses() {
             const courses = this.$store.getters['CourseState/courses'];
             return courses ? courses : [];
+        },
+
+        lessons() {
+            const lessons = this.$store.getters['LessonState/lessons'];
+            return lessons ? lessons : [];
         },
 
         imageSrc() {
@@ -196,8 +212,16 @@ export default {
             if(course) {
                 this.form.course_name = course.name;
             }
+
+            const data_to_send = {
+                ...this.form,
+                image: this.image,
+                trailer: this.trailer
+            }
+
+            data_to_send.lessons = this.form.lessons.map(lesson => lesson.id);
             
-            this.$store.dispatch('CourseAreaState/updateCourseArea', {...this.form, image: this.image, trailer: this.trailer})
+            this.$store.dispatch('CourseAreaState/updateCourseArea', data_to_send)
                 .then(res => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Course Area ${this.form.name} updated successfully`

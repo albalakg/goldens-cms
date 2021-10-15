@@ -10,12 +10,10 @@
                 tile
             >
                 <v-toolbar dense>
-                <v-app-bar-nav-icon 
+                <!-- <v-app-bar-nav-icon 
                     class="toolbar_menu ml-3"
                     @click="toggleSidebar()"
-                ></v-app-bar-nav-icon>
-
-                <v-toolbar-title>{{name}}</v-toolbar-title>
+                ></v-app-bar-nav-icon> -->
 
                 <v-spacer></v-spacer>
 
@@ -92,10 +90,6 @@ export default {
     },
 
     methods: {
-        toggleSidebar() {
-            this.$store.dispatch('AppState/updateSidebarState', !this.$store.getters['AppState/sidebarState'])
-        },
-
         logout() {
             Auth.logout()
         },

@@ -61,7 +61,11 @@
                         Status
                     </v-list-item-title>
                     <v-list-item-subtitle>
-                        <v-form>
+                        <StatusChip 
+                            :customText="statuses"
+                            :status="order.status"
+                        />
+                        <!-- <v-form>
                             <v-flex d-flex justify-space-between>
                                 <v-flex xs11>
                                     <v-select
@@ -83,7 +87,7 @@
                                     />
                                 </v-flex>
                             </v-flex>
-                        </v-form>
+                        </v-form> -->
                     </v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
@@ -92,7 +96,7 @@
 </template>
 
 <script>
-import { ORDER_SELECTION } from '../../helpers/Status'
+import { ORDER_STATUSES } from '../../helpers/Status'
 import SubmitButton from '../Buttons/SubmitButton.vue'
 import StatusChip from './../Status/StatusChip.vue';
 
@@ -115,7 +119,7 @@ export default {
                 status: null
             },
             loading: false,
-            statuses: ORDER_SELECTION
+            statuses: ORDER_STATUSES
         }
     },
 

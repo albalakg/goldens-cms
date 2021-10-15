@@ -3,10 +3,7 @@
         <v-flex d-flex align-center md10 lg6 xl4 mx-auto>
             <v-card class="pa-5 w100 login_card text-center">
                 <div>
-                    <h2 class="font_title">
-                        LOGIN TO
-                    </h2>
-                    <h1 class="font_title">
+                    <h1 class="logo">
                         GOLDENS
                     </h1>
                 </div>
@@ -125,6 +122,10 @@ export default {
 
     .login_card {
         height: 50vh;
+    }
+
+    .logo {
+        font-size: 4em;
     }
 
 </style>

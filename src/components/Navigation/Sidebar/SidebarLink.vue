@@ -136,7 +136,7 @@ export default {
 
     .sidebar_link_row {
         background-color: #FFFFFF11;
-        padding: 5px 5px 5px 10px;
+        padding: 25px 20px;
         height: 40px;
         transition: .3s all linear;
     }
@@ -149,7 +149,7 @@ export default {
     .sidebar_link_active {
         font-weight: bold;
         transform: translateX(10px);
-        background-color: #FFFFFFAA !important;
+        background-color: #FFFFFFCC !important;
     }
 
     .sidebar_childrens {

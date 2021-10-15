@@ -81,7 +81,7 @@ export default {
         },
 
         items() {
-            let data = this.userCourse.progress ? this.userCourse.progress.data : [];
+            let data = this.userCourse.progress ? this.userCourse.progress : [];
             if(!data.length) {
                 return data;
             }
@@ -118,7 +118,7 @@ export default {
     },
 
     created() {
-        this.$store.dispatch('UserCourseState/getUserCourseExtenstions', this.userCourse.id)
+        this.$store.dispatch('UserCourseState/getUserCourseExtensions', this.userCourse.id)
     },
 
     methods: {

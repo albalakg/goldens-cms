@@ -70,3 +70,10 @@
     overflow-y: auto;
     margin-bottom: 10px;
 }
+
+.logo {
+    font-size: 26px;
+    font-weight: 300;
+    letter-spacing: 5px;
+    font-family: 'Bebas Neue', cursive;
+}
