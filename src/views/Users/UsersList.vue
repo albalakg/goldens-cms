@@ -3,6 +3,7 @@
         <TopCard 
             text="Users"
             createable
+            @reload="reload()"
         />
 
         <br>
@@ -82,6 +83,10 @@ export default {
 
         filterByStatus(statuses) {
             this.filterStatuses = statuses;
+        },
+
+        reload() {
+            this.$store.dispatch('UserState/getUsers');
         }
     }
 }

@@ -59,10 +59,8 @@ const SupportState = {
     },
 
     actions: {
-        getSupportTickets({ state, commit, dispatch }) {
-            if(state.support_tickets) {
-                return;
-            }
+        getSupportTickets({ commit, dispatch }) {
+            commit('SET_SUPPORT_TICKETS', null);
 
             axios.get('cms/support/tickets')
                 .then(res => {
@@ -77,10 +75,8 @@ const SupportState = {
                 })
         },
 
-        getSupportCategories({ state, commit, dispatch }) {
-            if(state.support_categories) {
-                return;
-            }
+        getSupportCategories({ commit, dispatch }) {
+            commit('SET_SUPPORT_CATEGORIES', null);
 
             axios.get('cms/support/categories')
                 .then(res => {

@@ -3,6 +3,7 @@
         <TopCard 
             text="Course Areas"
             createable
+            @reload="reload()"
         />
 
         <br>
@@ -81,6 +82,10 @@ export default {
 
         filterByStatus(statuses) {
             this.filterStatuses = statuses;
+        },
+
+        reload() {
+            this.$store.dispatch('CourseAreaState/getCourseAreas');
         }
     }
 }

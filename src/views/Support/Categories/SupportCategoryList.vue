@@ -3,6 +3,7 @@
         <TopCard 
             text="Support Categories"
             createable
+            @reload="reload"
         />
 
         <br>
@@ -73,6 +74,10 @@ export default {
 
         filterByStatus(statuses) {
             this.filterStatuses = statuses;
+        },
+
+        reload() {
+            this.$store.dispatch('SupportState/getSupportCategories');
         }
     }
 }

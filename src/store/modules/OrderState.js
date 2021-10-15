@@ -59,10 +59,8 @@ const OrderState = {
     },
 
     actions: {
-        getOrders({ state, commit, dispatch }) {
-            if(state.orders) {
-                return;
-            }
+        getOrders({ commit, dispatch }) {
+            commit('SET_ORDERS', null);
 
             axios.get('cms/orders')
                 .then(res => {

@@ -65,10 +65,8 @@ const LessonState = {
     },
 
     actions: {
-        getLessons({ state, commit, dispatch }) {
-            if(state.lessons) {
-                return;
-            }
+        getLessons({ commit, dispatch }) {
+            commit('SET_LESSONS', null);
 
             axios.get('cms/lessons')
                 .then(res => {

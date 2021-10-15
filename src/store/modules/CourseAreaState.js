@@ -47,10 +47,8 @@ const CourseAreaState = {
     },
 
     actions: {
-        getCourseAreas({ state, commit, dispatch }) {
-            if(state.courseAreas) {
-                return;
-            }
+        getCourseAreas({ commit, dispatch }) {
+            commit('SET_COURSE_AREAS', null);
 
             axios.get('cms/course-areas')
                 .then(res => {

@@ -57,6 +57,7 @@ export default {
     setInitialSettings() {
       this.$store.dispatch('UserState/getUsers');
       this.$store.dispatch('CourseState/getCourses');
+      this.$store.dispatch('CourseCategoryState/getCourseCategories');
       this.$store.dispatch('LessonState/getLessons');
       this.$store.dispatch('VideoState/getVideos');
       this.$store.dispatch('CourseAreaState/getCourseAreas');
@@ -64,7 +65,6 @@ export default {
       this.$store.dispatch('OrderState/getOrders');
       this.$store.dispatch('SupportState/getSupportTickets');
       this.$store.dispatch('SupportState/getSupportCategories');
-      this.$store.dispatch('CourseCategoryState/getCourseCategories');
       this.$store.dispatch('UserCourseState/getUsersCourses');
       this.$store.dispatch('PoliciesState/getCookies');
       this.$store.dispatch('PoliciesState/getTermsAndConditions');

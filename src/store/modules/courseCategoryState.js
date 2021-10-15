@@ -47,10 +47,8 @@ const CourseCategoryState = {
     },
 
     actions: {
-        getCourseCategories({ state, commit, dispatch }) {
-            if(state.courseCategories) {
-                return;
-            }
+        getCourseCategories({ commit, dispatch }) {
+            commit('SET_COURSE_CATEGORIES', null);
 
             axios.get('cms/course-categories')
                 .then(res => {

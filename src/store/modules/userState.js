@@ -51,10 +51,12 @@ const UserState = {
 
         SET_USERS(state, users) {
             // add full name
-            users = users.map(user => {
-                user.full_name = user.first_name + ' ' + user.last_name;
-                return user; 
-            })
+            if(users) {
+                users = users.map(user => {
+                    user.full_name = user.first_name + ' ' + user.last_name;
+                    return user; 
+                })
+            }
 
             state.users = users;
         },
@@ -68,9 +70,7 @@ const UserState = {
 
     actions: {
         getUsers({ state, commit, dispatch }) {
-            if(state.users) {
-                return;
-            }
+            commit('SET_USERS', null);
 
             axios.get('cms/users')
                 .then(res => {

@@ -58,10 +58,8 @@ const TestState = {
     },
 
     actions: {
-        getTests({ state, commit, dispatch }) {
-            if(state.tests) {
-                return;
-            }
+        getTests({ commit, dispatch }) {
+            commit('SET_TESTS', null);
 
             axios.get('cms/user-courses/tests')
                 .then(res => {

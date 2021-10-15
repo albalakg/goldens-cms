@@ -2,6 +2,7 @@
     <v-container fluid>
         <TopCard 
             text="Tests"
+            @reload="reload()"
         />
 
         <br>
@@ -89,6 +90,10 @@ export default {
 
         filterByStatus(statuses) {
             this.filterStatuses = statuses;
+        },
+
+        reload() {
+            this.$store.dispatch('TestState/getTests');
         }
     }
 }

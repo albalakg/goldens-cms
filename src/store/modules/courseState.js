@@ -46,10 +46,8 @@ const CourseState = {
     },
 
     actions: {
-        getCourses({ state, commit, dispatch }) {
-            if(state.courses) {
-                return;
-            }
+        getCourses({ commit, dispatch }) {
+            commit('SET_COURSES', null);
 
             axios.get('cms/courses')
                 .then(res => {

@@ -31,10 +31,8 @@ const UserCourseState = {
     },
 
     actions: {
-        getUsersCourses({ state, commit, dispatch }) {
-            if(state.users_courses) {
-                return;
-            }
+        getUsersCourses({ commit, dispatch }) {
+            commit('SET_USERS_COURSES', null);
 
             axios.get('cms/user-courses')
                 .then(res => {

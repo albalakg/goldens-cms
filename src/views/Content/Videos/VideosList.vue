@@ -3,6 +3,7 @@
         <TopCard 
             text="Videos"
             createable
+            @reload="reload()"
         />
 
         <br>
@@ -80,6 +81,10 @@ export default {
 
         filterByStatus(statuses) {
             this.filterStatuses = statuses;
+        },
+
+        reload() {
+            this.$store.dispatch('VideoState/getVideos');
         }
     }
 }

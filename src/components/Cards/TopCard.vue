@@ -1,10 +1,17 @@
 <template>
     <v-card class="py-2 px-5">
         <v-flex d-flex justify-space-between align-center>
-            <h1 class="font_title">
-                {{text}}
-            </h1>
-            <v-btn v-if="createable" color="teal" dark fab small @click="create()">
+            
+            <v-flex d-flex align-center>
+                <v-icon @click="reload()" v-if="reloadable" class="mr-2 pointer" color="black">mdi-reload</v-icon>
+
+                <h1 class="font_title logo">
+                    {{text}}
+                </h1>
+
+            </v-flex>
+
+            <v-btn class="ml-2" v-if="createable" color="teal" dark fab small @click="create()">
                 <v-icon>mdi-plus-circle</v-icon>
             </v-btn>
         </v-flex>
@@ -24,6 +31,11 @@ export default {
             type: Boolean
         },
         
+        reloadable: {
+            type: Boolean,
+            default: true
+        },
+        
         createLink: {
             type: String,
         }
@@ -36,6 +48,10 @@ export default {
             }
 
             this.$router.push(this.$route.path + '/new');
+        },
+
+        reload() {
+            this.$emit('reload');
         }
     }
     
