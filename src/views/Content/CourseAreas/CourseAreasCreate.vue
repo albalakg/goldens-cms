@@ -86,10 +86,9 @@
                                     item-value="id"
                                     item-text="name"
                                     :items="lessons"
+                                    label="Lessons"
                                     multiple
                                     v-model="form.lessons"
-                                    label="Lessons"
-                                    counter
                                 ></v-combobox>
                             </div>
                         </template>
@@ -160,10 +159,12 @@ export default {
             if(!lessons) {
                 return [];
             }
+            
+            if(this.courseArea) {
+                this.form.lessons = lessons.filter(lesson => lesson.course_area_id === this.form.id);
+            }
 
-            this.setFormLessons(lessons);
-
-            return lessons;
+            return lessons.filter(lesson => !lesson.course_area_id);
         },
 
         imageSrc() {
@@ -209,13 +210,16 @@ export default {
                 trailer: this.trailer
              }
 
-             data_to_send.lessons = this.form.lessons.map(lesson => lesson.id);
+            data_to_send.lessons = this.form.lessons.map(lesson => lesson.id);
 
             this.$store.dispatch('CourseAreaState/createCourseArea', data_to_send)
                 .then(res => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Course Area ${this.form.name} created successfully`
                     });
+
+                    this.$store.dispatch('LessonState/assignLessons', {lessons: data_to_send.lessons, courseArea: res.data});
+
                     this.$router.push('/content/course-areas')
                 })
                 .catch(err => {

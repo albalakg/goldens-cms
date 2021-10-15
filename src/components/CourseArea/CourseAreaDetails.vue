@@ -84,7 +84,7 @@
                 </FormCard>
             </v-flex>
         </v-flex>
-        <v-flex d-flex justify-space-between class="mt-10">
+        <v-flex d-flex justify-space-between class="mt-10 mb-2">
             <v-flex md12 lg6 class="pr-5">
                 <CancelButton 
                     goBack
@@ -140,7 +140,7 @@ export default {
             rules: {
                 name:           v => NAME_RULE.test(v)           || NAME_MESSAGE,
                 description:    v => DESCRIPTION_RULE.test(v)    || DESCRIPTION_MESSAGE,
-                course_id:      v => ID_RULE.test(v)                    || COURSE_MESSAGE,
+                course_id:      v => ID_RULE.test(v)             || COURSE_MESSAGE,
             },
             statuses: STATUSES_SELECTION
         }
@@ -158,7 +158,15 @@ export default {
 
         lessons() {
             const lessons = this.$store.getters['LessonState/lessons'];
-            return lessons ? lessons : [];
+            if(!lessons) {
+                return [];
+            }
+            
+            if(this.courseArea) {
+                this.form.lessons = lessons.filter(lesson => lesson.course_area_id === this.form.id);
+            }
+
+            return lessons.filter(lesson => !lesson.course_area_id || lesson.course_area_id === this.form.id);
         },
 
         imageSrc() {
@@ -219,14 +227,19 @@ export default {
                 trailer: this.trailer
             }
 
-            data_to_send.lessons = this.form.lessons.map(lesson => lesson.id);
+            data_to_send.lessons            = this.form.lessons.map(lesson => lesson.id);
+            data_to_send.deleted_lessons    = this.getDeletedLessons();
             
             this.$store.dispatch('CourseAreaState/updateCourseArea', data_to_send)
                 .then(res => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Course Area ${this.form.name} updated successfully`
                     });
-                    this.$router.push('/content/course-areas')
+
+                    this.$store.dispatch('LessonState/assignLessons', {lessons: data_to_send.lessons, courseArea: this.courseArea});
+                    this.$store.dispatch('LessonState/unassignLessons', data_to_send.deleted_lessons);
+
+                    this.$router.push('/content/course-areas');
                 })
                 .catch(err => {
                     this.errors = err.errors;
@@ -282,6 +295,22 @@ export default {
                     image: IMAGE_FILE_SIZE_MESSAGE
                 };
             }
+        },
+
+        getDeletedLessons() {
+            const init_lessons = this.lessons.map(lesson => {
+                if(lesson.course_area_id === this.form.id) {
+                    return lesson.id
+                }
+            });
+
+            const lessons_ids = this.form.lessons.map(lesson => lesson.id);
+
+            return init_lessons.filter(lesson => {
+                if(!lessons_ids.includes(lesson)) {
+                    return lesson
+                }
+            })
         }
     }
 }

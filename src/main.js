@@ -5,6 +5,7 @@ import router from './router'
 import store from './store'
 import axios from "axios";
 import AxiosHandler from './helpers/AxiosHandler'
+import HotKeys from './helpers/HotKeys'
 
 Vue.config.productionTip = false
 

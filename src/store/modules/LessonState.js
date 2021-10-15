@@ -43,7 +43,25 @@ const LessonState = {
             if(state.lessons) {
                 state.lessons = state.lessons.filter(lesson => !lesson_ids.includes(lesson.id));
             }
-        }
+        },
+
+        ASSIGN_LESSONS(state, data) {
+            state.lessons.forEach(lesson => {
+                if(data.lessons.includes(lesson.id)) {
+                    lesson.course_area_id   = data.courseArea.id;
+                    lesson.course_id        = data.courseArea.course_id;
+                }
+            });
+        },
+
+        UNASSIGN_LESSONS(state, lessons) {
+            state.lessons.forEach(lesson => {
+                if(lessons.includes(lesson.id)) {
+                    lesson.course_area_id   = null;
+                    lesson.course_id        = null;
+                }
+            });
+        },
     },
 
     actions: {
@@ -140,7 +158,15 @@ const LessonState = {
                     })
             }) 
         },
-        
+
+        assignLessons({ commit }, data) {
+            commit('ASSIGN_LESSONS', data);
+        },
+
+        unassignLessons({ commit }, lessons) {
+            commit('UNASSIGN_LESSONS', lessons);
+        },
+
     }
 };
 

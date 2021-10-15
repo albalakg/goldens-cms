@@ -95,7 +95,7 @@ export default {
         },
 
         toggleSearch() {
-            this.searchState = this.$store.dispatch('AppState/updateGlobalSearchState', true)
+            this.$store.dispatch('AppState/updateGlobalSearchState', true)
         },
 
         goToItem(item) {
