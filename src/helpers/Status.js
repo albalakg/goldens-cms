@@ -20,7 +20,7 @@ export const STATUSES_SELECTION = [
 ];
 
 export const STATUSES_VALUES = [
-  0, 1, 2
+  0, 1, 2, 3
 ];
 
 
@@ -28,6 +28,7 @@ export const STATUSES_VALUES = [
 export const PROGRESS_STATUSES = [
   'Failed',
   'Done',
+  'Pending',
   'In Progress',
 ];
 
@@ -41,8 +42,12 @@ export const PROGRESS_SELECTION = [
     'value': 1
   },
   {
-    'text': 'In Progress',
+    'text': 'Pending',
     'value': 2
+  },
+  {
+    'text': 'In Progress',
+    'value': 3
   }
 ];
 

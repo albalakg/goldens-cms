@@ -8,7 +8,7 @@
         >
             
             <v-flex align-center justify-space-between class="sidebar_top_wrapper text-center" :class="isOpen ? '' : 'sidebar_top_wrapper_closed'">
-                <h1 v-show="isOpen" class="logo white--text">
+                <h1 :class="!isOpen ? 'logo_in_toolbar' : ''" class="logo">
                     GOLDENS 
                 </h1>
                 
@@ -30,21 +30,24 @@
             </div>
 
             <div class="sidebar_footer_profile">
-                <div class="mt-2 pointer" @click="enterProfile()">
-                    <strong>
-                        {{
-                            name
-                        }}
-                    </strong>
-                    <br>
-                    <small>
-                        {{
-                            role
-                        }}
-                    </small>
-                </div>
+                <v-flex d-flex align-center class="mt-2 pointer" @click="enterProfile()" :class="!isOpen ? 'justify-center' : ''">
+                    <v-icon large color="white">mdi-face-man-profile</v-icon>
+                    <div class="ml-3" v-show="isOpen">
+                        <strong>
+                            {{
+                                name
+                            }}
+                        </strong>
+                        <br>
+                        <small>
+                            {{
+                                role
+                            }}
+                        </small>
+                    </div>
+                </v-flex>
 
-                <v-icon @click="logout()" title="logout" class="pointer" color="white">mdi-logout</v-icon>
+                <v-icon v-show="isOpen" @click="logout()" title="logout" class="pointer" color="white">mdi-logout</v-icon>
             </div>
 
         </div>
@@ -186,6 +189,7 @@ export default {
         width: 15vw;
         min-width: 300px;
         z-index: 10;
+        transition: .2s all linear;
     }
 
     .sidebar_top_wrapper {
@@ -195,7 +199,6 @@ export default {
 
     .sidebar_top_wrapper_closed > button{
         position: relative;
-        left: -45px;
     }
 
     .sidebar_links_wrapper {
@@ -203,7 +206,8 @@ export default {
         margin-top: 48px;
         border-radius: 10px 0 0 10px;
         padding: 20px;
-        overflow-y: auto
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 
     .sidebar_footer_profile {
@@ -222,38 +226,24 @@ export default {
         top: -5px;
     }
 
-    // .sidebar_content {
-    //     height: calc(100vh - 96px);
-    //     width: 90%;
-    //     margin-left: 10%;
-    //     margin-top: 48px;
-    //     border-radius: 10px 0 0 10px;
-    //     padding: 20px;
-    //     overflow-y: auto
-    // }
-
-    // V2 design
-    // Also change background-color to yellow
-    // .sidebar_content {
-        // height: 95vh;
-        // width: 80%;
-        // margin-left: 5%;
-        // min-width: 300px;
-        // margin-top: 2.5vh;
-        // z-index: 2;
-        // border-radius: 10px 10px;
-        // box-shadow: 5px 5px 10px #00000088;
-        // padding: 20px;
-    // }
-
     .sidebar_closed {
         min-width: 95px !important;
         width: 5vw;
 
         .sidebar_content {
             min-width: 95px !important;
-            margin-left: 30%;
-            padding-left: 16px;
         }
+    }
+
+    .logo {
+        color: #fff;
+        transition: .2s all linear;
+    }
+
+    .logo_in_toolbar {
+        transform: translateX(100px);
+        color: #060218;
+        z-index: 1000;
+        position: absolute;
     }
 </style>

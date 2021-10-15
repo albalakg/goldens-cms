@@ -5,6 +5,7 @@
       width="600px"
       :overlay-opacity="0.9"	
       @click:outside="close()"
+      @keypress.prevent="keyAction"
     >
         <v-card class="search_card_wrapper">
             <v-form class="pt-10 pb-5 px-5" @submit.prevent="submit">

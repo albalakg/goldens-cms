@@ -27,6 +27,7 @@ export default {
                 0: 'red darken-2',
                 1: 'green darken-2',
                 2: 'teal',
+                3: 'blue',
             },
             texts: STATUSES  
         }

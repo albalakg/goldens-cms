@@ -5,6 +5,7 @@ import Auth from "./Auth";
 const SEARCH_CODE       = 'KeyF';
 const PROFILE_CODE      = 'KeyS';
 const DASHBOARD_CODE    = 'KeyD';
+const SIDEBAR_CODE      = 'KeyE';
 
 const keysPressed = {};
 
@@ -39,9 +40,12 @@ function findAction(event) {
             goTo('/users/show/' + Auth.id());
             break;
     
-
         case DASHBOARD_CODE:
             goTo('/');
+            break;
+
+        case SIDEBAR_CODE:
+            toggleSidebar();
             break;
     
         default:
@@ -53,6 +57,11 @@ function activateSearch() {
     store.dispatch('AppState/updateGlobalSearchState', true)
 }
 
+function toggleSidebar() {
+    store.dispatch('AppState/updateSidebarState', !store.getters['AppState/sidebarState'])
+}
+
 function goTo(path) {
+    console.log('router', router);
     router.push(path)
 }

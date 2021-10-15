@@ -10,7 +10,7 @@
                 :class="isActive ? 'sidebar_link_active app_darkBlue' : 'white--text'"
             >
                 <v-flex d-flex align-center>
-                    <v-icon class="mr-3" :color="isActive ? 'black' : 'white'">{{link.icon}}</v-icon>
+                    <v-icon style="font-size: 28px" class="mr-3" :color="isActive ? 'black' : 'white'">{{link.icon}}</v-icon>
                     <span>
                         {{link.text}}
                     </span>                    
@@ -34,13 +34,15 @@
             </div>
             </transition>
         </div>
-        <div 
-            class="sidebar_link_closed" 
-            v-else :title="link.text"
-            @click="goToLink()"
-        >
-            <v-icon>{{link.icon}}</v-icon>
-        </div>
+        <v-flex d-flex justify-center class="mt-2">
+            <div 
+                class="sidebar_link_closed" 
+                v-if="!isOpen" :title="link.text"
+                @click="goToLink()"
+            >
+                <v-icon color="black" style="font-size: 28px">{{link.icon}}</v-icon>
+            </div>
+        </v-flex>
     </div>
 </template>
 
@@ -124,19 +126,25 @@ export default {
 
     .sidebar_link_closed {
         background-color: #FFFFFFCC;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
         border-radius: 50%;
-        height: 35px;
-        width: 35px;
+        height: 40px;
+        width: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
+        transition: .2s all linear;
+    }
+
+    .sidebar_link_closed:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 3px 5px #ffffff33;
     }
 
     .sidebar_link_row {
         background-color: #FFFFFF11;
-        padding: 25px 20px;
+        padding: 25px 15px;
         height: 40px;
         transition: .3s all linear;
     }
@@ -144,6 +152,7 @@ export default {
     .sidebar_link_row:hover {
         background-color: #FFFFFF55;
         transform: translateX(10px);
+        box-shadow: 0 0 2px 3px #ffffff33;
     }
 
     .sidebar_link_active {
