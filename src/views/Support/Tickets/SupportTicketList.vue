@@ -2,6 +2,7 @@
     <v-container fluid>
         <TopCard 
             text="Support Tickets"
+            reloadable
             @reload="reload()"
         />
 

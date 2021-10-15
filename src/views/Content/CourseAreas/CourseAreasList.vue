@@ -3,6 +3,7 @@
         <TopCard 
             text="Course Areas"
             createable
+            reloadable
             @reload="reload()"
         />
 

@@ -3,6 +3,7 @@
         <TopCard 
             text="Videos"
             createable
+            reloadable
             @reload="reload()"
         />
 

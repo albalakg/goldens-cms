@@ -6,6 +6,7 @@ const SEARCH_CODE       = 'KeyF';
 const PROFILE_CODE      = 'KeyS';
 const DASHBOARD_CODE    = 'KeyD';
 const SIDEBAR_CODE      = 'KeyE';
+const LRION_CODE      = 'KeyW';
 
 const keysPressed = {};
 
@@ -47,6 +48,10 @@ function findAction(event) {
         case SIDEBAR_CODE:
             toggleSidebar();
             break;
+
+        case LRION_CODE:
+            alert('לירון ההומו')
+            break;
     
         default:
             break;
@@ -62,6 +67,5 @@ function toggleSidebar() {
 }
 
 function goTo(path) {
-    console.log('router', router);
     router.push(path)
 }

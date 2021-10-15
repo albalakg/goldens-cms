@@ -3,6 +3,7 @@
         <TopCard 
             text="Support Categories"
             createable
+            reloadable
             @reload="reload"
         />
 

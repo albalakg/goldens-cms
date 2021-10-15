@@ -33,7 +33,6 @@ export default {
         
         reloadable: {
             type: Boolean,
-            default: true
         },
         
         createLink: {

@@ -3,6 +3,7 @@
         <TopCard 
             text="Users"
             createable
+            reloadable
             @reload="reload()"
         />
 

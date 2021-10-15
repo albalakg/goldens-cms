@@ -2,6 +2,7 @@
     <v-container fluid>
         <TopCard 
             text="Orders"
+            reloadable
             @reload="reload()"
         />
 
