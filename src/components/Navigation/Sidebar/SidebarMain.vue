@@ -1,6 +1,6 @@
 <template>
     <div 
-        class="sidebar app_bg_darkBlue fixed"
+        class="sidebar app_animation app_bg_darkBlue fixed"
         :class="isOpen ? '' : 'sidebar_closed'"
     >
         <div 
@@ -189,7 +189,6 @@ export default {
         width: 15vw;
         min-width: 300px;
         z-index: 10;
-        transition: .2s all linear;
     }
 
     .sidebar_top_wrapper {
@@ -241,7 +240,7 @@ export default {
     }
 
     .logo_in_toolbar {
-        transform: translateX(100px);
+        transform: translateX(135px);
         color: #060218;
         z-index: 1000;
         position: absolute;

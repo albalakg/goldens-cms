@@ -7,24 +7,28 @@
     font-family: 'Oswald', sans-serif;
 }
 
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-        width: 10px;
-    }
-    
-    /* Track */
-    ::-webkit-scrollbar-track {
-        background: #fff;
-    }
-    
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-        background-color: #0B032D;
-        border-radius: 20px;
-        border: 2px solid #fff;
-    }
-    
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-        background: #555;
-    }
+.app_animation {
+    transition: .2s all linear;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #fff;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background-color: #0B032D;
+    border-radius: 20px;
+    border: 2px solid #fff;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

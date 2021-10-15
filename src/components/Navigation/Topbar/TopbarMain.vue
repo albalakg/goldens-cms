@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-flex 
-            class="toolbar_wrapper fixed"
+            class="toolbar_wrapper app_animation fixed"
             :class="sidebarIsOpen ? 'toolbar_wrapper_mini' : ''"
         >
             <v-card

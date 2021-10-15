@@ -12,7 +12,7 @@
       <transition name="fade" mode="out-in">
         <router-view
           :key="$route.path"
-          class="app_content"
+          class="app_content app_animation"
           :class="`
             ${sidebarIsOpen && logged ? 'app_content_mini' : ''}
             ${!logged ? 'app_content_full_screen' : ''}
