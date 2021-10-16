@@ -49,9 +49,9 @@ export default {
 
     computed: {
         orders() {
-            const orders       = this.$store.getters['OrderState/orders'];
-            const support_categories    = this.$store.getters['OrderState/support_categories'];
-            if(!orders || !support_categories) {
+            const orders    = this.$store.getters['OrderState/orders'];
+            const courses   = this.$store.getters['CourseState/courses'];
+            if(!orders || !courses) {
                 return [];
             }
 
@@ -61,10 +61,12 @@ export default {
             // filter by user
             data = data.filter(item => item.user_id === Number(this.$route.params.userID));
 
-            // add user name
-            data.forEach((item) => {
-                const support_category = support_categories.find(support => support.support_category_id === item.support_id);
-                item.support_category = support_category ? support_category.name : 'Unknown';
+            data.forEach(item => {
+                const course = courses.find(course => course.id === item.content_id);
+                if(course) {
+                    item.course_name    = course.name;
+                    item.course_id      = course.id;
+                }
             });
             
             return data;
@@ -78,7 +80,7 @@ export default {
     methods: {
        
         viewItem(item) {
-            this.$router.push('/users/users-supports/show/' + item.id)
+            this.$router.push('/orders/show/' + item.id)
         },
 
         filterByStatus(statuses) {

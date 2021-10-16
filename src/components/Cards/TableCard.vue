@@ -64,15 +64,17 @@
                             mdi-file-find
                         </v-icon>
 
-                        <v-icon 
-                            v-if="deleteable"
-                            color="red"
-                            class="mx-1"
-                            title="Delete"
-                            @click="actionDelete(props.item)"
-                        >
-                            mdi-trash-can-outline
-                        </v-icon>
+                        <span :title="props.item.deleteDisabledMessage ? props.item.deleteDisabledMessage : 'Delete'">
+                            <v-icon 
+                                v-if="deleteable"
+                                color="red"
+                                class="mx-1"
+                                @click="actionDelete(props.item)"
+                                :disabled="!!props.item.deleteDisabledMessage"
+                            >
+                                mdi-trash-can-outline
+                            </v-icon>
+                        </span>
                 </v-flex>
             </template>
 
@@ -230,8 +232,8 @@
                     <div v-if="mainField" class="deleted_items_wrapper">
                         <p class="mb-0" v-for="(item, index) in dialog.items" :key="index">
 
-                            <strong>
-                                {{index + 1}}. {{item[mainField]}}
+                            <strong :class="!!item.deleteDisabledMessage ? 'red--text' : ''">
+                                {{index + 1}}. {{item[mainField]}} {{ !!item.deleteDisabledMessage ? ' - ' + item.deleteDisabledMessage : ''}}
                             </strong>
                         </p>
                     </div>
@@ -332,7 +334,8 @@ export default {
             multipleActionPickedItem: NO_ACTION,
             pickedStatusFilters: this.filterStatus ? this.filterStatus.map(status => status) : [],
             FILES_PATH: FILES_PATH,
-            URL: URL
+            URL: URL,
+            cantDelete: null
         }
     },
 
@@ -417,11 +420,17 @@ export default {
             try {
                 this.resetDialogState();
 
+                this.cantDelete = this.selected.find(item => !!item.deleteDisabledMessage);
+                
                 this.dialog.state       = true;
                 this.dialog.items       = this.selected;
                 this.dialog.action      = DELETE_ACTION;
                 this.dialog.title       = `Delete multiple records`;
-                this.dialog.text        = `Are you sure you want to delete ${this.mainField ? `these ${this.dialog.items.length} records:` : 'the selected records?'}`;
+                if(this.cantDelete) {
+                    this.dialog.text        = `Cannot delete these items because:`;
+                } else {
+                    this.dialog.text        = `Are you sure you want to delete ${this.mainField ? `these ${this.dialog.items.length} records:` : 'the selected records?'}`;
+                }
                 this.dialog.icon.name   = 'mdi-trash-can-outline';
                 this.dialog.icon.color  = 'red';
             } catch(err) {
@@ -455,6 +464,10 @@ export default {
         },
 
         dialogHandler() {
+            if(this.cantDelete) {
+                return this.resetDialogState();
+            }
+
             this.$emit(
                 this.dialog.action, 
                 this.dialog.items ? this.dialog.items.map(item => item.id) : [this.dialog.item.id]

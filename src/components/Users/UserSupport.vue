@@ -23,7 +23,7 @@
 <script>
 import TopCard from '../../components/Cards/TopCard.vue'
 import TableCard from '../../components/Cards/TableCard.vue'
-import { STATUSES_SELECTION, STATUSES_VALUES } from '../../helpers/Status'
+import { PROGRESS_SELECTION, STATUSES_VALUES } from '../../helpers/Status'
 
 export default {
     components: {
@@ -42,7 +42,7 @@ export default {
                 { text: 'Actions',          value: 'actions',       align: 'right' },
             ],
             search: '',
-            statuses: STATUSES_SELECTION,
+            statuses: PROGRESS_SELECTION,
             filterStatuses: STATUSES_VALUES
         }
     },
@@ -78,7 +78,7 @@ export default {
     methods: {
        
         viewItem(item) {
-            this.$router.push('/users/users-supports/show/' + item.id)
+            this.$router.push('/support/tickets/show/' + item.id)
         },
 
         filterByStatus(statuses) {

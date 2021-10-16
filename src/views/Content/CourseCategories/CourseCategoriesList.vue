@@ -60,6 +60,10 @@ export default {
                 return [];
             }
 
+            courseCategories.forEach(category => {
+                category.deleteDisabledMessage = category.courses_count ? 'Cannot delete Course Category that is being used' : '';
+            });
+
             // filter by status
             return courseCategories.filter(lesson => this.filterStatuses.includes(lesson.status))
         },

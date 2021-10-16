@@ -123,7 +123,7 @@ export default {
         font-weight: 500;
         margin-bottom: 10px;
     } 
-
+    
     .sidebar_link_closed {
         background-color: #FFFFFFCC;
         margin-bottom: 12px;

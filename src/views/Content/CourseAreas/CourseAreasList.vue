@@ -62,6 +62,10 @@ export default {
                 return [];
             }
 
+            courseAreas.forEach(course_area => {
+                course_area.deleteDisabledMessage = course_area.lessons_count ? 'Cannot delete Course Area that is being used' : '';
+            });
+
             // filter by status
             return courseAreas.filter(lesson => this.filterStatuses.includes(lesson.status))
         },

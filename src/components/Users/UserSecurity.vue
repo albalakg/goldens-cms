@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-flex mx-auto>
+        <v-flex md4>
             <FormCard
                 title="Update email"
             >
@@ -25,7 +25,7 @@
 
         <br>
 
-        <v-flex mx-auto>
+        <v-flex md4>
             <FormCard
                 title="Update Password"
             >

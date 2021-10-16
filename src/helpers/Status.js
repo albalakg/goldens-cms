@@ -72,5 +72,5 @@ export const ORDER_SELECTION = [
   {
     'text': 'In Progress',
     'value': 2
-  }
+  },
 ];
