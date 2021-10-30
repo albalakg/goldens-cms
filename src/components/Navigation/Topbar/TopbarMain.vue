@@ -10,10 +10,6 @@
                 tile
             >
                 <v-toolbar dense>
-                <!-- <v-app-bar-nav-icon 
-                    class="toolbar_menu ml-3"
-                    @click="toggleSidebar()"
-                ></v-app-bar-nav-icon> -->
 
                 <v-spacer></v-spacer>
 
@@ -66,14 +62,19 @@ export default {
         return {
             profile_items: [
                 {
-                    text: 'Profile',
-                    icon: 'mdi-account',
-                    url: '/users/show/' + Auth.id(),
+                    text:   'Profile',
+                    icon:   'mdi-account',
+                    url:    '/users/show/' + Auth.id(),
                 },
                 {
-                    text: 'Logout',
-                    icon: 'mdi-logout',
-                    url: '/logout',
+                    text:   'Settings',
+                    icon:   'mdi-cog',
+                    url:    '/settings',
+                },
+                {
+                    text:   'Logout',
+                    icon:   'mdi-logout',
+                    url:    '/logout',
                 },
             ]
         }    

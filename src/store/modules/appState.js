@@ -6,6 +6,7 @@ const AppState = {
         sidebarState: true,
         globalSearchState: false,
         isLogged: false,
+        language: 'English',
         itemsPerPage: 5,
         requests: {
             sent: [],
@@ -19,6 +20,7 @@ const AppState = {
         globalSearchState:      state => state.globalSearchState,
         isLogged:               state => state.isLogged,
         itemsPerPage:           state => state.itemsPerPage,
+        language:               state => state.language,
         isLoading:              state => state.requests.sent.length !== state.requests.done.length,
     },
 

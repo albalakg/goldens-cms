@@ -1,12 +1,13 @@
-import store from "./../store/index";
-import router from "./../router/index";
-import Auth from "./Auth";
+import store    from "./../store/index";
+import router   from "./../router/index";
+import Auth     from "./Auth";
 
 const SEARCH_CODE       = 'KeyF';
-const PROFILE_CODE      = 'KeyS';
+const PROFILE_CODE      = 'KeyQ';
+const SETTINGS_CODE     = 'KeyS';
 const DASHBOARD_CODE    = 'KeyD';
 const SIDEBAR_CODE      = 'KeyE';
-const LRION_CODE      = 'KeyW';
+const LRION_CODE        = 'KeyW';
 
 const keysPressed = {};
 
@@ -38,11 +39,15 @@ function findAction(event) {
             break;
 
         case PROFILE_CODE:
-            goTo('/users/show/' + Auth.id());
+            goTo('users/show/' + Auth.id());
             break;
     
         case DASHBOARD_CODE:
-            goTo('/');
+            goTo('');
+            break;
+    
+        case SETTINGS_CODE:
+            goTo('settings');
             break;
 
         case SIDEBAR_CODE:
@@ -68,5 +73,5 @@ function toggleSidebar() {
 }
 
 function goTo(path) {
-    router.push(path)
+    router.push('/' + path)
 }

@@ -343,6 +343,13 @@ const routes = [
   // ***** POLICIES COOKIES END *****
 
   {
+    path: '/settings',
+    name: 'Settings',
+    beforeEnter: Guard.admin,
+    component: () => import('../views/Global/Settings.vue')
+  },
+
+  {
     path: '*',
     name: 'PageNotFound',
     beforeEnter: Guard.admin,

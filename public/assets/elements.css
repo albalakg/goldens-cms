@@ -77,3 +77,10 @@
     letter-spacing: 8px;
     font-family: 'Bebas Neue', cursive;
 }
+
+.seperator {
+    height: 1px;
+    width: 100%;
+    background-color: #888;
+    margin: 5px 0;
+}
