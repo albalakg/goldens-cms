@@ -59,7 +59,8 @@ function findAction(event) {
 }
 
 function activateSearch() {
-    store.dispatch('AppState/updateGlobalSearchState', true)
+    console.log('t', store.getters['AppState/globalSearchState']);
+    store.dispatch('AppState/updateGlobalSearchState', !store.getters['AppState/globalSearchState'])
 }
 
 function toggleSidebar() {

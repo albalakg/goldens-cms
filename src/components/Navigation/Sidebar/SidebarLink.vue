@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div @mouseenter="isTooltipOpen = true" @mouseleave="isTooltipOpen = false">
         <div 
             v-if="isOpen"
             class="sidebar_link" 
@@ -42,6 +42,13 @@
             >
                 <v-icon color="black" style="font-size: 28px">{{link.icon}}</v-icon>
             </div>
+            <div v-if="!isOpen" class="link_tooltip" :class="isTooltipOpen ? 'link_tooltip_visible' : ''">
+                <span>
+                    {{
+                        link.text
+                    }}
+                </span>
+            </div>
         </v-flex>
     </div>
 </template>
@@ -62,7 +69,8 @@ export default {
 
     data() {
         return {
-            isChildrenOpen: false
+            isChildrenOpen: false,
+            isTooltipOpen: false
         }
     },
 
@@ -165,5 +173,24 @@ export default {
         margin-top: 10px;
         margin-left: 10px;
         transition: .0s all linear;
+    }
+
+    .link_tooltip {
+        position: absolute;
+        left: 100px;
+        min-width: 100px;
+        text-align: left;
+        background-color: #fff;
+        padding: 5px;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px 1px #555;
+        font-weight: bold;
+        font-family: 'Bebas Neue', cursive;
+        opacity: 0;
+        transition: .3s opacity linear;
+    }
+
+    .link_tooltip_visible {
+        opacity: 1;
     }
 </style>
