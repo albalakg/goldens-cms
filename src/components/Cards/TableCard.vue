@@ -106,6 +106,28 @@
                 </span>
             </template>
 
+            <template v-slot:item.coupon_code="props">
+                <div v-if="props.item.coupon_id">
+                    <router-link :to="`/content/coupons/show/${props.item.coupon_id}`">
+                        {{props.item.coupon_code}}
+                    </router-link>
+                </div>
+                <span v-else>
+                    {{props.item.coupon_code}}
+                </span>
+            </template>
+
+            <template v-slot:item.category_name="props">
+                <div v-if="props.item.category_id">
+                    <router-link :to="`/content/course-categories/show/${props.item.category_id}`">
+                        {{props.item.category_name}}
+                    </router-link>
+                </div>
+                <span v-else>
+                    {{props.item.category_name}}
+                </span>
+            </template>
+
             <template v-slot:item.course_name="props">
                 <div v-if="props.item.course_id">
                     <router-link :to="`/content/courses/show/${props.item.course_id}`">

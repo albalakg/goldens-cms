@@ -41,6 +41,7 @@ export default {
                 { text: 'Course',       value: 'course_name' },
                 { text: 'Price',        value: 'price' },
                 { text: 'Created At',   value: 'created_at' },
+                { text: 'Coupon',       value: 'coupon_code' },
                 { text: 'Status',       value: 'status',    align: 'right' },
                 { text: 'Actions',      value: 'actions',   align: 'right' },
             ],
@@ -55,8 +56,9 @@ export default {
             let orders      = this.$store.getters['OrderState/orders'];
             const users     = this.$store.getters['UserState/users'];
             const courses   = this.$store.getters['CourseState/courses'];
+            const coupons   = this.$store.getters['CouponState/coupons'];
 
-            if(!orders) {
+            if(!orders || !users || !courses || !coupons) {
                 return [];
             }
                 
@@ -75,6 +77,9 @@ export default {
                     item.course_name    = course.name;
                     item.course_id      = course.id;
                 }
+
+                const coupon        = coupons.find(coupon => coupon.id === item.coupon_id);
+                item.coupon_code    = coupon ? coupon.code : 'None' 
             });
 
             return orders;

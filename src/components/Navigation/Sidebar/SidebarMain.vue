@@ -86,26 +86,37 @@ export default {
                         {
                             text: 'Courses',
                             url: '/content/courses',
+                            icon: 'mdi-school',
                         },
                         {
                             text: 'Course Categories',
                             url: '/content/course-categories',
+                            icon: 'mdi-book-multiple',
                         },
                         {
                             text: 'Course Areas',
                             url: '/content/course-areas',
+                            icon: 'mdi-bookshelf',
                         },
                         {
                             text: 'Lessons',
                             url: '/content/lessons',
+                            icon: 'mdi-book-open-variant',
                         },
                         {
                             text: 'Videos',
                             url: '/content/videos',
+                            icon: 'mdi-video-box',
                         },
                         {
                             text: 'Tests',
                             url: '/content/tests',
+                            icon: 'mdi-notebook-edit-outline',
+                        },
+                        {
+                            text: 'Coupons',
+                            url: '/content/coupons',
+                            icon: 'mdi-ticket-percent',
                         },
                     ]
                 },
@@ -123,10 +134,12 @@ export default {
                         {
                             text: 'Tickets',
                             url: '/support/tickets',
+                            icon: 'mdi-ticket-confirmation',
                         },
                         {
                             text: 'Categories',
                             url: '/support/categories',
+                            icon: 'mdi-book-multiple',
                         }
                     ]
                 },
@@ -139,10 +152,12 @@ export default {
                         {
                             text: 'Terms & Conditions',
                             url: '/policies/terms-and-conditions',
+                            icon: 'mdi-book-information-variant',
                         },
                         {
                             text: 'Cookies',
                             url: '/policies/cookies',
+                            icon: 'mdi-cookie-settings',
                         },
                     ]
                 },

@@ -151,7 +151,31 @@ const routes = [
       },
     ]
   },
-  // ***** COURSE AREAS END *****
+
+  // ***** COUPONS START *****
+  {
+    path: '/content/coupons',
+    component: () => import('../views/Content/Coupons/CouponsIndex.vue'),
+    beforeEnter: Guard.admin,
+    children: [
+      {
+        path: '',
+        name: 'Coupons',
+        component: () => import('../views/Content/Coupons/CouponsList.vue'),
+      },
+      {
+        path: 'new',
+        name: 'CouponsCreate',
+        component: () => import('../views/Content/Coupons/CouponsCreate.vue'),
+      },
+      {
+        path: 'show/:couponID',
+        name: 'CouponsShow',
+        component: () => import('../views/Content/Coupons/CouponsShow.vue'),
+      },
+    ]
+  },
+  // ***** COUPONS END *****
 
   // ***** USERS COURSES START *****
   {

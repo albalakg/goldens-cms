@@ -15,6 +15,7 @@ import OrderState           from './modules/OrderState'
 import SupportState         from './modules/SupportState'
 import SearchState          from './modules/SearchState'
 import PoliciesState        from './modules/PoliciesState'
+import CouponState          from './modules/CouponState'
 
 Vue.use(Vuex)
 
@@ -34,5 +35,6 @@ export default new Vuex.Store({
     SupportState,
     SearchState,
     PoliciesState,
+    CouponState,
   }
 })

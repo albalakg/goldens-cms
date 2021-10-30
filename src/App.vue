@@ -62,6 +62,7 @@ export default {
       this.$store.dispatch('VideoState/getVideos');
       this.$store.dispatch('CourseAreaState/getCourseAreas');
       this.$store.dispatch('TestState/getTests');
+      this.$store.dispatch('CouponState/getCoupons');
       this.$store.dispatch('OrderState/getOrders');
       this.$store.dispatch('SupportState/getSupportTickets');
       this.$store.dispatch('SupportState/getSupportCategories');

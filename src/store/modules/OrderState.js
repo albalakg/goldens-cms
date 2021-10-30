@@ -12,36 +12,8 @@ const OrderState = {
     },
 
     mutations: {
-        SET_NEW_ORDER(state, orderData) {
-            if(!state.orders) {
-                return;
-            }
-
-            state.orders.unshift(orderData);
-        },
-
-        SET_UPDATED_ORDER(state, orderData) {
-            if(!state.orders) {
-                return;
-            }
-            
-            const orderIndex = state.orders.findIndex(order => order.id === orderData.id);
-            if(orderIndex < 0) {
-                return;
-            }
-            
-            orderData.created_at = state.orders[orderIndex].created_at;
-            state.orders[orderIndex] = orderData;
-        },
-
         SET_ORDERS(state, orders) {
             state.orders = orders;
-        },
-
-        DELETE_ORDER(state, order_ids) {
-            if(state.orders) {
-                state.orders = state.orders.filter(order => !order_ids.includes(order.id));
-            }
         },
         
         SET_UPDATED_STATUS(state, orderData) {
@@ -92,17 +64,17 @@ const OrderState = {
         searchByInput({state}, data) {
             const results = [];
             state.orders.forEach(order => {
-            if(order && order[data.field]) {
-                const field = order[data.field];
-                if(field.toLowerCase().includes(data.searchInput)) {
-                    results.push({
-                        text: order.order_number,
-                        component: 'Order',
-                        type: `Order's ${data.field_name ? data.field_name : data.field}`,
-                        path: `/orders/show/${order.id}` 
-                    })
+                if(order && order[data.field]) {
+                    const field = order[data.field];
+                    if(field.toLowerCase().includes(data.searchInput)) {
+                        results.push({
+                            text: order.order_number,
+                            component: 'Order',
+                            type: `Order's ${data.field_name ? data.field_name : data.field}`,
+                            path: `/orders/show/${order.id}` 
+                        })
+                    }
                 }
-            }
             });
             return results;  
         },
