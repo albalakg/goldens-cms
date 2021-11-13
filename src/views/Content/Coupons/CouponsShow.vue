@@ -74,7 +74,6 @@ export default {
     methods: {
         async getCoupon() {
             this.coupon = await this.$store.dispatch('CouponState/getCoupon', this.$route.params.couponID);
-            console.log('this.coupon', this.coupon);
         },
 
         submit() {

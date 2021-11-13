@@ -64,7 +64,6 @@ function findAction(event) {
 }
 
 function activateSearch() {
-    console.log('t', store.getters['AppState/globalSearchState']);
     store.dispatch('AppState/updateGlobalSearchState', !store.getters['AppState/globalSearchState'])
 }
 

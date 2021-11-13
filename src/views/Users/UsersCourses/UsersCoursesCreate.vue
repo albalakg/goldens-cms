@@ -123,8 +123,8 @@ import FormCard from './../../../components/Cards/FormCard.vue'
 import TopCard from './../../../components/Cards/TopCard.vue'
 import SubmitButton from './../../../components/Buttons/SubmitButton.vue'
 import CancelButton from './../../../components/Buttons/CancelButton.vue'
-import {PHONE_RULE, ID_RULE, PRICE_RULE} from './../../../helpers/Rules' 
-import {PHONE_MESSAGE, COURSE_MESSAGE, USER_MESSAGE, EXPIRATION_MESSAGE, PRICE_MESSAGE} from './../../../helpers/Messages' 
+import {ID_RULE, PRICE_RULE} from './../../../helpers/Rules' 
+import {COURSE_MESSAGE, USER_MESSAGE, EXPIRATION_MESSAGE, PRICE_MESSAGE} from './../../../helpers/Messages' 
 
 export default {
     components: {
@@ -137,7 +137,7 @@ export default {
     data() {
         return {
             form: {
-                course_id:  '',
+                course_id:  0,
                 user_id:    '',
                 price:      '',
                 end_at:     '',
@@ -158,6 +158,7 @@ export default {
 
     created() {
         this.setChosenData();
+        this.setDefaultExpirationDate();
     },
 
     watch: {
@@ -191,6 +192,16 @@ export default {
     },
 
     methods: {
+        setDefaultExpirationDate() {
+            const now           = new Date();
+            const year          = now.getFullYear();
+            const month         = now.getMonth();
+            const day           = now.getDate();
+            const defaultDate   = new Date(year + 1, month, day + 1)
+            
+            this.date = defaultDate.toISOString().substr(0, 10);
+        },
+
         setChosenData() {
             this.form.course_id = +this.$route.query.course_id;
             this.form.user_id = +this.$route.query.user_id;

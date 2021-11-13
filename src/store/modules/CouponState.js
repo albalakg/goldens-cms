@@ -86,6 +86,10 @@ const CouponState = {
         },
                 
         searchByInput({state}, data) {
+            if(!state.coupons) {
+                return;
+            }
+
             const results = [];
             state.coupons.forEach(coupon => {
                 if(coupon && coupon[data.field]) {

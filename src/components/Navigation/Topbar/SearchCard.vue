@@ -12,13 +12,12 @@
                 <v-text-field
                     autofocus	
                     ref="searchInput"
-                    :loading="isLoading"
-                    :disabled="isLoading"
                     outlined
                     label="Search..."
                     v-model="value"
-                    :messages="isLoading ? 'Sorry, search will be available only when finished loading application data' : ''"
+                    hint="press Enter to enter the first record"
                     @input="search"
+                    @keydown="focusResults"
                 >
                 </v-text-field>
 
@@ -99,6 +98,12 @@ export default {
             this.value = '';
             this.searchState = this.$store.dispatch('AppState/updateGlobalSearchState', false);
             this.searchState = this.$store.dispatch('SearchState/emptyResults')
+        },
+
+        focusResults(event) {
+            if(event.key === 'ArrowDown') {
+                this.goDown
+            }
         }
     }
 }

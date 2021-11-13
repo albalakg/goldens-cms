@@ -69,23 +69,23 @@ export default {
             hotKeys: [
                 {
                     keys: 'Alt + E',
-                    description: 'Opens/Closes the sidebar'
+                    description: 'פותח/סוגר את התפריט'
                 },
                 {
                     keys: 'Alt + F',
-                    description: 'Opens/Closes global search card'
+                    description: 'פותח/סוגר את החיפוש הגלובלי'
                 },
                 {
                     keys: 'Alt + D',
-                    description: 'Enter the dashboard page'
+                    description: 'פותח את עמוד הבית'
                 },
                 {
                     keys: 'Alt + Q',
-                    description: 'Enter the profile page'
+                    description: 'פותח את עמוד הפרופיל'
                 },
                 {
                     keys: 'Alt + S',
-                    description: 'Enter the settings page'
+                    description: 'פותח את עמוד ההגדרות'
                 },
             ],
             language: '',

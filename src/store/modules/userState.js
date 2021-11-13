@@ -108,6 +108,10 @@ const UserState = {
         },
                 
         searchByInput({state}, data) {
+            if(!state.users) {
+                return;
+            }
+            
             const results = [];
             state.users.forEach(user => {
             if(user && user[data.field]) {
