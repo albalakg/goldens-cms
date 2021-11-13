@@ -57,13 +57,15 @@ export default {
     computed: {
         courseAreas() {
             let courseAreas = this.$store.getters['CourseAreaState/courseAreas'];
+            let lessons     = this.$store.getters['LessonState/lessons'];
 
-            if(!courseAreas) {
+            if(!courseAreas || !lessons) {
                 return [];
             }
 
             courseAreas.forEach(course_area => {
-                course_area.deleteDisabledMessage = course_area.lessons_count ? 'Cannot delete Course Area that is being used' : '';
+                course_area.deleteDisabledMessage   = course_area.lessons_count ? 'Cannot delete Course Area that is being used' : '';
+                course_area.lessons_count           = lessons.filter(lesson => lesson.course_area_id == course_area.id).length;
             });
 
             // filter by status
