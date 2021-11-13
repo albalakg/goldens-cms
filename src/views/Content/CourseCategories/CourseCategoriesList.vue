@@ -54,14 +54,16 @@ export default {
 
     computed: {
         courseCategories() {
-            let courseCategories = this.$store.getters['CourseCategoryState/courseCategories'];
+            let courseCategories    = this.$store.getters['CourseCategoryState/courseCategories'];
+            let courses             = this.$store.getters['CourseState/courses'];
 
-            if(!courseCategories) {
+            if(!courseCategories || !courses) {
                 return [];
             }
 
             courseCategories.forEach(category => {
-                category.deleteDisabledMessage = category.courses_count ? 'Cannot delete Course Category that is being used' : '';
+                category.deleteDisabledMessage  = category.courses_count ? 'Cannot delete Course Category that is being used' : '';
+                category.courses_count          = courses.filter(course => course.category_id === category.id).length
             });
 
             // filter by status

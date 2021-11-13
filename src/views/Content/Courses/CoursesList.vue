@@ -58,14 +58,18 @@ export default {
 
     computed: {
         courses() {
-            let courses = this.$store.getters['CourseState/courses'];
-
-            if(!courses) {
+            let courses     = this.$store.getters['CourseState/courses'];
+            let courseAreas = this.$store.getters['CourseAreaState/courseAreas'];
+            let lessons     = this.$store.getters['LessonState/lessons'];
+            
+            if(!courses || !courseAreas || !lessons) {
                 return [];
             }
 
             courses.forEach(course => {
-                course.deleteDisabledMessage = course.areas_count ? 'Cannot delete Course that is being used' : '';
+                course.deleteDisabledMessage    = course.areas_count ? 'Cannot delete Course that is being used' : '';
+                course.areas_count              = courseAreas.filter(courseArea => courseArea.course_id == course.id).length;
+                course.lessons_count            = lessons.filter(lesson => lesson.course_id == course.id).length;
             });
                         
             // filter by status

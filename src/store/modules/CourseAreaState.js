@@ -36,6 +36,7 @@ const CourseAreaState = {
         },
 
         SET_COURSE_AREAS(state, courseAreas) {
+            console.log('SET_COURSE_AREAS', courseAreas);
             state.courseAreas = courseAreas;
         },
 

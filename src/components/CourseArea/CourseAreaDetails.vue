@@ -229,6 +229,7 @@ export default {
 
             data_to_send.lessons            = this.form.lessons.map(lesson => lesson.id);
             data_to_send.deleted_lessons    = this.getDeletedLessons();
+            data_to_send.lessons_count      = this.form.lessons.length;
             
             this.$store.dispatch('CourseAreaState/updateCourseArea', data_to_send)
                 .then(res => {
