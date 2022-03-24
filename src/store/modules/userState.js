@@ -13,7 +13,7 @@ const UserState = {
 
     mutations: {
         SET_NEW_USER(state, userData) {
-            if(!state.users) {
+            if (!state.users) {
                 return;
             }
 
@@ -21,40 +21,40 @@ const UserState = {
         },
 
         SET_UPDATED_USER(state, userData) {
-            if(!state.users) {
+            if (!state.users) {
                 return;
             }
-            
+
             const userIndex = state.users.findIndex(user => user.id === userData.id);
-            if(userIndex < 0) {
+            if (userIndex < 0) {
                 return;
             }
 
             userData.email = state.users[userIndex].email;
             userData.created_at = state.users[userIndex].created_at;
             userData.full_name = userData.first_name + ' ' + userData.last_name;
-            state.users[userIndex] = {...userData};
+            state.users[userIndex] = { ...userData };
         },
 
         SET_UPDATED_USER_EMAIL(state, userData) {
-            if(!state.users) {
+            if (!state.users) {
                 return;
             }
 
             const userIndex = state.users.findIndex(user => user.id === userData.id);
-            if(userIndex < 0) {
+            if (userIndex < 0) {
                 return;
             }
-            
+
             state.users[userIndex].email = userData.email;
         },
 
         SET_USERS(state, users) {
             // add full name
-            if(users) {
+            if (users) {
                 users = users.map(user => {
                     user.full_name = user.first_name + ' ' + user.last_name;
-                    return user; 
+                    return user;
                 })
             }
 
@@ -62,7 +62,7 @@ const UserState = {
         },
 
         DELETE_USER(state, user_ids) {
-            if(state.users) {
+            if (state.users) {
                 state.users = state.users.filter(user => !user_ids.includes(user.id));
             }
         }
@@ -80,14 +80,14 @@ const UserState = {
                     dispatch('MessageState/addMessage', {
                         message: 'Failed to fetch Users',
                         type: 'error',
-                    }, {root:true});
+                    }, { root: true });
                     console.warn('getUsers: ', err);
                 })
         },
 
         getUser({ state }, userID) {
             return new Promise((resolve, reject) => {
-                if(state.users) {
+                if (state.users) {
                     resolve(state.users.find(user => user.id == userID))
                 } else {
                     resolve(null)
@@ -95,39 +95,39 @@ const UserState = {
             })
         },
 
-        async searchByName({dispatch}, searchInput) {
-            return await dispatch('searchByInput', {searchInput, field: 'full_name', field_name: 'name'}); 
+        async searchByName({ dispatch }, searchInput) {
+            return await dispatch('searchByInput', { searchInput, field: 'full_name', field_name: 'name' });
         },
 
-        async searchByEmail({dispatch}, searchInput) {
-            return await dispatch('searchByInput', {searchInput, field: 'email'}); 
+        async searchByEmail({ dispatch }, searchInput) {
+            return await dispatch('searchByInput', { searchInput, field: 'email' });
         },
 
-        async searchByPhone({dispatch}, searchInput) {
-            return await dispatch('searchByInput', {searchInput, field: 'phone'}); 
+        async searchByPhone({ dispatch }, searchInput) {
+            return await dispatch('searchByInput', { searchInput, field: 'phone' });
         },
-                
-        searchByInput({state}, data) {
-            if(!state.users) {
+
+        searchByInput({ state }, data) {
+            if (!state.users) {
                 return;
             }
-            
+
             const results = [];
             state.users.forEach(user => {
-            if(user && user[data.field]) {
-                const field = user[data.field];
-                if(field.toLowerCase().includes(data.searchInput)) {
-                    const text = data.field === 'name' ? field : field + ` (${user.full_name})`;
-                    results.push({
-                        text: text,
-                        component: 'User',
-                        type: `User's ${data.field_name ? data.field_name : data.field}`,
-                        path: `/users/show/${user.id}` 
-                    })
+                if (user && user[data.field]) {
+                    const field = user[data.field];
+                    if (field.toLowerCase().includes(data.searchInput)) {
+                        const text = data.field === 'name' ? field : field + ` (${user.full_name})`;
+                        results.push({
+                            text: text,
+                            component: 'User',
+                            type: `User's ${data.field_name ? data.field_name : data.field}`,
+                            path: `/users/show/${user.id}`
+                        })
+                    }
                 }
-            }
             });
-            return results;  
+            return results;
         },
 
         createUser({ commit }, userData) {
@@ -141,7 +141,7 @@ const UserState = {
                         console.warn('createUser: ', err.response.data);
                         reject(err.response.data)
                     })
-            }) 
+            })
         },
 
         updateUser({ commit }, userData) {
@@ -155,7 +155,7 @@ const UserState = {
                         console.warn('updateUser: ', err);
                         reject(err.response.data)
                     })
-            }) 
+            })
         },
 
         updateEmail({ commit }, userData) {
@@ -169,7 +169,7 @@ const UserState = {
                         console.warn('updateEmail: ', err);
                         reject(err.response.data)
                     })
-            }) 
+            })
         },
 
         updatePassword({ commit }, userData) {
@@ -182,7 +182,7 @@ const UserState = {
                         console.warn('updatePassword: ', err);
                         reject(err.response.data)
                     })
-            }) 
+            })
         },
 
         deleteUsers({ commit }, user_ids) {
@@ -196,9 +196,9 @@ const UserState = {
                         console.warn('deleteUser: ', err.response.data);
                         reject(err.response.data)
                     })
-            }) 
+            })
         },
-        
+
     }
 };
 

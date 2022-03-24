@@ -17,7 +17,7 @@ const CouponState = {
 
     mutations: {
         SET_NEW_COUPON(state, couponData) {
-            if(!state.coupons) {
+            if (!state.coupons) {
                 return;
             }
 
@@ -29,21 +29,21 @@ const CouponState = {
         },
 
         DELETE_COUPON(state, coupon_ids) {
-            if(state.coupons) {
+            if (state.coupons) {
                 state.coupons = state.coupons.filter(coupon => !coupon_ids.includes(coupon.id));
             }
         },
-        
+
         SET_UPDATED_STATUS(state, couponData) {
-            if(!state.coupons) {
+            if (!state.coupons) {
                 return;
             }
-            
+
             const couponIndex = state.coupons.findIndex(coupon => coupon.id === couponData.id);
-            if(couponIndex < 0) {
+            if (couponIndex < 0) {
                 return;
             }
-            
+
             state.coupons[couponIndex].status = couponData.status;
         },
     },
@@ -66,14 +66,14 @@ const CouponState = {
                     dispatch('MessageState/addMessage', {
                         message: 'Failed to fetch Coupons',
                         type: 'error',
-                    }, {root:true});
+                    }, { root: true });
                     console.warn('getCoupons: ', err);
                 })
         },
 
         getCoupon({ state }, couponID) {
             return new Promise((resolve, reject) => {
-                if(state.coupons) {
+                if (state.coupons) {
                     resolve(state.coupons.find(coupon => coupon.id == couponID))
                 } else {
                     resolve(null)
@@ -81,30 +81,30 @@ const CouponState = {
             })
         },
 
-        async searchByCouponName({dispatch}, searchInput) {
-            return await dispatch('searchByInput', {searchInput, field: 'name', field_name: 'coupon name'}); 
+        async searchByCouponName({ dispatch }, searchInput) {
+            return await dispatch('searchByInput', { searchInput, field: 'name', field_name: 'coupon name' });
         },
-                
-        searchByInput({state}, data) {
-            if(!state.coupons) {
+
+        searchByInput({ state }, data) {
+            if (!state.coupons) {
                 return;
             }
 
             const results = [];
             state.coupons.forEach(coupon => {
-                if(coupon && coupon[data.field]) {
+                if (coupon && coupon[data.field]) {
                     const field = coupon[data.field];
-                    if(field.toLowerCase().includes(data.searchInput)) {
+                    if (field.toLowerCase().includes(data.searchInput)) {
                         results.push({
                             text: coupon.coupon_number,
                             component: 'Coupon',
                             type: `Coupon's ${data.field_name ? data.field_name : data.field}`,
-                            path: `/coupons/show/${coupon.id}` 
+                            path: `/coupons/show/${coupon.id}`
                         })
                     }
                 }
             });
-            return results;  
+            return results;
         },
 
         updateCouponStatus({ commit }, couponData) {
@@ -118,7 +118,7 @@ const CouponState = {
                         console.warn('updateCouponStatus: ', err);
                         reject(err.response.data)
                     })
-            }) 
+            })
         },
     }
 };
