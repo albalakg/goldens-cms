@@ -1,41 +1,41 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import appState from './modules/appState'
-import userState from './modules/userState'
-import messageState from './modules/messageState'
-import videoState from './modules/videoState'
-import courseState from './modules/courseState'
-import courseCategoryState from './modules/courseCategoryState'
-import courseAreaState from './modules/courseAreaState'
-import lessonState from './modules/lessonState'
-import testState from './modules/testState'
-import userCourseState from './modules/userCourseState'
-import orderState from './modules/orderState'
-import supportState from './modules/supportState'
-import searchState from './modules/searchState'
-import policiesState from './modules/policiesState'
-import couponState from './modules/couponState'
+import AppState from './modules/AppState'
+import UserState from './modules/UserState'
+import MessageState from './modules/MessageState'
+import VideoState from './modules/VideoState'
+import CourseState from './modules/CourseState'
+import CourseCategoryState from './modules/CourseCategoryState'
+import CourseAreaState from './modules/CourseAreaState'
+import LessonState from './modules/LessonState'
+import TestState from './modules/TestState'
+import UserCourseState from './modules/UserCourseState'
+import OrderState from './modules/OrderState'
+import SupportState from './modules/SupportState'
+import SearchState from './modules/SearchState'
+import PoliciesState from './modules/PoliciesState'
+import CouponState from './modules/CouponState'
 
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
-    appState,
-    userState,
-    messageState,
-    videoState,
-    courseState,
-    courseCategoryState,
-    courseAreaState,
-    lessonState,
-    testState,
-    userCourseState,
-    orderState,
-    supportState,
-    searchState,
-    policiesState,
-    couponState,
+    AppState,
+    UserState,
+    MessageState,
+    VideoState,
+    CourseState,
+    CourseCategoryState,
+    CourseAreaState,
+    LessonState,
+    TestState,
+    UserCourseState,
+    OrderState,
+    SupportState,
+    SearchState,
+    PoliciesState,
+    CouponState,
   }
 })

@@ -22,7 +22,7 @@
                 </v-text-field>
 
                 <v-card-title class="pa-0 mb-3" primary-title>
-                    Results: {{results.length}}
+                    Results: {{results ? results.length : 0}}
                 </v-card-title>
 
                 <div class="results_wrapper pr-2">
