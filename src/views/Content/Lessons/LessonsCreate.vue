@@ -36,6 +36,16 @@
                                     label="Video"
                                     :rules="[rules.video_id]"
                                 ></v-autocomplete>
+
+                                <v-file-input
+                                    outlined
+                                    show-size
+                                    v-model="image"
+                                    label="Image"
+                                    prepend-icon=""
+                                    :error-messages="errors && errors.image ? errors.image : ''"
+                                ></v-file-input>
+                                <img class="preview_image" :src="imageSrc" alt="">
                             </div>
                         </template>
                     </FormCard>
@@ -92,8 +102,8 @@ import FormCard from '../../../components/Cards/FormCard.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
 import SubmitButton from '../../../components/Buttons/SubmitButton.vue'
 import CancelButton from '../../../components/Buttons/CancelButton.vue'
-import {ID_RULE, NAME_RULE, VIDEO_DESCRIPTION_RULE} from '../../../helpers/Rules' 
-import {NAME_MESSAGE, DESCRIPTION_MESSAGE, COURSE_AREA_MESSAGE, VIDEO_MESSAGE} from '../../../helpers/Messages' 
+import {ID_RULE, NAME_RULE, VIDEO_DESCRIPTION_RULE, IMAGE_FILE_TYPES_RULE, IMAGE_FILE_SIZE_RULE} from '../../../helpers/Rules' 
+import {NAME_MESSAGE, DESCRIPTION_MESSAGE, COURSE_AREA_MESSAGE, VIDEO_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE, IMAGE_MESSAGE} from '../../../helpers/Messages' 
 import { VueEditor } from "vue2-editor";
 
 export default {
@@ -114,6 +124,7 @@ export default {
                 course_id: '',
                 video_id:       '',
             },
+            image: null,
             loading: false,
             errors: null,
             rules: {
@@ -144,6 +155,10 @@ export default {
             const data = this.$store.getters['VideoState/videos'];
             return data ? data : [];
         },
+        
+        imageSrc() {
+            return this.image ? URL.createObjectURL(this.image) : null;
+        },
     },
 
     watch: {
@@ -154,12 +169,14 @@ export default {
         submit() {
             this.errors = null;
             
+            this.validateImage();
             if(!this.$refs.form.validate() || this.errors) {
                 return;
             }
 
+
             this.loading = true;
-            this.$store.dispatch('LessonState/createLesson', this.form)
+            this.$store.dispatch('LessonState/createLesson', {...this.form, image: this.image})
                 .then(res => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Lesson ${this.form.name} created successfully`
@@ -176,6 +193,30 @@ export default {
                 .finally(() => {
                     this.loading = false;
                 });
+        },
+        
+        validateImage() {
+            if(this.errors) {
+                this.errors.image = null;
+            }
+
+            if(!this.image) {
+                return this.errors = {
+                    image: IMAGE_MESSAGE
+                };
+            }
+
+            if(!IMAGE_FILE_TYPES_RULE.includes(this.image.type)) {
+                return this.errors = {
+                    image: IMAGE_FILE_TYPES_MESSAGE
+                };
+            }
+
+            if(this.image.size > IMAGE_FILE_SIZE_RULE) {
+                return this.errors = {
+                    image: IMAGE_FILE_SIZE_MESSAGE
+                };
+            }
         }
     }
 }
