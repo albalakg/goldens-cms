@@ -61,7 +61,7 @@ export default {
             let courses     = this.$store.getters['CourseState/courses'];
             let courseAreas = this.$store.getters['CourseAreaState/courseAreas'];
             let lessons     = this.$store.getters['LessonState/lessons'];
-            
+            console.log('courses ', courses);
             if(!courses || !courseAreas || !lessons) {
                 return [];
             }

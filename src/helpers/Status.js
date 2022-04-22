@@ -23,6 +23,13 @@ export const STATUSES_VALUES = [
   0, 1, 2, 3
 ];
 
+export const STATUSES_ENUM = {
+  'INACTIVE': 0,
+  'Active': 1,
+  'PENDING': 2,
+};
+
+
 
 
 export const PROGRESS_STATUSES = [
