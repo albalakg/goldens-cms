@@ -28,7 +28,7 @@
                                 />
                                 <v-autocomplete
                                     outlined
-                                    :loading="!videos.length"
+                                    :loading="!videos"
                                     :items="videos"
                                     item-text="name"
                                     item-value="id"
@@ -52,7 +52,7 @@
                                     :items="courses"
                                     item-text="name"
                                     item-value="id"
-                                    v-model="course_id"
+                                    v-model="form.course_id"
                                     label="Course"
                                 ></v-autocomplete>
                                 <v-autocomplete
@@ -111,9 +111,9 @@ export default {
                 name:           '',
                 content:        '',
                 course_area_id: '',
+                course_id: '',
                 video_id:       '',
             },
-            course_id: '',
             loading: false,
             errors: null,
             rules: {
@@ -127,23 +127,22 @@ export default {
 
     computed: {
         courseAreas() {
-            let data = {...this.$store.getters['CourseAreaState/courseAreas']};
-           
-            if(this.course_id && data) {
-                data.data = data.data.filter(item => item.course_id === this.course_id);
+            let data = this.$store.getters['CourseAreaState/courseAreas'];
+            if(this.form.course_id && data) {
+                return data.filter(item => item.course_id === this.form.course_id);
             }
 
-            return data ? data.data : [];
+            return [];
         },
 
         courses() {
             const data = this.$store.getters['CourseState/courses'];
-            return data ? data.data : [];
+            return data ? data : [];
         },
 
         videos() {
             const data = this.$store.getters['VideoState/videos'];
-            return data ? data.data : [];
+            return data ? data : [];
         },
     },
 
