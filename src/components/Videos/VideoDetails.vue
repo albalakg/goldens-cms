@@ -37,8 +37,10 @@
                             label="Video File"
                             prepend-icon=""
                             :error-messages="errors && errors.file ? errors.file : ''"
+                            :hint="fileDuration"
+                            :persistent-hint="!!form.video_length"
                         ></v-file-input>
-                        <video class="preview_video" controls :src="videoSrc"></video>
+                        <video ref="video" class="preview_video" controls :src="videoSrc"></video>
                     </div>
                 </template>
             </FormCard>
@@ -88,7 +90,9 @@ export default {
             form: {
                 name:           '',
                 description:    '',
+                video_length:   '',
             },
+            video_length:   '',
             file: null,
             loading: false,
             errors: null,
@@ -105,6 +109,23 @@ export default {
             return this.file ? URL.createObjectURL(this.file) : 
                     this.video.file ? URL.createObjectURL(this.video.file) : this.video.video;
         },
+
+        fileDuration() {
+            if(!this.video_length) {
+                return '';
+            }
+            return this.video_length + ' seconds'
+        }
+    },
+
+    watch: {
+        file() {
+            const video = this.$refs.video;
+            video.onloadedmetadata = () => {
+                window.URL.revokeObjectURL(video.src);
+                this.form.video_length = this.video_length = Math.floor(video.duration);
+            }
+        }
     },
 
     created() {

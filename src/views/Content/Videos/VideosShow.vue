@@ -3,7 +3,7 @@
         
         <div v-if="editedVideo">
             <TopCard 
-                :text="'Video ' + editedVideo.full_name"
+                :text="'Video ' + editedVideo.name"
             />
 
             <br>
