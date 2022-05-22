@@ -1,7 +1,7 @@
 <template>
   <v-app id="app">
 
-    <span v-if="logged">
+    <span v-if="isLogged">
       <Topbar />
       <Sidebar />
       <PrimaryMessage />
@@ -14,8 +14,8 @@
           :key="$route.path"
           class="app_content app_animation"
           :class="`
-            ${sidebarIsOpen && logged ? 'app_content_mini' : ''}
-            ${!logged ? 'app_content_full_screen' : ''}
+            ${sidebarIsOpen && isLogged ? 'app_content_mini' : ''}
+            ${!isLogged ? 'app_content_full_screen' : ''}
           `"
         >
         </router-view>
@@ -40,7 +40,17 @@ export default {
   },
 
   created() {
-    this.setInitialSettings()
+    if(this.isLogged) {
+      this.setInitialSettings()
+    }
+  },
+
+  watch: {
+    isLogged() {
+      if(this.isLogged) {
+        this.setInitialSettings();
+      }
+    }
   },
 
   computed: {
@@ -48,7 +58,7 @@ export default {
       return this.$store.getters['AppState/sidebarState'];
     },
 
-    logged() {
+    isLogged() {
       return this.$store.getters['AppState/isLogged'];
     }
   },
@@ -69,7 +79,7 @@ export default {
       this.$store.dispatch('UserCourseState/getUsersCourses');
       this.$store.dispatch('PoliciesState/getCookies');
       this.$store.dispatch('PoliciesState/getTermsAndConditions');
-      this.$store.dispatch('AppState/updateLogState', Auth.isLogged());
+      this.$store.dispatch('AppState/updateLogState', true);
       this.$store.dispatch('AppState/updateItemsPerPage', window.screen.width > 1600 ? 10 : 5)
     }
   }

@@ -151,6 +151,7 @@ const routes = [
       },
     ]
   },
+  // ***** COURSE AREAS END *****
 
   // ***** COUPONS START *****
   {
@@ -211,6 +212,56 @@ const routes = [
     ]
   },
   // ***** TESTS END *****
+
+  // ***** TRAINERS START *****
+  {
+    path: '/content/trainers',
+    component: () => import('../views/Content/Trainers/TrainersIndex.vue'),
+    beforeEnter: Guard.admin,
+    children: [
+      {
+        path: '',
+        name: 'Trainers',
+        component: () => import('../views/Content/Trainers/TrainersList.vue'),
+      },
+      {
+        path: 'new',
+        name: 'TrainersCreate',
+        component: () => import('../views/Content/Trainers/TrainersCreate.vue'),
+      },
+      {
+        path: 'show/:trainerID',
+        name: 'TrainersShow',
+        component: () => import('../views/Content/Trainers/TrainersShow.vue'),
+      },
+    ]
+  },
+  // ***** TRAINERS END *****
+
+  // ***** MARKETING START *****
+  {
+    path: '/content/marketing',
+    component: () => import('../views/Content/Marketing/MarketingIndex.vue'),
+    beforeEnter: Guard.admin,
+    children: [
+      {
+        path: '',
+        name: 'Marketing',
+        component: () => import('../views/Content/Marketing/MarketingList.vue'),
+      },
+      {
+        path: 'new',
+        name: 'MarketingCreate',
+        component: () => import('../views/Content/Marketing/MarketingCreate.vue'),
+      },
+      {
+        path: 'show/:trainerID',
+        name: 'MarketingShow',
+        component: () => import('../views/Content/Marketing/MarketingShow.vue'),
+      },
+    ]
+  },
+  // ***** MARKETING END *****
 
   // ***** VIDEOS START *****
   {

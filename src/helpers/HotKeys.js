@@ -7,7 +7,6 @@ const PROFILE_CODE      = 'KeyQ';
 const SETTINGS_CODE     = 'KeyS';
 const DASHBOARD_CODE    = 'KeyD';
 const SIDEBAR_CODE      = 'KeyE';
-const LRION_CODE        = 'KeyW';
 
 const keysPressed = {};
 
@@ -33,6 +32,11 @@ document.addEventListener('keyup', (event) => {
 */
 
 function findAction(event) {
+    console.log(Auth.isLogged());
+    if(!Auth.isLogged()) {
+        return;
+    }
+    
     switch (event.code) {
         case SEARCH_CODE:
             activateSearch();
@@ -53,11 +57,6 @@ function findAction(event) {
         case SIDEBAR_CODE:
             toggleSidebar();
             break;
-
-        case LRION_CODE:
-            alert('לירון ההומו')
-            break;
-    
         default:
             break;
     }

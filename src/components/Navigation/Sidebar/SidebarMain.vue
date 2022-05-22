@@ -109,10 +109,20 @@ export default {
                             icon: 'mdi-video-box',
                         },
                         {
-                            text: 'Tests',
-                            url: '/content/tests',
-                            icon: 'mdi-notebook-edit-outline',
+                            text: 'Trainers',
+                            url: '/content/trainers',
+                            icon: 'mdi-account-group-outline',
                         },
+                        {
+                            text: 'Marketing',
+                            url: '/content/marketing',
+                            icon: 'mdi-cash-multiple',
+                        },
+                        // {
+                        //     text: 'Tests',
+                        //     url: '/content/tests',
+                        //     icon: 'mdi-notebook-edit-outline',
+                        // },
                         {
                             text: 'Coupons',
                             url: '/content/coupons',
