@@ -43,6 +43,14 @@
                             ></v-combobox>
                             <v-select
                                 outlined
+                                item-value="id"
+                                item-text="name"
+                                :items="trainers"
+                                label="Trainers"
+                                v-model="form.trainer_id"
+                            />
+                            <v-select
+                                outlined
                                 :items="statuses"
                                 item-text="text"
                                 item-value="value"
@@ -107,7 +115,7 @@ import SubmitButton from '../Buttons/SubmitButton.vue'
 import CancelButton from '../Buttons/CancelButton.vue'
 import { STATUSES_SELECTION } from '../../helpers/Status'
 import {NAME_RULE, DESCRIPTION_RULE, ID_RULE, TRAILER_FILE_SIZE_RULE, VIDEO_FILE_TYPES_RULE, IMAGE_FILE_TYPES_RULE, IMAGE_FILE_SIZE_RULE} from '../../helpers/Rules' 
-import {NAME_MESSAGE, DESCRIPTION_MESSAGE, COURSE_MESSAGE, TRAILER_FILE_SIZE_MESSAGE, TRAILER_FILE_TYPES_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE} from '../../helpers/Messages' 
+import {NAME_MESSAGE, DESCRIPTION_MESSAGE, COURSE_MESSAGE, TRAINER_MESSAGE, TRAILER_FILE_SIZE_MESSAGE, TRAILER_FILE_TYPES_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE} from '../../helpers/Messages' 
 
 export default {
     components: {
@@ -130,6 +138,7 @@ export default {
                 name:           '',
                 description:    '',
                 course_id:      '',
+                trainer_id:     '',
                 status:         '',
                 lessons:        [],
             },
@@ -140,6 +149,7 @@ export default {
             rules: {
                 name:           v => NAME_RULE.test(v)           || NAME_MESSAGE,
                 description:    v => DESCRIPTION_RULE.test(v)    || DESCRIPTION_MESSAGE,
+                trainer_id:     v => ID_RULE.test(v)             || TRAINER_MESSAGE,
                 course_id:      v => ID_RULE.test(v)             || COURSE_MESSAGE,
             },
             statuses: STATUSES_SELECTION
@@ -155,15 +165,16 @@ export default {
             const courses = this.$store.getters['CourseState/courses'];
             return courses ? courses : [];
         },
+                
+        trainers() {
+            const trainers = this.$store.getters['TrainerState/trainers'];
+            return trainers ? trainers : [];
+        },
 
         lessons() {
             const lessons = this.$store.getters['LessonState/lessons'];
             if(!lessons) {
                 return [];
-            }
-            
-            if(this.courseArea) {
-                this.form.lessons = lessons.filter(lesson => lesson.course_area_id === this.form.id);
             }
 
             return lessons.filter(lesson => !lesson.course_area_id || lesson.course_area_id === this.form.id);
@@ -188,12 +199,19 @@ export default {
         image() {
             this.validateImage();
         },
+
+        lessons() {
+            if(this.courseArea) {
+                this.form.lessons = this.lessons.filter(lesson => lesson.course_area_id === this.form.id);
+            }
+        }
     },
 
     methods: {
         setData() {
             this.$store.dispatch('CourseState/getCourses');
-            this.form = {...this.courseArea};
+            this.form           = {...this.courseArea};
+            this.form.lessons   = [];
             
             if(typeof this.form.trailer === 'object') {
                 this.trailer = this.form.trailer;

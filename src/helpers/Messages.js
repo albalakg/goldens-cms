@@ -17,6 +17,7 @@ export const COURSE_AREA_MESSAGE            = "Course Area is required";
 export const TRAILER_FILE_SIZE_MESSAGE      = "Trailer file has maximum size of 10MB";
 export const TRAILER_FILE_TYPES_MESSAGE     = "Trailer file type must be an MP4";
 export const TRAILER_MESSAGE                = "Trailer is required";
+export const TRAINER_MESSAGE                = "Trainer is required";
 export const IMAGE_FILE_TYPES_MESSAGE       = "Image file type must be jpeg/png/webp";
 export const IMAGE_FILE_SIZE_MESSAGE        = "Image file has maximum size of 5MB";
 export const IMAGE_MESSAGE                  = "Image is required";

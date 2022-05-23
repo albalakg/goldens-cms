@@ -43,6 +43,7 @@ export default {
                 { text: 'Name',         value: 'name' },
                 { text: 'Category',     value: 'course_category_name' },
                 { text: 'Course',       value: 'course_name' },
+                { text: 'Trainer',      value: 'trainer' },
                 { text: 'Lessons',      value: 'lessons_count' },
                 { text: 'Created At',   value: 'created_at' },
                 { text: 'Status',       value: 'status',    align: 'right' },
@@ -58,14 +59,16 @@ export default {
         courseAreas() {
             let courseAreas = this.$store.getters['CourseAreaState/courseAreas'];
             let lessons     = this.$store.getters['LessonState/lessons'];
+            let trainers    = this.$store.getters['TrainerState/trainers'];
 
-            if(!courseAreas || !lessons) {
+            if(!courseAreas || !lessons || !trainers) {
                 return [];
             }
 
             courseAreas.forEach(course_area => {
                 course_area.deleteDisabledMessage   = course_area.lessons_count ? 'Cannot delete Course Area that is being used' : '';
                 course_area.lessons_count           = lessons.filter(lesson => lesson.course_area_id == course_area.id).length;
+                course_area.trainer                 = trainers.find(trainer => trainer.id == course_area.trainer_id);
             });
 
             // filter by status

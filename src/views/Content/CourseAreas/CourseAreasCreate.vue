@@ -90,6 +90,14 @@
                                     multiple
                                     v-model="form.lessons"
                                 ></v-combobox>
+                                <v-select
+                                    outlined
+                                    item-value="id"
+                                    item-text="name"
+                                    :items="trainers"
+                                    label="Trainers"
+                                    v-model="form.trainer_id"
+                                />
                             </div>
                         </template>
                     </FormCard>
@@ -118,7 +126,7 @@ import TopCard from '../../../components/Cards/TopCard.vue'
 import SubmitButton from '../../../components/Buttons/SubmitButton.vue'
 import CancelButton from '../../../components/Buttons/CancelButton.vue'
 import {NAME_RULE, DESCRIPTION_RULE, ID_RULE, TRAILER_FILE_SIZE_RULE, VIDEO_FILE_TYPES_RULE, IMAGE_FILE_TYPES_RULE, IMAGE_FILE_SIZE_RULE} from '../../../helpers/Rules' 
-import {NAME_MESSAGE, DESCRIPTION_MESSAGE, COURSE_MESSAGE, TRAILER_FILE_SIZE_MESSAGE, TRAILER_FILE_TYPES_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE, IMAGE_MESSAGE, TRAILER_MESSAGE} from '../../../helpers/Messages' 
+import {NAME_MESSAGE, DESCRIPTION_MESSAGE, COURSE_MESSAGE, TRAINER_MESSAGE, TRAILER_FILE_SIZE_MESSAGE, TRAILER_FILE_TYPES_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE, IMAGE_MESSAGE, TRAILER_MESSAGE} from '../../../helpers/Messages' 
 
 export default {
     components: {
@@ -134,6 +142,7 @@ export default {
                 name:           '',
                 description:    '',
                 course_id:      '',
+                trainer_id:     '',
                 lessons:        []
             },
             image: null,
@@ -143,6 +152,7 @@ export default {
             rules: {
                 name:           v => NAME_RULE.test(v)           || NAME_MESSAGE,
                 description:    v => DESCRIPTION_RULE.test(v)    || DESCRIPTION_MESSAGE,
+                trainer_id:     v => ID_RULE.test(v)             || TRAINER_MESSAGE,
                 course_id:      v => ID_RULE.test(v)             || COURSE_MESSAGE,
             },
         }
@@ -153,15 +163,16 @@ export default {
             const courses = this.$store.getters['CourseState/courses'];
             return courses ? courses : [];
         },
+  
+        trainers() {
+            const trainers = this.$store.getters['TrainerState/trainers'];
+            return trainers ? trainers : [];
+        },
 
         lessons() {
             const lessons = this.$store.getters['LessonState/lessons'];
             if(!lessons) {
                 return [];
-            }
-            
-            if(this.courseArea) {
-                this.form.lessons = lessons.filter(lesson => lesson.course_area_id === this.form.id);
             }
 
             return lessons.filter(lesson => !lesson.course_area_id);
@@ -184,6 +195,12 @@ export default {
         image() {
             this.validateImage();
         },
+
+        lessons() {
+            if(this.courseArea) {
+                this.form.lessons = this.lessons.filter(lesson => lesson.course_area_id === this.form.id);
+            }
+        }
     },
 
     methods: {

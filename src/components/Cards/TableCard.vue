@@ -167,6 +167,15 @@
                 </a>
             </template>
 
+            <template v-slot:item.trainer="props">
+                <router-link v-if="props.item.trainer" :to="`/content/trainers/show/${props.item.trainer.id}`">
+                    {{props.item.trainer.name}}
+                </router-link>
+                <span v-else>
+                    לא ידוע
+                </span>
+            </template>
+
             <template v-slot:item.status="props">
                 <StatusChip 
                     :customText="statusTexts"

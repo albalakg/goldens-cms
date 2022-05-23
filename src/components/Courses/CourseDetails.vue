@@ -141,9 +141,9 @@ export default {
             rules: {
                 name:           v => NAME_RULE.test(v)           || NAME_MESSAGE,
                 description:    v => DESCRIPTION_RULE.test(v)    || DESCRIPTION_MESSAGE,
-                category_id:    v => ID_RULE.test(v)                    || CATEGORY_MESSAGE,
-                price:          v => PRICE_RULE.test(v)                 || PRICE_MESSAGE,
-                discount:       v => DISCOUNT_RULE.test(v)              || DISCOUNT_MESSAGE,
+                category_id:    v => ID_RULE.test(v)             || CATEGORY_MESSAGE,
+                price:          v => PRICE_RULE.test(v)          || PRICE_MESSAGE,
+                discount:       v => DISCOUNT_RULE.test(v)       || DISCOUNT_MESSAGE,
             },
         }
     },
