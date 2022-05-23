@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <TopCard 
-            text="Create Lesson"
+            text="Create Trainer"
         />
         
         <br>
@@ -22,20 +22,20 @@
                                     label="Name"
                                     :rules="[rules.name]"
                                 ></v-text-field>
+
+                                <v-text-field
+                                    outlined
+                                    v-model="form.title"
+                                    counter
+                                    maxlength="100"
+                                    label="Title"
+                                    :rules="[rules.title]"
+                                ></v-text-field>
+
                                 <VueEditor 
-                                    v-model="form.content"
+                                    v-model="form.description"
                                     class="text_editor"
                                 />
-                                <v-autocomplete
-                                    outlined
-                                    :loading="!videos"
-                                    :items="videos"
-                                    item-text="name"
-                                    item-value="id"
-                                    v-model="form.video_id"
-                                    label="Video"
-                                    :rules="[rules.video_id]"
-                                ></v-autocomplete>
 
                                 <v-file-input
                                     outlined
@@ -46,34 +46,6 @@
                                     :error-messages="errors && errors.image ? errors.image : ''"
                                 ></v-file-input>
                                 <img class="preview_image" :src="imageSrc" alt="">
-                            </div>
-                        </template>
-                    </FormCard>
-                </v-flex>
-                <v-flex xs12 lg6 class="pl-5">
-                    <FormCard
-                        title="Course"
-                    >
-                        <template slot="content">
-                            <div class="px-4">
-                                <v-autocomplete
-                                    outlined
-                                    :loading="!courses.length"
-                                    :items="courses"
-                                    item-text="name"
-                                    item-value="id"
-                                    v-model="form.course_id"
-                                    label="Course"
-                                ></v-autocomplete>
-                                <v-autocomplete
-                                    outlined
-                                    :items="courseAreas"
-                                    item-text="name"
-                                    item-value="id"
-                                    v-model="form.course_area_id"
-                                    label="Course Area"
-                                    :rules="[rules.course_area_id]"
-                                ></v-autocomplete>
                             </div>
                         </template>
                     </FormCard>
@@ -102,8 +74,8 @@ import FormCard from '../../../components/Cards/FormCard.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
 import SubmitButton from '../../../components/Buttons/SubmitButton.vue'
 import CancelButton from '../../../components/Buttons/CancelButton.vue'
-import {ID_RULE, NAME_RULE, VIDEO_DESCRIPTION_RULE, IMAGE_FILE_TYPES_RULE, IMAGE_FILE_SIZE_RULE} from '../../../helpers/Rules' 
-import {NAME_MESSAGE, DESCRIPTION_MESSAGE, COURSE_AREA_MESSAGE, VIDEO_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE, IMAGE_MESSAGE} from '../../../helpers/Messages' 
+import {NAME_RULE, TRAINER_DESCRIPTION_RULE, IMAGE_FILE_TYPES_RULE, IMAGE_FILE_SIZE_RULE, TRAINER_TITLE_RULE} from '../../../helpers/Rules' 
+import {NAME_MESSAGE, DESCRIPTION_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE, IMAGE_MESSAGE, TITLE_MESSAGE} from '../../../helpers/Messages' 
 import { VueEditor } from "vue2-editor";
 
 export default {
@@ -119,43 +91,21 @@ export default {
         return {
             form: {
                 name:           '',
-                content:        '',
-                course_area_id: '',
-                course_id: '',
-                video_id:       '',
+                title:          '',
+                description:    '',
             },
             image: null,
             loading: false,
             errors: null,
             rules: {
-                name:           v => NAME_RULE.test(v)              || NAME_MESSAGE,
-                content:        v => VIDEO_DESCRIPTION_RULE.test(v) || DESCRIPTION_MESSAGE,
-                course_area_id: v => ID_RULE.test(v)                || COURSE_AREA_MESSAGE,
-                video_id:       v => ID_RULE.test(v)                || VIDEO_MESSAGE,
+                name:           v => NAME_RULE.test(v)                  || NAME_MESSAGE,
+                title:          v => TRAINER_TITLE_RULE.test(v)         || TITLE_MESSAGE,
+                description:    v => TRAINER_DESCRIPTION_RULE.test(v)   || DESCRIPTION_MESSAGE,
             },
         }
     },
 
     computed: {
-        courseAreas() {
-            let data = this.$store.getters['CourseAreaState/courseAreas'];
-            if(this.form.course_id && data) {
-                return data.filter(item => item.course_id === this.form.course_id);
-            }
-
-            return [];
-        },
-
-        courses() {
-            const data = this.$store.getters['CourseState/courses'];
-            return data ? data : [];
-        },
-
-        videos() {
-            const data = this.$store.getters['VideoState/videos'];
-            return data ? data : [];
-        },
-        
         imageSrc() {
             return this.image ? URL.createObjectURL(this.image) : null;
         },
@@ -176,17 +126,17 @@ export default {
 
 
             this.loading = true;
-            this.$store.dispatch('LessonState/createLesson', {...this.form, image: this.image})
+            this.$store.dispatch('TrainerState/createTrainer', {...this.form, image: this.image})
                 .then(res => {
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: `Lesson ${this.form.name} created successfully`
+                        message: `Trainer ${this.form.name} created successfully`
                     });
                     this.$router.push('/content/lessons')
                 })
                 .catch(err => {
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to create the lesson',
+                        message: 'Failed to create the Trainer',
                         type: 'error',
                     });
                 })

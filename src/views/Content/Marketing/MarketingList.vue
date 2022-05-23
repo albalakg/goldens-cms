@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <TopCard 
-            text="Trainers"
+            text="Marketing"
             createable
             reloadable
             @reload="reload()"

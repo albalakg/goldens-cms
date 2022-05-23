@@ -1,6 +1,5 @@
 <template>
   <v-app id="app">
-
     <span v-if="isLogged">
       <Topbar />
       <Sidebar />
@@ -40,7 +39,7 @@ export default {
   },
 
   created() {
-    if(this.isLogged) {
+    if(Auth.isLogged()) {
       this.setInitialSettings()
     }
   },

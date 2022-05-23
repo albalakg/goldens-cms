@@ -121,7 +121,7 @@ export default {
     }
 
     .login_card {
-        height: 50vh;
+        max-height: 60vh;
     }
 
     .logo {
