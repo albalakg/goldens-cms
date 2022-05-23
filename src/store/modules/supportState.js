@@ -60,19 +60,25 @@ const SupportState = {
 
     actions: {
         getSupportTickets({ commit, dispatch }) {
-            commit('SET_SUPPORT_TICKETS', null);
+            return new Promise((resolve) => {
 
-            axios.get('cms/support/tickets')
-                .then(res => {
-                    commit('SET_SUPPORT_TICKETS', res.data.data);
-                })
-                .catch(err => {
-                    dispatch('MessageState/addMessage', {
-                        message: 'Failed to fetch Support Tickets',
-                        type: 'error',
-                    }, {root:true});
-                    console.warn('getSupportTickets: ', err);
-                })
+                commit('SET_SUPPORT_TICKETS', null);
+
+                axios.get('cms/support/tickets')
+                    .then(res => {
+                        commit('SET_SUPPORT_TICKETS', res.data.data);
+                    })
+                    .catch(err => {
+                        dispatch('MessageState/addMessage', {
+                            message: 'Failed to fetch Support Tickets',
+                            type: 'error',
+                        }, {root:true});
+                        console.warn('getSupportTickets: ', err);
+                    })
+                    .finally(() => {
+                        resolve()
+                    })
+            })
         },
 
         getSupportCategories({ commit, dispatch }) {

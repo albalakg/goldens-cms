@@ -47,19 +47,25 @@ const CourseState = {
 
     actions: {
         getCourses({ commit, dispatch }) {
-            commit('SET_COURSES', null);
+            return new Promise((resolve) => {
 
-            axios.get('cms/courses')
-                .then(res => {
-                    commit('SET_COURSES', res.data.data);
-                })
-                .catch(err => {
-                    dispatch('MessageState/addMessage', {
-                        message: 'Failed to fetch Courses',
-                        type: 'error',
-                    }, {root:true});
-                    console.warn('getCourses: ', err);
-                })
+                commit('SET_COURSES', null);
+
+                axios.get('cms/courses')
+                    .then(res => {
+                        commit('SET_COURSES', res.data.data);
+                    })
+                    .catch(err => {
+                        dispatch('MessageState/addMessage', {
+                            message: 'Failed to fetch Courses',
+                            type: 'error',
+                        }, {root:true});
+                        console.warn('getCourses: ', err);
+                    })
+                    .finally(() => {
+                        resolve()
+                    })
+            })
         },
 
         getCourse({ state }, courseID) {

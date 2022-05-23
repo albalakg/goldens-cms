@@ -50,25 +50,31 @@ const CouponState = {
 
     actions: {
         getCoupons({ state, commit, dispatch }) {
-            commit('SET_COUPONS', null);
+            return new Promise((resolve) => {
 
-            axios.get('cms/coupons')
-                .then(res => {
-                    const coupons = res.data.data.map(coupon => {
-                        return {
-                            ...coupon,
-                            coupon_value: coupon.value + state.types[coupon.type]
-                        }
+                commit('SET_COUPONS', null);
+
+                axios.get('cms/coupons')
+                    .then(res => {
+                        const coupons = res.data.data.map(coupon => {
+                            return {
+                                ...coupon,
+                                coupon_value: coupon.value + state.types[coupon.type]
+                            }
+                        })
+                        commit('SET_COUPONS', coupons);
                     })
-                    commit('SET_COUPONS', coupons);
-                })
-                .catch(err => {
-                    dispatch('MessageState/addMessage', {
-                        message: 'Failed to fetch Coupons',
-                        type: 'error',
-                    }, { root: true });
-                    console.warn('getCoupons: ', err);
-                })
+                    .catch(err => {
+                        dispatch('MessageState/addMessage', {
+                            message: 'Failed to fetch Coupons',
+                            type: 'error',
+                        }, { root: true });
+                        console.warn('getCoupons: ', err);
+                    })
+                    .finally(() => {
+                        resolve()
+                    })
+            })
         },
 
         getCoupon({ state }, couponID) {

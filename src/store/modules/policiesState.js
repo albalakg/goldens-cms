@@ -25,21 +25,27 @@ const PoliciesState = {
 
     actions: {
         getCookies({ state, commit, dispatch }) {
-            if(state.cookies) {
-                return;
-            }
+            return new Promise((resolve) => {
 
-            axios.get('cms/policies/cookies')
-                .then(res => {
-                    commit('SET_COOKIES', res.data.data);
-                })
-                .catch(err => {
-                    dispatch('MessageState/addMessage', {
-                        message: 'Failed to fetch Cookies',
-                        type: 'error',
-                    }, {root:true});
-                    console.warn('getCookies: ', err);
-                })
+                if(state.cookies) {
+                    return;
+                }
+
+                axios.get('cms/policies/cookies')
+                    .then(res => {
+                        commit('SET_COOKIES', res.data.data);
+                    })
+                    .catch(err => {
+                        dispatch('MessageState/addMessage', {
+                            message: 'Failed to fetch Cookies',
+                            type: 'error',
+                        }, {root:true});
+                        console.warn('getCookies: ', err);
+                    })
+                    .finally(() => {
+                        resolve()
+                    })
+            })
         },
 
         getTermsAndConditions({ state, commit, dispatch }) {

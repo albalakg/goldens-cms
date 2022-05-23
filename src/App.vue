@@ -7,18 +7,37 @@
     </span>
     
     <v-main>
-      <SearchCard />
-      <transition name="fade" mode="out-in">
-        <router-view
-          :key="$route.path"
-          class="app_content app_animation"
-          :class="`
-            ${sidebarIsOpen && isLogged ? 'app_content_mini' : ''}
-            ${!isLogged ? 'app_content_full_screen' : ''}
-          `"
-        >
-        </router-view>
-      </transition>
+      <template v-if="loading">
+        <v-flex class="loading_app" d-flex flex-wrap>
+          <template v-for="item in 3">
+            <v-sheet
+              :key="item"
+              color="lighten-4"
+              class="pa-3 mx-1 skeleton"
+            >
+              <v-skeleton-loader
+                class="mx-auto"
+                max-width="800"
+                type="card"
+              ></v-skeleton-loader>
+            </v-sheet>
+          </template>
+        </v-flex>
+      </template>
+      <template v-else>
+        <SearchCard />
+        <transition name="fade" mode="out-in">
+          <router-view
+            :key="$route.path"
+            class="app_content app_animation"
+            :class="`
+              ${sidebarIsOpen && isLogged ? 'app_content_mini' : ''}
+              ${!isLogged ? 'app_content_full_screen' : ''}
+            `"
+          >
+          </router-view>
+        </transition>
+      </template>
     </v-main>
 
   </v-app>
@@ -38,9 +57,15 @@ export default {
     SearchCard
   },
 
+  data() {
+    return {
+      loading: true
+    }
+  },
+
   created() {
     if(Auth.isLogged()) {
-      this.setInitialSettings()
+      this.$store.dispatch('AppState/updateLogState', true);
     }
   },
 
@@ -63,23 +88,31 @@ export default {
   },
 
   methods: {
-    setInitialSettings() {
-      this.$store.dispatch('UserState/getUsers');
-      this.$store.dispatch('CourseState/getCourses');
-      this.$store.dispatch('CourseCategoryState/getCourseCategories');
-      this.$store.dispatch('LessonState/getLessons');
-      this.$store.dispatch('VideoState/getVideos');
-      this.$store.dispatch('CourseAreaState/getCourseAreas');
-      this.$store.dispatch('TestState/getTests');
-      this.$store.dispatch('CouponState/getCoupons');
-      this.$store.dispatch('OrderState/getOrders');
-      this.$store.dispatch('SupportState/getSupportTickets');
-      this.$store.dispatch('SupportState/getSupportCategories');
-      this.$store.dispatch('UserCourseState/getUsersCourses');
-      this.$store.dispatch('PoliciesState/getCookies');
-      this.$store.dispatch('PoliciesState/getTermsAndConditions');
-      this.$store.dispatch('AppState/updateLogState', true);
-      this.$store.dispatch('AppState/updateItemsPerPage', window.screen.width > 1600 ? 10 : 5)
+    async setInitialSettings() {
+      await this.fetchAppData();
+      this.loading = false;
+    },
+
+    async fetchAppData() {
+      return await Promise.allSettled([
+        this.$store.dispatch('UserState/getUsers'),
+        this.$store.dispatch('CourseState/getCourses'),
+        this.$store.dispatch('CourseCategoryState/getCourseCategories'),
+        this.$store.dispatch('LessonState/getLessons'),
+        this.$store.dispatch('VideoState/getVideos'),
+        this.$store.dispatch('TrainerState/getTrainers'),
+        this.$store.dispatch('CourseAreaState/getCourseAreas'),
+        this.$store.dispatch('TestState/getTests'),
+        this.$store.dispatch('CouponState/getCoupons'),
+        this.$store.dispatch('OrderState/getOrders'),
+        this.$store.dispatch('SupportState/getSupportTickets'),
+        this.$store.dispatch('SupportState/getSupportCategories'),
+        this.$store.dispatch('UserCourseState/getUsersCourses'),
+        this.$store.dispatch('PoliciesState/getCookies'),
+        this.$store.dispatch('PoliciesState/getTermsAndConditions'),
+        this.$store.dispatch('AppState/updateLogState', true),
+        this.$store.dispatch('AppState/updateItemsPerPage', window.screen.width > 1600 ? 10 : 5)
+      ])
     }
   }
 
@@ -129,6 +162,15 @@ export default {
 
   #app {
     background-color: #0B032D11;
+  }
+
+  .loading_app {
+    margin-top: 80px;
+    margin-left: 16vw;
+  }
+
+  .skeleton {
+    width: calc(100% / 3 - 10px);
   }
 
   @media only screen and (max-width: 1700px) {

@@ -11,8 +11,8 @@
 
         <TableCard
             :headers="headers"
-            :items="lessons"
-            :loading="loadingLessons"
+            :items="trainers"
+            :loading="loadingTrainers"
             :filterStatus="statuses"
             viewable
             deleteable
@@ -52,30 +52,30 @@ export default {
     },
 
     computed: {
-        lessons() {
-            let lessons = this.$store.getters['LessonState/lessons'];
-
-            if(!lessons) {
+        trainers() {
+            const trainers = this.$store.getters['TrainerState/trainers'];
+            
+            if(!trainers) {
                 return [];
             }
 
             // filter by status
-            return lessons.filter(lesson => this.filterStatuses.includes(lesson.status))
+            return trainers.filter(trainer => this.filterStatuses.includes(trainer.status))
         },
 
-        loadingLessons() {
-            return !this.$store.getters['LessonState/lessons'];
+        loadingTrainers() {
+            return !this.$store.getters['TrainerState/trainers'];
         }
     },
 
     methods: {
        
         deleteItem(data) {
-            this.$store.dispatch('LessonState/deleteLessons', data)
+            this.$store.dispatch('TrainerState/deleteTrainers', data)
         },
 
         viewItem(item) {
-            this.$router.push('/content/lessons/show/' + item.id)
+            this.$router.push('/content/trainers/show/' + item.id)
         },
 
         filterByStatus(statuses) {
@@ -83,7 +83,7 @@ export default {
         },
 
         reload() {
-            this.$store.dispatch('LessonState/getLessons');
+            this.$store.dispatch('TrainerState/getTrainers');
         }
     }
 }

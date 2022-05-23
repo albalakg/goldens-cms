@@ -111,10 +111,6 @@ export default {
         },
     },
 
-    watch: {
-       
-    },
-
     methods: {
         submit() {
             this.errors = null;
@@ -131,7 +127,7 @@ export default {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Trainer ${this.form.name} created successfully`
                     });
-                    this.$router.push('/content/lessons')
+                    this.$router.push('/content/trainers')
                 })
                 .catch(err => {
                     this.errors = err.errors;

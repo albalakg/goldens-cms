@@ -69,20 +69,25 @@ const UserState = {
     },
 
     actions: {
-        getUsers({ state, commit, dispatch }) {
-            commit('SET_USERS', null);
+        getUsers({ commit, dispatch }) {
+            return new Promise((resolve) => {
+                commit('SET_USERS', null);
 
-            axios.get('cms/users')
-                .then(res => {
-                    commit('SET_USERS', res.data.data);
-                })
-                .catch(err => {
-                    dispatch('MessageState/addMessage', {
-                        message: 'Failed to fetch Users',
-                        type: 'error',
-                    }, { root: true });
-                    console.warn('getUsers: ', err);
-                })
+                axios.get('cms/users')
+                    .then(res => {
+                        commit('SET_USERS', res.data.data);
+                    })
+                    .catch(err => {
+                        dispatch('MessageState/addMessage', {
+                            message: 'Failed to fetch Users',
+                            type: 'error',
+                        }, { root: true });
+                        console.warn('getUsers: ', err);
+                    })
+                    .finally(() => {
+                        resolve()
+                    })
+            })
         },
 
         getUser({ state }, userID) {

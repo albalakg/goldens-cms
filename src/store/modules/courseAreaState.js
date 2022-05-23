@@ -49,19 +49,24 @@ const CourseAreaState = {
 
     actions: {
         getCourseAreas({ commit, dispatch }) {
-            commit('SET_COURSE_AREAS', null);
+            return new Promise((resolve) => {
+                commit('SET_COURSE_AREAS', null);
 
-            axios.get('cms/course-areas')
-                .then(res => {
-                    commit('SET_COURSE_AREAS', res.data.data);
-                })
-                .catch(err => {
-                    dispatch('MessageState/addMessage', {
-                        message: 'Failed to fetch Course Areas',
-                        type: 'error',
-                    }, {root:true});
-                    console.warn('getCourseAreas: ', err);
-                })
+                axios.get('cms/course-areas')
+                    .then(res => {
+                        commit('SET_COURSE_AREAS', res.data.data);
+                    })
+                    .catch(err => {
+                        dispatch('MessageState/addMessage', {
+                            message: 'Failed to fetch Course Areas',
+                            type: 'error',
+                        }, {root:true});
+                        console.warn('getCourseAreas: ', err);
+                    })
+                    .finally(() => {
+                        resolve()
+                    })
+            })
         },
 
         getCourseArea({ state }, courseAreaID) {

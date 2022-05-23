@@ -48,19 +48,24 @@ const CourseCategoryState = {
 
     actions: {
         getCourseCategories({ commit, dispatch }) {
-            commit('SET_COURSE_CATEGORIES', null);
+            return new Promise((resolve) => {
+                commit('SET_COURSE_CATEGORIES', null);
 
-            axios.get('cms/course-categories')
-                .then(res => {
-                    commit('SET_COURSE_CATEGORIES', res.data.data);
-                })
-                .catch(err => {
-                    dispatch('MessageState/addMessage', {
-                        message: 'Failed to fetch Course Categories',
-                        type: 'error',
-                    }, {root:true});
-                    console.warn('getCourseCategories: ', err);
-                })
+                axios.get('cms/course-categories')
+                    .then(res => {
+                        commit('SET_COURSE_CATEGORIES', res.data.data);
+                    })
+                    .catch(err => {
+                        dispatch('MessageState/addMessage', {
+                            message: 'Failed to fetch Course Categories',
+                            type: 'error',
+                        }, {root:true});
+                        console.warn('getCourseCategories: ', err);
+                    })
+                    .finally(() => {
+                        resolve()
+                    })
+            })
         },
 
         getCourseCategory({ state }, courseCategoryID) {

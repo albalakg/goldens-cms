@@ -32,19 +32,25 @@ const OrderState = {
 
     actions: {
         getOrders({ commit, dispatch }) {
-            commit('SET_ORDERS', null);
+            return new Promise((resolve) => {
 
-            axios.get('cms/orders')
-                .then(res => {
-                    commit('SET_ORDERS', res.data.data);
-                })
-                .catch(err => {
-                    dispatch('MessageState/addMessage', {
-                        message: 'Failed to fetch Orders',
-                        type: 'error',
-                    }, {root:true});
-                    console.warn('getOrders: ', err);
-                })
+                commit('SET_ORDERS', null);
+
+                axios.get('cms/orders')
+                    .then(res => {
+                        commit('SET_ORDERS', res.data.data);
+                    })
+                    .catch(err => {
+                        dispatch('MessageState/addMessage', {
+                            message: 'Failed to fetch Orders',
+                            type: 'error',
+                        }, {root:true});
+                        console.warn('getOrders: ', err);
+                    })
+                    .finally(() => {
+                        resolve()
+                    })
+            })
         },
 
         getOrder({ state }, orderID) {

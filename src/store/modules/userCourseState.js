@@ -32,19 +32,25 @@ const UserCourseState = {
 
     actions: {
         getUsersCourses({ commit, dispatch }) {
-            commit('SET_USERS_COURSES', null);
+            return new Promise((resolve) => {
 
-            axios.get('cms/user-courses')
-                .then(res => {
-                    commit('SET_USERS_COURSES', res.data.data);
-                })
-                .catch(err => {
-                    dispatch('MessageState/addMessage', {
-                        message: 'Failed to fetch Courses',
-                        type: 'error',
-                    }, {root:true});
-                    console.warn('getCourses: ', err);
-                })
+                commit('SET_USERS_COURSES', null);
+
+                axios.get('cms/user-courses')
+                    .then(res => {
+                        commit('SET_USERS_COURSES', res.data.data);
+                    })
+                    .catch(err => {
+                        dispatch('MessageState/addMessage', {
+                            message: 'Failed to fetch Courses',
+                            type: 'error',
+                        }, {root:true});
+                        console.warn('getCourses: ', err);
+                    })
+                    .finally(() => {
+                        resolve()
+                    })
+            })
         },
 
         getUserCourseProgress({ state, commit, dispatch }, userCourseID) {

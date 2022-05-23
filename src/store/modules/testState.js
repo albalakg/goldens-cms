@@ -59,19 +59,25 @@ const TestState = {
 
     actions: {
         getTests({ commit, dispatch }) {
-            commit('SET_TESTS', null);
+            return new Promise((resolve) => {
 
-            axios.get('cms/user-courses/tests')
-                .then(res => {
-                    commit('SET_TESTS', res.data.data);
-                })
-                .catch(err => {
-                    dispatch('MessageState/addMessage', {
-                        message: 'Failed to fetch Tests',
-                        type: 'error',
-                    }, {root:true});
-                    console.warn('getTests: ', err);
-                })
+                commit('SET_TESTS', null);
+
+                axios.get('cms/user-courses/tests')
+                    .then(res => {
+                        commit('SET_TESTS', res.data.data);
+                    })
+                    .catch(err => {
+                        dispatch('MessageState/addMessage', {
+                            message: 'Failed to fetch Tests',
+                            type: 'error',
+                        }, {root:true});
+                        console.warn('getTests: ', err);
+                    })
+                    .finally(() => {
+                        resolve()
+                    })
+            })
         },
 
         getTest({ state }, testID) {

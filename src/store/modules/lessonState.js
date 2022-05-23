@@ -66,19 +66,25 @@ const LessonState = {
 
     actions: {
         getLessons({ commit, dispatch }) {
-            commit('SET_LESSONS', null);
+            return new Promise((resolve) => {
 
-            axios.get('cms/lessons')
-                .then(res => {
-                    commit('SET_LESSONS', res.data.data);
-                })
-                .catch(err => {
-                    dispatch('MessageState/addMessage', {
-                        message: 'Failed to fetch Lessons',
-                        type: 'error',
-                    }, {root:true});
-                    console.warn('getLessons: ', err);
-                })
+                commit('SET_LESSONS', null);
+
+                axios.get('cms/lessons')
+                    .then(res => {
+                        commit('SET_LESSONS', res.data.data);
+                    })
+                    .catch(err => {
+                        dispatch('MessageState/addMessage', {
+                            message: 'Failed to fetch Lessons',
+                            type: 'error',
+                        }, {root:true});
+                        console.warn('getLessons: ', err);
+                    })
+                    .finally(() => {
+                        resolve()
+                    })
+            })
         },
 
         getLesson({ state }, lessonID) {

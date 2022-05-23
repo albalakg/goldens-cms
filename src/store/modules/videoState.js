@@ -48,19 +48,25 @@ const VideoState = {
 
     actions: {
         getVideos({ commit, dispatch }) {
-            commit('SET_VIDEOS', null);
+            return new Promise((resolve) => {
 
-            axios.get('cms/videos')
-                .then(res => {
-                    commit('SET_VIDEOS', res.data.data);
-                })
-                .catch(err => {
-                    dispatch('MessageState/addMessage', {
-                        message: 'Failed to fetch Videos',
-                        type: 'error',
-                    }, {root:true});
-                    console.warn('getVideos: ', err);
-                })
+                commit('SET_VIDEOS', null);
+
+                axios.get('cms/videos')
+                    .then(res => {
+                        commit('SET_VIDEOS', res.data.data);
+                    })
+                    .catch(err => {
+                        dispatch('MessageState/addMessage', {
+                            message: 'Failed to fetch Videos',
+                            type: 'error',
+                        }, {root:true});
+                        console.warn('getVideos: ', err);
+                    })
+                    .finally(() => {
+                        resolve()
+                    })
+            })
         },
 
         getVideo({ state }, videoID) {
