@@ -190,15 +190,23 @@
             </template>
 
             <template v-slot:item.price="props">
+                ₪
                 {{
                     props.item.price ? props.item.price : 0
-                }} NIS
+                }}
             </template>
 
             <template v-slot:item.discount="props">
                 {{
                     props.item.discount ? props.item.discount : 0
                 }}%
+            </template>
+
+            <template v-slot:item.discount_in_coins="props">
+                ₪
+                {{
+                    props.item.discount ? props.item.discount : 0
+                }}
             </template>
 
             <template v-slot:item.created_at="props">

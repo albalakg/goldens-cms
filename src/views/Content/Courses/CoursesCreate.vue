@@ -52,7 +52,7 @@
                                         outlined
                                         v-model="form.discount"
                                         label="Discount"
-                                        hint="discount in precentage %"
+                                        hint="discount in percentage %"
                                         autocomplete="off"
                                         class="pl-3"
                                     ></v-text-field>

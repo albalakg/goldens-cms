@@ -101,6 +101,7 @@ export default {
         this.$store.dispatch('LessonState/getLessons'),
         this.$store.dispatch('VideoState/getVideos'),
         this.$store.dispatch('TrainerState/getTrainers'),
+        this.$store.dispatch('MarketingState/getMarketings'),
         this.$store.dispatch('CourseAreaState/getCourseAreas'),
         this.$store.dispatch('TestState/getTests'),
         this.$store.dispatch('CouponState/getCoupons'),

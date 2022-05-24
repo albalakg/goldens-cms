@@ -255,7 +255,7 @@ const routes = [
         component: () => import('../views/Content/Marketing/MarketingCreate.vue'),
       },
       {
-        path: 'show/:trainerID',
+        path: 'show/:marketingID',
         name: 'MarketingShow',
         component: () => import('../views/Content/Marketing/MarketingShow.vue'),
       },

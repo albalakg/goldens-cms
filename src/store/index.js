@@ -17,6 +17,7 @@ import SearchState          from './modules/SearchState'
 import PoliciesState        from './modules/PoliciesState'
 import CouponState          from './modules/CouponState'
 import TrainerState         from './modules/TrainerState'
+import MarketingState       from './modules/MarketingState'
 
 
 Vue.use(Vuex)
@@ -39,5 +40,6 @@ export default new Vuex.Store({
     PoliciesState,
     CouponState,
     TrainerState,
+    MarketingState,
   }
 })

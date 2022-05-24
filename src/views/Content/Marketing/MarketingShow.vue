@@ -1,14 +1,14 @@
 <template>
-    <v-container fluid class="lesson_show_wrapper">
+    <v-container fluid class="marketing_show_wrapper">
         
-        <div v-if="editedLesson">
+        <div v-if="editedMarketing">
             <TopCard 
-                :text="'Lesson ' + editedLesson.name"
+                :text="'Marketing ' + editedMarketing.name"
             />
 
             <br>
             
-            <v-tabs vertical class="lesson_show_card">
+            <v-tabs vertical class="marketing_show_card">
                 <template v-for="(tab, index) in tabs">
                     <v-tab :key="index">
                         {{tab.text}}
@@ -19,7 +19,7 @@
                     <v-tab-item :key="index">
 
                         <div class="pl-5">
-                            <component :lesson="editedLesson" :is="tab.component" />
+                            <component :marketing="editedMarketing" :is="tab.component" />
                         </div>
                     </v-tab-item>
                 </template>
@@ -34,13 +34,13 @@
 <script>
 import FormLoader from '../../../components/Loaders/FormLoader.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
-import LessonDetails from '../../../components/Lessons/LessonDetails.vue'
+import MarketingDetails from '../../../components/Marketings/MarketingDetails.vue'
 
 export default {
     components: {
         FormLoader,
         TopCard,
-        LessonDetails,
+        MarketingDetails,
     },
 
     data() {
@@ -48,32 +48,32 @@ export default {
             tabs: [
                 { 
                     text: 'Details', 
-                    component: 'LessonDetails', 
+                    component: 'MarketingDetails', 
                 },
             ],
-            editedLesson: null,
+            editedMarketing: null,
         }
     },
 
     created() {
-        return this.getLesson();
+        return this.getMarketing();
     },
 
     watch: {
-        lessons() {
-            this.getLesson();
+        marketings() {
+            this.getMarketing();
         }
     },
 
     computed: {
-        lessons() {
-            return this.$store.getters['LessonState/lessons'];
+        marketings() {
+            return this.$store.getters['MarketingState/marketings'];
         }
     },
 
     methods: {
-        async getLesson() {
-            this.editedLesson = await this.$store.dispatch('LessonState/getLesson', this.$route.params.lessonID);
+        async getMarketing() {
+            this.editedMarketing = await this.$store.dispatch('MarketingState/getMarketing', this.$route.params.marketingID);
         },
 
         submit() {
@@ -84,17 +84,17 @@ export default {
 
             this.loading = true;
             
-            this.$store.dispatch('LessonState/createLesson', this.form)
+            this.$store.dispatch('MarketingState/createMarketing', this.form)
                 .then(res => {
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: `Lesson ${this.form.first_name} ${this.form.last_name} created successfully`
+                        message: `Marketing ${this.form.first_name} ${this.form.last_name} created successfully`
                     });
-                    this.$router.push('/lessons')
+                    this.$router.push('/marketings')
                 })
                 .catch(err => {
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to create the lesson',
+                        message: 'Failed to create the marketing',
                         type: 'error',
                     });
                 })
@@ -108,7 +108,7 @@ export default {
 
 <style scoped>
 
-    .lesson_show_card {
+    .marketing_show_card {
         min-height: 70vh;
     }
 
