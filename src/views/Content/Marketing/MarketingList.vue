@@ -41,6 +41,7 @@ export default {
                 { text: 'Email',        value: 'email' },
                 { text: 'Phone',        value: 'phone' },
                 { text: 'Discount',     value: 'discount_in_coins' },
+                { text: 'Link',         value: 'marketing_token' },
                 { text: 'Created At',   value: 'created_at' },
                 { text: 'Actions',      value: 'actions',   align: 'right' },
             ],

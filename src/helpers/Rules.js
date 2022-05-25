@@ -13,6 +13,7 @@ export const VIDEO_FILE_TYPES_RULE      = ['video/mp4'];
 export const IMAGE_FILE_TYPES_RULE      = ['image/webp', 'image/png', 'image/jpeg'];
 export const PRICE_RULE                 = /^\d{0,7}\.?\d{0,2}$/;
 export const DISCOUNT_RULE              = /^[\d\.]{1,4}$/;
+export const COURSE_DISCOUNT_RULE       = /[\d\.]{0,4}/;
 export const NAME_RULE                  = /.{2,40}/;
 export const DESCRIPTION_RULE           = /.{2,40}/;
 export const COMMENT_RULE               = /.{1,5000}/;

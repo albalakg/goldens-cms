@@ -209,6 +209,12 @@
                 }}
             </template>
 
+            <template v-slot:item.marketing_token="props">
+                <a :href="`http://localhost:8083/#/orders?courseId=1&token=${props.item.token}`" target="_blank">
+                    {{ `http://localhost:8083/#/orders?courseId=1&token=${props.item.token}` }}
+                </a>
+            </template>
+
             <template v-slot:item.created_at="props">
                 {{
                     props.item.created_at ? props.item.created_at : "Unknown"
@@ -369,6 +375,7 @@ export default {
                 item: null,
                 items: null,
             },
+            domain: DOMAIN,
             selected: [],
             multipleActionPickedItem: NO_ACTION,
             pickedStatusFilters: this.filterStatus ? this.filterStatus.map(status => status) : [],

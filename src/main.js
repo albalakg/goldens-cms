@@ -18,6 +18,7 @@ window.FORM_DATA_CONFIG = {
   }
 }
 
+window.DOMAIN     = 'http://localhost:8083'; //window.location.origin;
 window.FILES_PATH = window.location.origin + "/files/";
 
 import Auth from "./helpers/Auth";
