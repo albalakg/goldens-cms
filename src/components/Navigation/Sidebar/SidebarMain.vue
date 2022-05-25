@@ -115,7 +115,7 @@ export default {
                         },
                         {
                             text: 'Marketing',
-                            url: '/content/marketing',
+                            url: '/content/marketings',
                             icon: 'mdi-cash-multiple',
                         },
                         // {

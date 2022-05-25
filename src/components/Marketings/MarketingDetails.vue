@@ -29,7 +29,7 @@
                                 outlined
                                 v-model="form.phone"
                                 counter
-                                maxlength="100"
+                                maxlength="13"
                                 label="Phone"
                                 :rules="[rules.phone]"
                             ></v-text-field>

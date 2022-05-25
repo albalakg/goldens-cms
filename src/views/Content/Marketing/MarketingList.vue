@@ -66,7 +66,7 @@ export default {
         },
 
         viewItem(item) {
-            this.$router.push('/content/marketing/show/' + item.id)
+            this.$router.push('/content/marketings/show/' + item.id)
         },
 
         reload() {

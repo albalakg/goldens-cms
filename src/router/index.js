@@ -240,7 +240,7 @@ const routes = [
 
   // ***** MARKETING START *****
   {
-    path: '/content/marketing',
+    path: '/content/marketings',
     component: () => import('../views/Content/Marketing/MarketingIndex.vue'),
     beforeEnter: Guard.admin,
     children: [

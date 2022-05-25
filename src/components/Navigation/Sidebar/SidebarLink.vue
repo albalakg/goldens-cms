@@ -188,9 +188,11 @@ export default {
         font-family: 'Bebas Neue', cursive;
         opacity: 0;
         transition: .3s opacity linear;
+        display: none;
     }
 
     .link_tooltip_visible {
         opacity: 1;
+        display: block;
     }
 </style>
