@@ -81,6 +81,7 @@ export default {
             form: {
                 name: '',
                 description: '',
+                video_length: '',
             },
             file: null,
             loading: false,

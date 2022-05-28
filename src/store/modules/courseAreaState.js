@@ -133,6 +133,28 @@ const CourseAreaState = {
             }) 
         },
         
+        async searchByName({dispatch}, searchInput) {
+            return await dispatch('searchByInput', {searchInput, field: 'name', field_name: 'name'}); 
+        },
+                
+        searchByInput({state}, data) {
+            const results = [];
+            state.courseAreas.forEach(courseArea => {
+            if(courseArea && courseArea[data.field]) {
+                const field = courseArea[data.field];
+                if(field.toLowerCase().includes(data.searchInput)) {
+                    const text = data.field === 'name' ? field : field + ` (${courseArea.name})`;
+                    results.push({
+                        text: text,
+                        component: 'Course Area',
+                        type: `Course Area's ${data.field_name ? data.field_name : data.field}`,
+                        path: `/content/course-areas/show/${courseArea.id}` 
+                    })
+                }
+            }
+            });
+            return results;  
+        },
     }
 };
 

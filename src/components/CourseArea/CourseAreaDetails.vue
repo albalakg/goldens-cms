@@ -56,7 +56,6 @@
                                 item-value="value"
                                 v-model="form.status"
                                 label="Status"
-                                counter
                             ></v-select>
                         </div>
                     </template>
