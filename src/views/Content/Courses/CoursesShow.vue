@@ -19,7 +19,7 @@
                     <v-tab-item :key="index">
 
                         <div class="pl-5">
-                            <component :course="editedCourse" :is="tab.component" />
+                            <component :course="editedCourse" :is="tab.component" :content="currentContent" />
                         </div>
                     </v-tab-item>
                 </template>
@@ -36,6 +36,7 @@ import FormLoader from '../../../components/Loaders/FormLoader.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
 import CourseDetails from '../../../components/Courses/CourseDetails.vue'
 import CourseUsers from '../../../components/Courses/CourseUsers.vue'
+import OrderCourseContent from '../../../components/Courses/OrderCourseContent.vue'
 
 export default {
     components: {
@@ -43,6 +44,7 @@ export default {
         TopCard,
         CourseDetails,
         CourseUsers,
+        OrderCourseContent
     },
 
     data() {
@@ -55,6 +57,10 @@ export default {
                 { 
                     text: 'Users', 
                     component: 'CourseUsers', 
+                },
+                { 
+                    text: 'Order', 
+                    component: 'OrderCourseContent', 
                 },
             ],
             currentTab: 0,
