@@ -1,6 +1,18 @@
 <template>
-    <v-flex class="content_reorder_card">
-        <reorder-content-card :content="[{id: 1, name: 'asd'}, {id:2, name: 'ad'}]" />
+    <v-flex md6 class="content_reorder_card">
+        <div>
+            <v-tabs
+                v-model="currentTab"
+                color="primary"
+                slider-color="primary"
+            >
+                <v-tab v-for="(tab, index) in tabs" :key="index">
+                    {{ tab }}
+                </v-tab> 
+            </v-tabs>
+            <br>
+            <reorder-content-card :loading="loading" :key="currentTab" :content="reorderContent" @submit="submit" />
+        </div>
     </v-flex>
 </template>
 
@@ -13,29 +25,57 @@ export default {
     },
 
     props: {
-        content: {
-            type: Array,
+        course: {
+            type: Object,
             required: true
         }
     },
-
-    created() {
-        this.initialContent();
-    },
-
+    
     data() {
         return {
-            updatedContent: []
+            currentTab: 0,
+            tabs: ['Course Areas', 'Lessons'],
+            loading: false
+        }
+    },
+
+    computed: {
+        lessons() {
+            const lessons = this.$store.getters['LessonState/lessons'];
+            if(!lessons) {
+                return [];
+            }
+            
+            return lessons.filter(lesson => lesson.course_id === this.course.id)
+        },
+
+        courseAreas() {
+            const courseAreas = this.$store.getters['CourseAreaState/courseAreas'];
+            if(!courseAreas) {
+                return [];
+            }
+            
+            return courseAreas.filter(courseArea => courseArea.course_id === this.course.id)
+        },
+
+        isCourseAreaMode() {
+            return this.tabs[this.currentTab] === 'Course Areas';
+        },
+
+        reorderContent() {
+            return this.isCourseAreaMode ? this.courseAreas : this.lessons;
         }
     },
 
     methods: {
-        initialContent() {
-            this.updatedContent = new Set(this.content)    
-        },
-        
-        submit() {
-            this.$emit('submit', this.updatedContent)
+        async submit(content) {
+            if(this.isCourseAreaMode) {
+                return this.$store.dispatch('CourseAreaState/updateOrder');
+            }
+
+            this.loading = true;
+            await this.$store.dispatch('LessonState/updateOrder', content);
+            this.loading = false;
         }
     }
 }
@@ -43,8 +83,8 @@ export default {
 
 <style scoped>
 
-    .content_reorder_card {
-        width: 50%;
+    .content_reorder_card > div{
+        width: 100%;
     }
 
 </style>

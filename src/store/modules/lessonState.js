@@ -163,6 +163,22 @@ const LessonState = {
             }) 
         },
 
+        updateOrder({ commit }, lessons) {
+            console.log(123123, lessons);
+            return new Promise((resolve, reject) => {
+                axios.post('cms/lessons/order', {content: lessons})
+                    .then(res => {
+                        console.log('finished updating', lessons);
+                        // commit('SET_UPDATED_LESSON', lessons);
+                        resolve(res.data);
+                    })
+                    .catch(err => {
+                        console.warn('updateLesson: ', err);
+                        reject(err.response.data)
+                    })
+            }) 
+        },
+
         assignLessons({ commit }, data) {
             commit('ASSIGN_LESSONS', data);
         },

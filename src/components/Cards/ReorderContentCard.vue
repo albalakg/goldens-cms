@@ -1,8 +1,8 @@
 <template>
     <div class="content_reorder_card">
-        <h2 v-if="title">
-            Drag to reorder the {{ title }}
-        </h2>
+        <p>
+            Drag to reorder the items below
+        </p>
 
         <br>
 
@@ -16,13 +16,15 @@
         
          <v-flex d-flex justify-space-between class="mt-10">
             <v-flex md12 lg6 class="pr-5">
-                <CancelButton 
+                <CancelButton
+                    :loading="loading" 
                     text="reset"
                     @submit="initialContent()"
                 />
             </v-flex>
             <v-flex md12 lg6 class="pl-5">
                 <SubmitButton
+                    :loading="loading"
                     @submit="submit()"
                 />
             </v-flex>
@@ -51,6 +53,10 @@ export default {
         title: {
             type: String
         },
+
+        loading: {
+            type: Boolean
+        },
     },
 
     created() {
@@ -65,7 +71,19 @@ export default {
 
     methods: {
         initialContent() {
-            this.updatedContent = new Set(this.content)    
+            this.updatedContent = this.content.slice();
+            this.updatedContent.sort(this.compare)
+        },
+
+        compare( a, b ) {
+            console.log(a, b);
+            if ( a.view_order < b.view_order ){
+                return -1;
+            }
+            if ( a.view_order > b.view_order ){
+                return 1;
+            }
+            return 0;
         },
         
         submit() {
@@ -73,9 +91,14 @@ export default {
                 content.view_order = ++index;
             })
 
-            console.log(this.updatedContent);
+            const mappedContent = this.updatedContent.map(content => {
+                return {
+                    id:         content.id,
+                    view_order: content.view_order
+                }
+            });
 
-            this.$emit('submit', this.updatedContent)
+            this.$emit('submit', mappedContent)
         }
     }
 }
@@ -87,6 +110,7 @@ export default {
         background-color: #fff;
         padding: 10px;
         border-radius: 8px;
+        width: 100%;
     }
 
     .reorder_record {

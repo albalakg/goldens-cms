@@ -19,7 +19,7 @@
                     <v-tab-item :key="index">
 
                         <div class="pl-5">
-                            <component :course="editedCourse" :is="tab.component" :content="currentContent" />
+                            <component :course="editedCourse" :is="tab.component" />
                         </div>
                     </v-tab-item>
                 </template>
