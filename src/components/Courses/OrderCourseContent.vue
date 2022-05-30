@@ -69,12 +69,12 @@ export default {
 
     methods: {
         async submit(content) {
-            if(this.isCourseAreaMode) {
-                return this.$store.dispatch('CourseAreaState/updateOrder');
-            }
-
             this.loading = true;
-            await this.$store.dispatch('LessonState/updateOrder', content);
+            if(this.isCourseAreaMode) {
+                await this.$store.dispatch('CourseAreaState/updateOrder', content);
+            } else {
+                await this.$store.dispatch('LessonState/updateOrder', content);
+            }
             this.loading = false;
         }
     }

@@ -133,6 +133,19 @@ const CourseAreaState = {
             }) 
         },
         
+        updateOrder({ }, courseAreas) {
+            return new Promise((resolve, reject) => {
+                axios.post('cms/course-areas/order', {content: courseAreas})
+                    .then(res => {
+                        resolve(res.data);
+                    })
+                    .catch(err => {
+                        console.warn('updateLesson: ', err);
+                        reject(err.response.data)
+                    })
+            }) 
+        },
+        
         async searchByName({dispatch}, searchInput) {
             return await dispatch('searchByInput', {searchInput, field: 'name', field_name: 'name'}); 
         },

@@ -76,7 +76,6 @@ export default {
         },
 
         compare( a, b ) {
-            console.log(a, b);
             if ( a.view_order < b.view_order ){
                 return -1;
             }
