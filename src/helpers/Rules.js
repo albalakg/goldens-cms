@@ -17,4 +17,4 @@ export const COURSE_DISCOUNT_RULE       = /[\d\.]{0,4}/;
 export const NAME_RULE                  = /.{2,40}/;
 export const DESCRIPTION_RULE           = /.{2,40}/;
 export const COMMENT_RULE               = /.{1,5000}/;
-export const ID_RULE                    = /\d{1,10}/;
+export const ID_RULE                    = /[1-9]\d{0,9}/;
