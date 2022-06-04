@@ -23,9 +23,12 @@
                                     :rules="[rules.name]"
                                 ></v-text-field>
                                 <VueEditor 
-                                    v-model="form.content"
+                                    v-model="form.description"
+                                    placeholder="Description"
                                     class="text_editor"
                                 />
+                                
+
                                 <v-autocomplete
                                     outlined
                                     :loading="!videos"
@@ -79,6 +82,66 @@
                     </FormCard>
                 </v-flex>
             </v-flex>
+
+            <br>
+
+            <v-flex xs12>
+                <FormCard
+                    title="Content"
+                >
+                    <template slot="content">
+                        <VueEditor 
+                            v-model="form.content"
+                            placeholder="Content"
+                            class="text_editor"
+                        />
+
+                        <v-flex d-flex>
+                            <v-text-field
+                                class="mr-3"
+                                outlined
+                                v-model="form.rehearsals"
+                                label="Rehearsals"
+                                :rules="[rules.rehearsals]"
+                                hint="The amount of rehearsals"
+                                persistent-hint
+                            ></v-text-field>
+
+                            <v-text-field
+                                class="ml-3"
+                                outlined
+                                v-model="form.activity_time"
+                                label="Activity Time"
+                                :rules="[rules.activity_time]"
+                                hint="The activity time in seconds"
+                                persistent-hint
+                            ></v-text-field>
+                        </v-flex>
+
+                        <v-flex d-flex>
+                            <v-text-field
+                                class="mr-3"
+                                outlined
+                                v-model="form.activity_period"
+                                label="Activity Period"
+                                :rules="[rules.activity_period]"
+                                hint="The activity period in hours"
+                                persistent-hint
+                            ></v-text-field>
+
+                            <v-text-field
+                                class="ml-3"
+                                outlined
+                                v-model="form.rest_time"
+                                label="Rest Time"
+                                :rules="[rules.rest_time]"
+                                hint="The rest time in minutes"
+                                persistent-hint
+                            ></v-text-field>
+                        </v-flex>
+                    </template>
+                </FormCard>
+            </v-flex>
             <v-flex d-flex justify-space-between class="mt-10">
                 <v-flex md12 lg6 class="pr-5">
                     <CancelButton 
@@ -103,7 +166,7 @@ import TopCard from '../../../components/Cards/TopCard.vue'
 import SubmitButton from '../../../components/Buttons/SubmitButton.vue'
 import CancelButton from '../../../components/Buttons/CancelButton.vue'
 import {ID_RULE, NAME_RULE, VIDEO_DESCRIPTION_RULE, IMAGE_FILE_TYPES_RULE, IMAGE_FILE_SIZE_RULE} from '../../../helpers/Rules' 
-import {NAME_MESSAGE, DESCRIPTION_MESSAGE, COURSE_AREA_MESSAGE, VIDEO_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE, IMAGE_MESSAGE} from '../../../helpers/Messages' 
+import {NAME_MESSAGE, DESCRIPTION_MESSAGE, COURSE_AREA_MESSAGE, VIDEO_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE, IMAGE_MESSAGE, REHEARSAL_MESSAGE, ACTIVITY_TIME_MESSAGE, ACTIVITY_PERIOD_MESSAGE, REST_TIME_MESSAGE} from '../../../helpers/Messages' 
 import { VueEditor } from "vue2-editor";
 
 export default {
@@ -118,20 +181,29 @@ export default {
     data() {
         return {
             form: {
-                name:           '',
-                content:        '',
-                course_area_id: '',
-                course_id: '',
-                video_id:       '',
+                name:               '',
+                description:        '',
+                rehearsals:         '',
+                activity_time:      '',
+                activity_period:    '',
+                rest_time:          '',
+                content:            '',
+                course_area_id:     '',
+                course_id:          '',
+                video_id:           '',
             },
             image: null,
             loading: false,
             errors: null,
             rules: {
-                name:           v => NAME_RULE.test(v)              || NAME_MESSAGE,
-                content:        v => VIDEO_DESCRIPTION_RULE.test(v) || DESCRIPTION_MESSAGE,
-                course_area_id: v => ID_RULE.test(v)                || COURSE_AREA_MESSAGE,
-                video_id:       v => ID_RULE.test(v)                || VIDEO_MESSAGE,
+                name:               v => NAME_RULE.test(v)              || NAME_MESSAGE,
+                content:            v => VIDEO_DESCRIPTION_RULE.test(v) || DESCRIPTION_MESSAGE,
+                course_area_id:     v => ID_RULE.test(v)                || COURSE_AREA_MESSAGE,
+                video_id:           v => ID_RULE.test(v)                || VIDEO_MESSAGE,
+                rehearsals:         v => ID_RULE.test(v)                || REHEARSAL_MESSAGE,
+                activity_time:      v => ID_RULE.test(v)                || ACTIVITY_TIME_MESSAGE,
+                activity_period:    v => ID_RULE.test(v)                || ACTIVITY_PERIOD_MESSAGE,
+                rest_time:          v => ID_RULE.test(v)                || REST_TIME_MESSAGE,
             },
         }
     },
@@ -173,7 +245,6 @@ export default {
             if(!this.$refs.form.validate() || this.errors) {
                 return;
             }
-
 
             this.loading = true;
             this.$store.dispatch('LessonState/createLesson', {...this.form, image: this.image})

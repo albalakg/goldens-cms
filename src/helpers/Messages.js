@@ -26,3 +26,7 @@ export const DISCOUNT_MESSAGE               = "Discount must be a number";
 export const EXPIRATION_MESSAGE             = "Expiration date is required";
 export const COMMENT_MESSAGE                = "Comment is required";
 export const TITLE_MESSAGE                  = "Trainer title is required";
+export const REHEARSAL_MESSAGE              = "Rehearsal is required";
+export const ACTIVITY_TIME_MESSAGE          = "Activity time is required";
+export const ACTIVITY_PERIOD_MESSAGE        = "Activity period is required";
+export const REST_TIME_MESSAGE              = "Rest time is required";
