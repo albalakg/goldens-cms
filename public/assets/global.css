@@ -11,6 +11,11 @@
     transition: .2s all linear;
 }
 
+.ql-editor {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
     width: 10px;

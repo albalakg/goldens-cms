@@ -17,7 +17,7 @@
                                     :rules="[rules.name]"
                                 ></v-text-field>
                                 <VueEditor 
-                                    v-model="form.content"
+                                    v-model="form.description"
                                     class="text_editor"
                                 />
                                 <v-autocomplete
