@@ -42,8 +42,6 @@ import FormLoader from '../../../components/Loaders/FormLoader.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
 import UserCourseDetails from './../../../components/UserCourse/UserCourseDetails.vue'
 import UserCourseProgress from './../../../components/UserCourse/UserCourseProgress.vue'
-import UserCourseExtensions from './../../../components/UserCourse/UserCourseExtensions.vue'
-import UserCourseSubmissions from './../../../components/UserCourse/UserCourseSubmissions.vue'
 
 export default {
     components: {
@@ -51,8 +49,6 @@ export default {
         TopCard,
         UserCourseDetails,
         UserCourseProgress,
-        UserCourseExtensions,
-        UserCourseSubmissions,
     },
 
     data() {
@@ -65,14 +61,6 @@ export default {
                 { 
                     text: 'Progress', 
                     component: 'UserCourseProgress', 
-                },
-                { 
-                    text: 'Extensions', 
-                    component: 'UserCourseExtensions', 
-                },
-                { 
-                    text: 'Submissions',
-                    component: 'UserCourseSubmissions', 
                 },
             ],
             currentTab: 0,
