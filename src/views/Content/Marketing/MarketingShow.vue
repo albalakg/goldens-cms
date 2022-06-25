@@ -35,12 +35,14 @@
 import FormLoader from '../../../components/Loaders/FormLoader.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
 import MarketingDetails from '../../../components/Marketings/MarketingDetails.vue'
+import MarketingOrders from '../../../components/Marketings/MarketingOrders.vue'
 
 export default {
     components: {
         FormLoader,
         TopCard,
         MarketingDetails,
+        MarketingOrders,
     },
 
     data() {
@@ -49,6 +51,10 @@ export default {
                 { 
                     text: 'Details', 
                     component: 'MarketingDetails', 
+                },
+                { 
+                    text: 'Orders', 
+                    component: 'MarketingOrders', 
                 },
             ],
             editedMarketing: null,

@@ -202,6 +202,13 @@
                 }}%
             </template>
 
+            <template v-slot:item.marketing_discount="props">
+                ₪ 
+                {{
+                    props.item.marketingDiscount ? props.item.marketingDiscount : 0
+                }}
+            </template>
+
             <template v-slot:item.discount_in_coins="props">
                 ₪
                 {{
@@ -336,7 +343,10 @@ export default {
         },
 
         filterStatus: {
-            type: Array
+            type: Array,
+            default: () => {
+                return [];
+            }
         },
 
         editable: {
@@ -421,6 +431,7 @@ export default {
         },
 
         statusTexts() {
+            console.log('this.filterStatus', this.filterStatus);
             return this.filterStatus.map(item => item.text);
         },
 

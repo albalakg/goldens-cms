@@ -67,6 +67,10 @@ export const ORDER_STATUSES = [
   'In Progress',
 ];
 
+export const ORDER_VALUES = [
+  0, 1, 2
+];
+
 export const ORDER_SELECTION = [
   {
     'text': 'Canceled',
