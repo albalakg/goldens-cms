@@ -133,13 +133,20 @@ const CourseAreaState = {
             }) 
         },
         
-        updateOrder({ }, courseAreas) {
+        updateOrder({ dispatch }, courseAreas) {
             return new Promise((resolve, reject) => {
                 axios.post('cms/course-areas/order', {content: courseAreas})
                     .then(res => {
                         resolve(res.data);
+                        dispatch('MessageState/addMessage', {
+                            message: 'Updated the Course Areas order successfully',
+                        }, {root:true});
                     })
                     .catch(err => {
+                        dispatch('MessageState/addMessage', {
+                            message: 'Failed to update the Course Areas order',
+                            type: 'error',
+                        }, {root:true});
                         console.warn('updateLesson: ', err);
                         reject(err.response.data)
                     })

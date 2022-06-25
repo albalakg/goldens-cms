@@ -75,6 +75,7 @@ export default {
             } else {
                 await this.$store.dispatch('LessonState/updateOrder', content);
             }
+
             this.loading = false;
         }
     }
