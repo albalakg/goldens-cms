@@ -71,6 +71,9 @@
                     </FormCard>
                 </v-flex>
             </v-flex>
+            
+            <br>
+
             <v-flex xs12>
                 <FormCard
                     title="Content"
