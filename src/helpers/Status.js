@@ -85,3 +85,19 @@ export const ORDER_SELECTION = [
     'value': 2
   },
 ];
+
+
+export const COUPON_TYPES_VALUES = [
+  1, 2
+];
+
+export const COUPON_TYPES = [
+  {
+    text: '%',
+    value: 1
+  },
+  {
+    text: '₪',
+    value: 2
+  },
+];

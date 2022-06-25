@@ -21,6 +21,8 @@ const CouponState = {
                 return;
             }
 
+            couponData.coupon_value = couponData.value + state.types[couponData.type]
+
             state.coupons.unshift(couponData);
         },
 
@@ -75,6 +77,20 @@ const CouponState = {
                         resolve()
                     })
             })
+        },
+
+        createCoupon({ commit }, couponData) {
+            return new Promise((resolve, reject) => {
+                axios.post('cms/coupons/create', couponData)
+                .then(res => {
+                        commit('SET_NEW_COUPON', res.data.data);
+                        resolve(res.data);
+                    })
+                    .catch(err => {
+                        console.warn('createCoupon: ', err.response.data);
+                        reject(err.response.data)
+                    })
+            }) 
         },
 
         getCoupon({ state }, couponID) {

@@ -18,7 +18,7 @@
             deleteable
             searchable
             multiple
-            mainField="name"
+            mainField="code"
             @delete="deleteItem"
             @view="viewItem"
             @filterByStatus="filterByStatus"
@@ -44,7 +44,7 @@ export default {
                 { text: 'Value',            value: 'coupon_value' },
                 { text: 'Total Used',       value: 'orders' },
                 { text: 'Created At',       value: 'created_at' },
-                { text: 'Created By',       value: 'created_by' },
+                { text: 'Created By',       value: 'full_name' },
                 { text: 'Status',           value: 'status',    align: 'right' },
                 { text: 'Actions',          value: 'actions',   align: 'right' },
             ],
@@ -56,9 +56,9 @@ export default {
 
     computed: {
         coupons() {
-            let coupons = this.$store.getters['CouponState/coupons'];
-            let orders  = this.$store.getters['OrderState/orders'];
-            let users   = this.$store.getters['UserState/users'];
+            let coupons     = this.$store.getters['CouponState/coupons'];
+            const orders    = this.$store.getters['OrderState/orders'];
+            const users     = this.$store.getters['UserState/users'];
 
             if(!coupons || !orders || !users) {
                 return [];
@@ -67,11 +67,12 @@ export default {
             coupons.forEach(coupon => {
                 coupon.orders       = orders.filter(order => order.coupon_id === coupon.id).length;
                 const user          = users.find(user => user.id === coupon.created_by);
-                coupon.created_by   = user ? user.fullName : 'Unknown';
+                coupon.full_name    = user ? user.full_name : 'Unknown';
+                coupon.user_id      = coupon.created_by;
             });
 
             // filter by status
-            return coupons.filter(lesson => this.filterStatuses.includes(lesson.status))
+            return coupons.filter(coupon => this.filterStatuses.includes(coupon.status))
         },
 
         isLoading() {

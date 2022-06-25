@@ -84,7 +84,7 @@
                 </a>
             </template>
 
-            <template v-slot:item.full_name="props">
+            <template v-slot:item.f="props">
                 <div v-if="props.item.user_id">
                     <router-link :to="`/users/show/${props.item.user_id}`">
                         {{props.item.full_name}}

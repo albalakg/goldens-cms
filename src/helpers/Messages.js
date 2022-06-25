@@ -22,6 +22,7 @@ export const IMAGE_FILE_TYPES_MESSAGE       = "Image file type must be jpeg/png/
 export const IMAGE_FILE_SIZE_MESSAGE        = "Image file has maximum size of 5MB";
 export const IMAGE_MESSAGE                  = "Image is required";
 export const PRICE_MESSAGE                  = "Price must be a number";
+export const COUPON_TYPE_MESSAGE            = "Coupon type is invalid";
 export const DISCOUNT_MESSAGE               = "Discount must be a number";
 export const EXPIRATION_MESSAGE             = "Expiration date is required";
 export const COMMENT_MESSAGE                = "Comment is required";
