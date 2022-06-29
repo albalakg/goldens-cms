@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <TopCard 
-            text="Create Support Category"
+            text="Create Terms and Conditions"
         />
         
         <br>
@@ -13,25 +13,18 @@
                         title="Details"
                     >
                         <template slot="content">
-                            <div class="px-4">
-                                <v-text-field
-                                    outlined
-                                    v-model="form.name"
-                                    label="Name"
-                                    counter
-                                    maxlength="30"
-                                    :error-messages="errorName"
-                                    :rules="[rules.name]"
-                                ></v-text-field>
-                                <v-textarea
-                                    outlined
-                                    v-model="form.description"
-                                    counter
-                                    maxlength="1000"
-                                    label="Description"
-                                    :rules="[rules.description]"
-                                ></v-textarea>
-                            </div>
+                            <v-flex d-flex justify-space-between flex-wrap>
+                                <v-flex xs6 class="px-4">
+                                    <VueEditor 
+                                        v-model="form.content"
+                                        placeholder="תנאי האתר..."
+                                        class="text_editor"
+                                    />
+                                </v-flex>
+                                <v-flex xs6 class="px-8 rtl wrap-text">
+                                    <div class="w100" v-html="form.content"></div>
+                                </v-flex>
+                            </v-flex>
                         </template>
                     </FormCard>
                 </v-flex>
@@ -59,8 +52,9 @@ import FormCard from '../../../components/Cards/FormCard.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
 import SubmitButton from '../../../components/Buttons/SubmitButton.vue'
 import CancelButton from '../../../components/Buttons/CancelButton.vue'
-import {NAME_RULE, DESCRIPTION_RULE, ID_RULE} from '../../../helpers/Rules' 
-import {NAME_MESSAGE, DESCRIPTION_MESSAGE, CATEGORY_MESSAGE} from '../../../helpers/Messages' 
+import {DESCRIPTION_RULE} from '../../../helpers/Rules' 
+import {DESCRIPTION_MESSAGE} from '../../../helpers/Messages' 
+import { VueEditor } from "vue2-editor";
 
 export default {
     components: {
@@ -68,21 +62,19 @@ export default {
         TopCard,
         SubmitButton,
         CancelButton,
+        VueEditor,
     },
 
     data() {
         return {
             form: {
-                name:           '',
-                description:    '',
-                course_id:    '',
+                content:    '',
             },
             image: null,
             loading: false,
             errors: null,
             rules: {
-                name:           v => NAME_RULE.test(v)           || NAME_MESSAGE,
-                description:    v => DESCRIPTION_RULE.test(v)    || DESCRIPTION_MESSAGE,
+                content:    v => DESCRIPTION_RULE.test(v)    || DESCRIPTION_MESSAGE,
             },
         }
     },
@@ -103,17 +95,17 @@ export default {
 
             this.loading = true;
             
-            this.$store.dispatch('SupportState/createSupportCategory', this.form)
+            this.$store.dispatch('PoliciesState/createTermsAndConditions', this.form)
                 .then(res => {
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: `Support Category ${this.form.name} created successfully`
+                        message: `Terms and Condition created successfully`
                     });
-                    this.$router.push('/support/categories')
+                    this.$router.push('/policies/terms-and-conditions')
                 })
                 .catch(err => {
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to create the Support Category',
+                        message: 'Failed to create the Terms and Condition',
                         type: 'error',
                     });
                 })

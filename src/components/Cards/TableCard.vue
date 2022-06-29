@@ -12,10 +12,9 @@
             <v-flex 
                 d-flex 
                 :class="searchable ? 'mt-5' : ''" 
-                v-if="filterStatus"
+                v-if="filterStatus && filterStatus.length"
             >
                 <v-select
-                   
                     outlined
                     dense
                     item-value="value"
@@ -84,7 +83,7 @@
                 </a>
             </template>
 
-            <template v-slot:item.f="props">
+            <template v-slot:item.full_name="props">
                 <div v-if="props.item.user_id">
                     <router-link :to="`/users/show/${props.item.user_id}`">
                         {{props.item.full_name}}

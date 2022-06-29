@@ -16,6 +16,10 @@
     text-align: right !important;
 }
 
+.rtl {
+    direction: rtl;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
     width: 10px;
@@ -36,4 +40,8 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+
+.wrap-text {
+    word-wrap: break-word;
 }

@@ -9,9 +9,11 @@
 
         <TableCard
             :headers="headers"
-            :items="terms_and_conditions"
+            :items="termsAndConditions"
             :loading="isLoading"
             searchable
+            viewable
+            @view="viewItem"
         />
     </v-container>
 </template>
@@ -29,23 +31,46 @@ export default {
     data() {
         return {
             headers: [
-                { text: 'ID',           value: 'id' },
+                { text: 'Identifier',   value: 'id' },
                 { text: 'Created At',   value: 'created_at' },
+                { text: 'Created By',   value: 'full_name' },
+                { text: 'Actions',      value: 'actions',   align: 'right' },
             ],
             search: '',
         }
     },
 
     computed: {
-        terms_and_conditions() {
-            const terms_and_conditions = this.$store.getters['PoliciesState/terms_and_conditions'];
-            return terms_and_conditions ? terms_and_conditions : [];
+        termsAndConditions() {
+            let termsAndConditions    = this.$store.getters['PoliciesState/termsAndConditions'];
+            const users                 = this.$store.getters['UserState/users'];
+
+            if(!users || !termsAndConditions) {
+                return [];
+            }
+
+            termsAndConditions.forEach(tnc => {
+                const user = users.find(user => user.id === tnc.created_by);
+                if(user) {
+                    tnc.full_name  = user.full_name;
+                    tnc.user_id    = user.id;
+                }
+            });
+
+            return termsAndConditions;
         },
 
         isLoading() {
-            return !this.$store.getters['PoliciesState/terms_and_conditions'];
+            console.log("this.$store.getters['PoliciesState/termsAndConditions']", this.$store.getters['PoliciesState/termsAndConditions']);
+            return !this.$store.getters['PoliciesState/termsAndConditions'];
         }
     },
+
+    methods: {
+        viewItem(item) {
+            this.$router.push('/policies/terms-and-conditions/show/' + item.id)
+        },
+    }
 }
 </script>
 

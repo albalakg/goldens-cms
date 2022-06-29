@@ -369,6 +369,11 @@ const routes = [
         name: 'TermsAndConditionsCreate',
         component: () => import('../views/Policies/TermsAndConditions/TermsAndConditionsCreate.vue'),
       },
+      {
+        path: 'show/:termAndConditionID',
+        name: 'TermsAndConditionsShow',
+        component: () => import('../views/Policies/TermsAndConditions/TermsAndConditionsShow.vue'),
+      },
     ]
   },
   // ***** POLICIES TERMS AND CONDITIONS END *****

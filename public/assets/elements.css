@@ -50,6 +50,7 @@
 .text_editor {
     height: 300px;
     margin-bottom: 115px;
+    max-width: 100%;
 }
 
 .text_editor .ql-toolbar{

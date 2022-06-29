@@ -5,12 +5,12 @@ const PoliciesState = {
 
     state: {
         cookies: null,
-        terms_and_conditions: null,
+        termsAndConditions: null,
     },
 
     getters: {
         cookies: state => state.cookies,
-        terms_and_conditions: state => state.terms_and_conditions,
+        termsAndConditions: state => state.termsAndConditions,
     },
 
     mutations: {
@@ -18,9 +18,17 @@ const PoliciesState = {
             state.cookies = cookies;
         },
 
-        SET_TERMS_AND_CONDITIONS(state, terms_and_conditions) {
-            state.terms_and_conditions = terms_and_conditions;
+        SET_TERMS_AND_CONDITIONS(state, termsAndConditions) {
+            state.termsAndConditions = termsAndConditions;
         },
+
+        SET_NEW_TERMS_AND_CONDITIONS(state, data) {
+            if(!state.termsAndConditions) {
+                return;
+            }
+
+            state.termsAndConditions.unshift(data);
+        }
     },
 
     actions: {
@@ -49,13 +57,13 @@ const PoliciesState = {
         },
 
         getTermsAndConditions({ state, commit, dispatch }) {
-            if(state.terms_and_conditions) {
+            if(state.termsAndConditions) {
                 return;
             }
 
             axios.get('cms/policies/terms-and-conditions')
                 .then(res => {
-                    commit('SET_COOKIES', res.data.data);
+                    commit('SET_TERMS_AND_CONDITIONS', res.data.data);
                 })
                 .catch(err => {
                     dispatch('MessageState/addMessage', {
@@ -64,6 +72,20 @@ const PoliciesState = {
                     }, {root:true});
                     console.warn('getTermsAndConditions: ', err);
                 })
+        },
+
+        createTermsAndConditions({ commit }, dataToSend) {
+            return new Promise((resolve, reject) => {
+                axios.post('cms/policies/terms-and-conditions/create', dataToSend)
+                    .then(res => {
+                        commit('SET_NEW_TERMS_AND_CONDITIONS', res.data.data);
+                        resolve(res.data);
+                    })
+                    .catch(err => {
+                        console.warn('createTermsAndConditions: ', err.response.data);
+                        reject(err.response.data)
+                    })
+            }) 
         },
     }
 };
