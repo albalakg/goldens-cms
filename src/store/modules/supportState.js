@@ -121,7 +121,7 @@ const SupportState = {
                         text: support.support_number,
                         component: 'Support',
                         type: `Support's ${data.field_name ? data.field_name : data.field}`,
-                        path: `/support/show/${support.id}` 
+                        path: `/support/tickets/show/${support.id}` 
                     })
                 }
             }

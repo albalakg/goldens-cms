@@ -66,6 +66,8 @@ export default {
   created() {
     if(Auth.isLogged()) {
       this.$store.dispatch('AppState/updateLogState', true);
+    } else {
+      this.loading = false;
     }
   },
 

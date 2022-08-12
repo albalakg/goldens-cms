@@ -15,6 +15,10 @@ const keysPressed = {};
 document.addEventListener('keydown', event => {
     keysPressed[event.key] = true;
 
+    if(!Auth.isLogged()) {
+        return;
+    }
+    
     if (keysPressed['Alt']) {
         event.preventDefault();
         findAction(event);
@@ -31,12 +35,7 @@ document.addEventListener('keyup', (event) => {
  * Functions
 */
 
-function findAction(event) {
-    console.log(Auth.isLogged());
-    if(!Auth.isLogged()) {
-        return;
-    }
-    
+function findAction(event) {    
     switch (event.code) {
         case SEARCH_CODE:
             activateSearch();
