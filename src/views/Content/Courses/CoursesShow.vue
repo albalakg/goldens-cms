@@ -35,6 +35,7 @@
 import FormLoader from '../../../components/Loaders/FormLoader.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
 import CourseDetails from '../../../components/Courses/CourseDetails.vue'
+import CourseRecommendations from '../../../components/Courses/CourseRecommendations.vue'
 import CourseUsers from '../../../components/Courses/CourseUsers.vue'
 import OrderCourseContent from '../../../components/Courses/OrderCourseContent.vue'
 
@@ -44,7 +45,8 @@ export default {
         TopCard,
         CourseDetails,
         CourseUsers,
-        OrderCourseContent
+        OrderCourseContent,
+        CourseRecommendations
     },
 
     data() {
@@ -57,6 +59,10 @@ export default {
                 { 
                     text: 'Users', 
                     component: 'CourseUsers', 
+                },
+                { 
+                    text: 'Recommendations', 
+                    component: 'CourseRecommendations', 
                 },
                 { 
                     text: 'Order', 

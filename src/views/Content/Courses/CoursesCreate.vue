@@ -184,7 +184,7 @@ export default {
 
             this.loading = true;
             this.$store.dispatch('CourseState/createCourse', {...this.form, image: this.image, trailer: this.trailer})
-                .then(res => {
+                .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Course ${this.form.name} created successfully`
                     });

@@ -1,7 +1,7 @@
 <template>
     <div>
         <TopCard 
-            text="User's Courses"
+            text="Course Users"
             createable
             :createLink="createLink"
         />

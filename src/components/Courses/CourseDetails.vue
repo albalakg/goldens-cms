@@ -113,7 +113,6 @@
 
 <script>
 import FormCard from '../../components/Cards/FormCard.vue'
-import TopCard from '../../components/Cards/TopCard.vue'
 import SubmitButton from '../../components/Buttons/SubmitButton.vue'
 import CancelButton from '../../components/Buttons/CancelButton.vue'
 import { STATUSES_SELECTION } from '../../helpers/Status'
@@ -130,7 +129,6 @@ export default {
     
     components: {
         FormCard,
-        TopCard,
         SubmitButton,
         CancelButton,
     },

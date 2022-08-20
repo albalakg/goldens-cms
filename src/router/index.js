@@ -90,6 +90,11 @@ const routes = [
         component: () => import('../views/Content/Courses/CoursesList.vue'),
       },
       {
+        path: 'recommendations/new',
+        name: 'CoursesCreate',
+        component: () => import('../views/Content/Courses/CourseRecommendationsCreate.vue'),
+      },
+      {
         path: 'new',
         name: 'CoursesCreate',
         component: () => import('../views/Content/Courses/CoursesCreate.vue'),

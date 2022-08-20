@@ -13,6 +13,16 @@ const CourseState = {
     },
 
     mutations: {
+        SET_NEW_COURSE_RECOMMENDATIONS(state, courseRecommendations) {
+            state.courses = state.courses.map(course => {
+                if(course.id === courseRecommendations[0].course_id) {
+                    course.recommendations = course.recommendations.concat(courseRecommendations)
+                }
+
+                return course;
+            })
+        },
+
         SET_NEW_COURSE(state, courseData) {
             if(!state.courses) {
                 return;
@@ -42,6 +52,18 @@ const CourseState = {
             if(state.courses) {
                 state.courses = state.courses.filter(course => !course_ids.includes(course.id));
             }
+        },
+
+        DELETE_COURSE_RECOMMENDATIONS(state, data) {
+            if(state.courses) {
+                state.courses = state.courses.map(course => {
+                    if(course.id == data.courseId) {
+                        course.recommendations = course.recommendations.filter(recommendation => !data.recommendationIds.includes(recommendation.id))
+                    }
+
+                    return course;
+                });
+            }
         }
     },
 
@@ -69,7 +91,7 @@ const CourseState = {
         },
 
         getCourse({ state }, courseID) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 if(state.courses) {
                     resolve(state.courses.find(course => course.id == courseID))
                 } else {
@@ -99,6 +121,20 @@ const CourseState = {
             }
             });
             return results;  
+        },
+
+        createCourseRecommendations({ commit }, courseData) {
+            return new Promise((resolve, reject) => {
+                axios.post('cms/courses/recommendations/create', courseData)
+                .then(res => {
+                        commit('SET_NEW_COURSE_RECOMMENDATIONS', res.data.data);
+                        resolve(res.data);
+                    })
+                    .catch(err => {
+                        console.warn('createCourse: ', err.response.data);
+                        reject(err.response.data)
+                    })
+            }) 
         },
 
         createCourse({ commit }, courseData) {
@@ -134,7 +170,7 @@ const CourseState = {
         deleteCourses({ commit, dispatch }, course_ids) {
             return new Promise((resolve, reject) => {
                 axios.post('cms/courses/delete', { ids: course_ids })
-                    .then(res => {
+                    .then(() => {
                         commit('DELETE_COURSE', course_ids);
                         resolve();
                     })
@@ -144,6 +180,21 @@ const CourseState = {
                             message: err.response.data.message,
                             type: 'error',
                         }, {root:true});
+                        reject(err.response.data)
+                    })
+            }) 
+        },
+
+        deleteCourseRecommendations({ commit, dispatch }, data) {
+            return new Promise((resolve, reject) => {
+                axios.post('cms/courses/recommendations/delete', { ids: data.recommendationIds })
+                    .then(() => {
+                        commit('DELETE_COURSE_RECOMMENDATIONS', data);
+                        resolve();
+                    })
+                    .catch(err => {
+                        console.warn('deleteCourseRecommendations: ', err);
+                        
                         reject(err.response.data)
                     })
             }) 
