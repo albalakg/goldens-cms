@@ -109,11 +109,6 @@ export default {
                             icon: 'mdi-video-box',
                         },
                         {
-                            text: 'Terms',
-                            url: '/content/terms',
-                            icon: 'mdi-account-group-outline',
-                        },
-                        {
                             text: 'Skills',
                             url: '/content/skills',
                             icon: 'mdi-trophy-variant',
