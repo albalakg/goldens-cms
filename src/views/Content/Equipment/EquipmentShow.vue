@@ -1,14 +1,14 @@
 <template>
-    <v-container fluid class="video_show_wrapper">
+    <v-container fluid class="equipment_show_wrapper">
         
-        <div v-if="editedVideo">
+        <div v-if="editedEquipment">
             <TopCard 
-                :text="'Video ' + editedVideo.name"
+                :text="'Equipment ' + editedEquipment.name"
             />
 
             <br>
             
-            <v-tabs vertical class="video_show_card">
+            <v-tabs vertical class="equipment_show_card">
                 <template v-for="(tab, index) in tabs">
                     <v-tab :key="index">
                         {{tab.text}}
@@ -19,7 +19,7 @@
                     <v-tab-item :key="index">
 
                         <div class="pl-5">
-                            <component :video="editedVideo" :is="tab.component" />
+                            <component :equipment="editedEquipment" :is="tab.component" />
                         </div>
                     </v-tab-item>
                 </template>
@@ -34,13 +34,13 @@
 <script>
 import FormLoader from '../../../components/Loaders/FormLoader.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
-import VideoDetails from '../../../components/Videos/VideoDetails.vue'
+import EquipmentDetails from '../../../components/Equipment/EquipmentDetails.vue'
 
 export default {
     components: {
         FormLoader,
         TopCard,
-        VideoDetails,
+        EquipmentDetails,
     },
 
     data() {
@@ -48,32 +48,32 @@ export default {
             tabs: [
                 { 
                     text: 'Details', 
-                    component: 'VideoDetails', 
+                    component: 'EquipmentDetails', 
                 },
             ],
-            editedVideo: null,
+            editedEquipment: null,
         }
     },
 
     created() {
-        return this.getVideo();
+        return this.getEquipment();
     },
 
     watch: {
-        videos() {
-            this.getVideo();
+        equipment() {
+            this.getEquipment();
         }
     },
 
     computed: {
-        videos() {
-            return this.$store.getters['VideoState/videos'];
+        equipment() {
+            return this.$store.getters['EquipmentState/equipment'];
         }
     },
 
     methods: {
-        async getVideo() {
-            this.editedVideo = await this.$store.dispatch('VideoState/getVideo', this.$route.params.videoID);
+        async getEquipment() {
+            this.editedEquipment = await this.$store.dispatch('EquipmentState/getSingleEquipment', this.$route.params.equipmentID);
         },
 
         submit() {
@@ -84,17 +84,17 @@ export default {
 
             this.loading = true;
             
-            this.$store.dispatch('VideoState/createVideo', this.form)
+            this.$store.dispatch('EquipmentState/createEquipment', this.form)
                 .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: `Video ${this.form.first_name} ${this.form.last_name} created successfully`
+                        message: `Equipment ${this.form.first_name} ${this.form.last_name} created successfully`
                     });
-                    this.$router.push('/videos')
+                    this.$router.push('/equipment')
                 })
                 .catch(err => {
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to create the video',
+                        message: 'Failed to create the equipment',
                         type: 'error',
                     });
                 })
@@ -108,7 +108,7 @@ export default {
 
 <style scoped>
 
-    .video_show_card {
+    .equipment_show_card {
         min-height: 70vh;
     }
 

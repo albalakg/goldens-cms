@@ -70,7 +70,7 @@ const VideoState = {
         },
 
         getVideo({ state }, videoID) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 if(state.videos) {
                     resolve(state.videos.find(video => video.id == videoID))
                 } else {
@@ -112,7 +112,7 @@ const VideoState = {
         deleteVideos({ commit }, video_ids) {
             return new Promise((resolve, reject) => {
                 axios.post('cms/videos/delete', { ids: video_ids })
-                    .then(res => {
+                    .then(() => {
                         commit('DELETE_VIDEO', video_ids);
                         resolve();
                     })

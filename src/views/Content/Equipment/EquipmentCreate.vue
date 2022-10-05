@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <TopCard 
-            text="Create Video"
+            text="Create Equipment"
         />
         
         <br>
@@ -33,11 +33,11 @@
                                 outlined
                                 show-size
                                 v-model="file"
-                                label="Video File"
+                                label="Image"
                                 prepend-icon=""
                                 :error-messages="errors && errors.file ? errors.file : ''"
                             ></v-file-input>
-                            <video class="preview_video" controls :src="videoSrc"></video>
+                            <img class="preview_equipment" :src="equipmentSrc" />
                         </div>
                     </template>
                 </FormCard>
@@ -65,8 +65,8 @@ import FormCard from './../../../components/Cards/FormCard.vue'
 import TopCard from './../../../components/Cards/TopCard.vue'
 import SubmitButton from './../../../components/Buttons/SubmitButton.vue'
 import CancelButton from './../../../components/Buttons/CancelButton.vue'
-import {NAME_RULE, VIDEO_DESCRIPTION_RULE, VIDEO_FILE_SIZE_RULE, VIDEO_FILE_TYPES_RULE} from './../../../helpers/Rules' 
-import {NAME_MESSAGE, DESCRIPTION_MESSAGE, VIDEO_FILE_SIZE_MESSAGE, VIDEO_FILE_TYPES_MESSAGE, FILE_MESSAGE} from './../../../helpers/Messages' 
+import {NAME_RULE, EQUIPMENT_DESCRIPTION_RULE, IMAGE_FILE_SIZE_RULE, IMAGE_FILE_TYPES_RULE} from './../../../helpers/Rules' 
+import {NAME_MESSAGE, DESCRIPTION_MESSAGE, IMAGE_FILE_SIZE_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_MESSAGE} from './../../../helpers/Messages' 
 
 export default {
     components: {
@@ -81,20 +81,19 @@ export default {
             form: {
                 name: '',
                 description: '',
-                video_length: '',
             },
             file: null,
             loading: false,
             errors: null,
             rules: {
-                name:           v => NAME_RULE.test(v)              || NAME_MESSAGE,
-                description:    v => VIDEO_DESCRIPTION_RULE.test(v) || DESCRIPTION_MESSAGE,
+                name:           v => NAME_RULE.test(v)                  || NAME_MESSAGE,
+                description:    v => EQUIPMENT_DESCRIPTION_RULE.test(v) || DESCRIPTION_MESSAGE,
             },
         }
     },
 
     computed: {
-        videoSrc() {
+        equipmentSrc() {
             return this.file ? URL.createObjectURL(this.file) : '';
         },
     },
@@ -110,17 +109,17 @@ export default {
             }
 
             this.loading = true;
-            this.$store.dispatch('VideoState/createVideo', {...this.form, file: this.file})
+            this.$store.dispatch('EquipmentState/createEquipment', {...this.form, image: this.file})
                 .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: `Video ${this.form.name} created successfully`
+                        message: `Equipment ${this.form.name} created successfully`
                     });
-                    this.$router.push('/content/videos')
+                    this.$router.push('/content/equipment')
                 })
                 .catch(err => {
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to create the video',
+                        message: 'Failed to create the equipment',
                         type: 'error',
                     });
                 })
@@ -132,19 +131,19 @@ export default {
         validateFile() {
             if(!this.file) {
                 return this.errors = {
-                    file: FILE_MESSAGE
+                    file: IMAGE_MESSAGE
                 };
             }
 
-            if(!VIDEO_FILE_TYPES_RULE.includes(this.file.type)) {
+            if(!IMAGE_FILE_TYPES_RULE.includes(this.file.type)) {
                 return this.errors = {
-                    file: VIDEO_FILE_TYPES_MESSAGE
+                    file: IMAGE_FILE_TYPES_MESSAGE
                 };
             }
 
-            if(this.file.size > VIDEO_FILE_SIZE_RULE) {
+            if(this.file.size > IMAGE_FILE_SIZE_RULE) {
                 return this.errors = {
-                    file: VIDEO_FILE_SIZE_MESSAGE
+                    file: IMAGE_FILE_SIZE_MESSAGE
                 };
             }
         }
@@ -154,7 +153,7 @@ export default {
 
 <style scoped>
 
-.preview_video {
+.preview_equipment {
     width: 30%;
 }
 

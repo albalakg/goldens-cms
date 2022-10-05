@@ -1,14 +1,14 @@
 <template>
-    <v-container fluid class="video_show_wrapper">
+    <v-container fluid class="skill_show_wrapper">
         
-        <div v-if="editedVideo">
+        <div v-if="editedSkill">
             <TopCard 
-                :text="'Video ' + editedVideo.name"
+                :text="'Skill ' + editedSkill.name"
             />
 
             <br>
             
-            <v-tabs vertical class="video_show_card">
+            <v-tabs vertical class="skill_show_card">
                 <template v-for="(tab, index) in tabs">
                     <v-tab :key="index">
                         {{tab.text}}
@@ -19,7 +19,7 @@
                     <v-tab-item :key="index">
 
                         <div class="pl-5">
-                            <component :video="editedVideo" :is="tab.component" />
+                            <component :skill="editedSkill" :is="tab.component" />
                         </div>
                     </v-tab-item>
                 </template>
@@ -34,13 +34,13 @@
 <script>
 import FormLoader from '../../../components/Loaders/FormLoader.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
-import VideoDetails from '../../../components/Videos/VideoDetails.vue'
+import SkillDetails from '../../../components/Skills/SkillDetails.vue'
 
 export default {
     components: {
         FormLoader,
         TopCard,
-        VideoDetails,
+        SkillDetails,
     },
 
     data() {
@@ -48,32 +48,32 @@ export default {
             tabs: [
                 { 
                     text: 'Details', 
-                    component: 'VideoDetails', 
+                    component: 'SkillDetails', 
                 },
             ],
-            editedVideo: null,
+            editedSkill: null,
         }
     },
 
     created() {
-        return this.getVideo();
+        return this.getSkill();
     },
 
     watch: {
-        videos() {
-            this.getVideo();
+        skills() {
+            this.getSkill();
         }
     },
 
     computed: {
-        videos() {
-            return this.$store.getters['VideoState/videos'];
+        skills() {
+            return this.$store.getters['SkillState/skills'];
         }
     },
 
     methods: {
-        async getVideo() {
-            this.editedVideo = await this.$store.dispatch('VideoState/getVideo', this.$route.params.videoID);
+        async getSkill() {
+            this.editedSkill = await this.$store.dispatch('SkillState/getSkill', this.$route.params.skillID);
         },
 
         submit() {
@@ -84,17 +84,17 @@ export default {
 
             this.loading = true;
             
-            this.$store.dispatch('VideoState/createVideo', this.form)
+            this.$store.dispatch('SkillState/createSkill', this.form)
                 .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: `Video ${this.form.first_name} ${this.form.last_name} created successfully`
+                        message: `Skill ${this.form.first_name} ${this.form.last_name} created successfully`
                     });
-                    this.$router.push('/videos')
+                    this.$router.push('/skills')
                 })
                 .catch(err => {
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to create the video',
+                        message: 'Failed to create the skill',
                         type: 'error',
                     });
                 })
@@ -108,7 +108,7 @@ export default {
 
 <style scoped>
 
-    .video_show_card {
+    .skill_show_card {
         min-height: 70vh;
     }
 

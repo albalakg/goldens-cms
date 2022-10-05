@@ -30,17 +30,6 @@
                             v-model="form.status"
                             label="Status"
                         ></v-select>
-                        <v-file-input
-                            outlined
-                            show-size
-                            v-model="file"
-                            label="Video File"
-                            prepend-icon=""
-                            :error-messages="errors && errors.file ? errors.file : ''"
-                            :hint="fileDuration"
-                            :persistent-hint="!!form.video_length"
-                        ></v-file-input>
-                        <video ref="video" class="preview_video" controls :src="videoSrc"></video>
                     </div>
                 </template>
             </FormCard>
@@ -62,16 +51,16 @@
 </template>
 
 <script>
-import FormCard from './../../components/Cards/FormCard.vue'
-import SubmitButton from './../../components/Buttons/SubmitButton.vue'
-import CancelButton from './../../components/Buttons/CancelButton.vue'
-import { STATUSES_SELECTION } from './../../helpers/Status'
-import {NAME_RULE, VIDEO_DESCRIPTION_RULE, VIDEO_FILE_SIZE_RULE, VIDEO_FILE_TYPES_RULE} from './../../helpers/Rules' 
-import {NAME_MESSAGE, DESCRIPTION_MESSAGE, VIDEO_FILE_SIZE_MESSAGE, VIDEO_FILE_TYPES_MESSAGE} from './../../helpers/Messages' 
+import FormCard from '../Cards/FormCard.vue'
+import SubmitButton from '../Buttons/SubmitButton.vue'
+import CancelButton from '../Buttons/CancelButton.vue'
+import { STATUSES_SELECTION } from '../../helpers/Status'
+import {NAME_RULE, SKILL_DESCRIPTION_RULE} from '../../helpers/Rules' 
+import {NAME_MESSAGE, DESCRIPTION_MESSAGE} from '../../helpers/Messages' 
 
 export default {
     props: {
-        video: {
+        term: {
             type: Object,
             required: true
         }
@@ -88,70 +77,41 @@ export default {
             form: {
                 name:           '',
                 description:    '',
-                video_length:   '',
             },
-            video_length:   '',
-            file: null,
             loading: false,
             errors: null,
             rules: {
-                name:           v => NAME_RULE.test(v)        || NAME_MESSAGE,
-                description:    v => VIDEO_DESCRIPTION_RULE.test(v) || DESCRIPTION_MESSAGE,
+                name:           v => NAME_RULE.test(v)              || NAME_MESSAGE,
+                description:    v => SKILL_DESCRIPTION_RULE.test(v) || DESCRIPTION_MESSAGE,
             },
             statuses: STATUSES_SELECTION
         }
     },
 
-    computed: {
-        videoSrc() {
-            return this.file ? URL.createObjectURL(this.file) : 
-                    this.video.file ? URL.createObjectURL(this.video.file) : this.video.video;
-        },
-
-        fileDuration() {
-            if(!this.video_length) {
-                return '';
-            }
-            return this.video_length + ' seconds'
-        }
-    },
-
-    watch: {
-        file() {
-            const video = this.$refs.video;
-            video.onloadedmetadata = () => {
-                window.URL.revokeObjectURL(video.src);
-                this.form.video_length = this.video_length = Math.floor(video.duration);
-            }
-        }
-    },
-
     created() {
-        this.form = {...this.video};
+        this.form = {...this.term};
     },
 
     methods: {
         submit() {
             this.errors = null;
             
-            this.validateFile();
-
             if(!this.$refs.form.validate() || this.errors) {
                 return;
             }
 
             this.loading = true;
-            this.$store.dispatch('VideoState/updateVideo', {...this.form, file: this.file})
+            this.$store.dispatch('TermState/updateTerm', {...this.form, image: this.file})
                 .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: `Video ${this.form.name} updated successfully`
+                        message: `Term ${this.form.name} updated successfully`
                     });
-                    this.$router.push('/content/videos')
+                    this.$router.push('/content/terms')
                 })
                 .catch(err => {
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to update the video',
+                        message: 'Failed to update the term',
                         type: 'error',
                     });
                 })
@@ -159,31 +119,13 @@ export default {
                     this.loading = false;
                 });
         },
-
-        validateFile() {
-            if(!this.file) {
-                return;
-            }
-
-            if(!VIDEO_FILE_TYPES_RULE.includes(this.file.type)) {
-                return this.errors = {
-                    file: VIDEO_FILE_TYPES_MESSAGE
-                };
-            }
-
-            if(this.file.size > VIDEO_FILE_SIZE_RULE) {
-                return this.errors = {
-                    file: VIDEO_FILE_SIZE_MESSAGE
-                };
-            }
-        }
     }
 }
 </script>
 
 <style scoped>
 
-.preview_video {
+.preview_term {
     width: 30%;
 }
 

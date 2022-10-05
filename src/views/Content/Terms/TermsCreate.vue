@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <TopCard 
-            text="Create Video"
+            text="Create Term"
         />
         
         <br>
@@ -29,15 +29,6 @@
                                 label="Description"
                                 :rules="[rules.description]"
                             ></v-textarea>
-                            <v-file-input
-                                outlined
-                                show-size
-                                v-model="file"
-                                label="Video File"
-                                prepend-icon=""
-                                :error-messages="errors && errors.file ? errors.file : ''"
-                            ></v-file-input>
-                            <video class="preview_video" controls :src="videoSrc"></video>
                         </div>
                     </template>
                 </FormCard>
@@ -65,8 +56,8 @@ import FormCard from './../../../components/Cards/FormCard.vue'
 import TopCard from './../../../components/Cards/TopCard.vue'
 import SubmitButton from './../../../components/Buttons/SubmitButton.vue'
 import CancelButton from './../../../components/Buttons/CancelButton.vue'
-import {NAME_RULE, VIDEO_DESCRIPTION_RULE, VIDEO_FILE_SIZE_RULE, VIDEO_FILE_TYPES_RULE} from './../../../helpers/Rules' 
-import {NAME_MESSAGE, DESCRIPTION_MESSAGE, VIDEO_FILE_SIZE_MESSAGE, VIDEO_FILE_TYPES_MESSAGE, FILE_MESSAGE} from './../../../helpers/Messages' 
+import {NAME_RULE, TERM_DESCRIPTION_RULE} from './../../../helpers/Rules' 
+import {NAME_MESSAGE, DESCRIPTION_MESSAGE} from './../../../helpers/Messages' 
 
 export default {
     components: {
@@ -81,46 +72,36 @@ export default {
             form: {
                 name: '',
                 description: '',
-                video_length: '',
             },
-            file: null,
             loading: false,
             errors: null,
             rules: {
                 name:           v => NAME_RULE.test(v)              || NAME_MESSAGE,
-                description:    v => VIDEO_DESCRIPTION_RULE.test(v) || DESCRIPTION_MESSAGE,
+                description:    v => TERM_DESCRIPTION_RULE.test(v)  || DESCRIPTION_MESSAGE,
             },
         }
-    },
-
-    computed: {
-        videoSrc() {
-            return this.file ? URL.createObjectURL(this.file) : '';
-        },
     },
     
     methods: {
         submit() {
             this.errors = null;
             
-            this.validateFile();
-
             if(!this.$refs.form.validate() || this.errors) {
                 return;
             }
 
             this.loading = true;
-            this.$store.dispatch('VideoState/createVideo', {...this.form, file: this.file})
+            this.$store.dispatch('TermState/createTerm', this.form)
                 .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: `Video ${this.form.name} created successfully`
+                        message: `Term ${this.form.name} created successfully`
                     });
-                    this.$router.push('/content/videos')
+                    this.$router.push('/content/terms')
                 })
                 .catch(err => {
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to create the video',
+                        message: 'Failed to create the term',
                         type: 'error',
                     });
                 })
@@ -128,33 +109,13 @@ export default {
                     this.loading = false;
                 });
         },
-
-        validateFile() {
-            if(!this.file) {
-                return this.errors = {
-                    file: FILE_MESSAGE
-                };
-            }
-
-            if(!VIDEO_FILE_TYPES_RULE.includes(this.file.type)) {
-                return this.errors = {
-                    file: VIDEO_FILE_TYPES_MESSAGE
-                };
-            }
-
-            if(this.file.size > VIDEO_FILE_SIZE_RULE) {
-                return this.errors = {
-                    file: VIDEO_FILE_SIZE_MESSAGE
-                };
-            }
-        }
     }
 }
 </script>
 
 <style scoped>
 
-.preview_video {
+.preview_term {
     width: 30%;
 }
 

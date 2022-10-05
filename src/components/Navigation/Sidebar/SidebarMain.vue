@@ -70,7 +70,7 @@ export default {
                 {
                     text: 'Dashboard',
                     url: '/',
-                    icon: 'mdi-view-dashboard'
+                    icon: 'mdi-chart-bar'
                 },
                 {
                     text: 'Users',
@@ -109,9 +109,24 @@ export default {
                             icon: 'mdi-video-box',
                         },
                         {
-                            text: 'Trainers',
-                            url: '/content/trainers',
+                            text: 'Terms',
+                            url: '/content/terms',
                             icon: 'mdi-account-group-outline',
+                        },
+                        {
+                            text: 'Skills',
+                            url: '/content/skills',
+                            icon: 'mdi-trophy-variant',
+                        },
+                        {
+                            text: 'Equipment',
+                            url: '/content/equipment',
+                            icon: 'mdi-traffic-cone',
+                        },
+                        {
+                            text: 'Terms',
+                            url: '/content/terms',
+                            icon: 'mdi-file-document',
                         },
                         {
                             text: 'Marketing',

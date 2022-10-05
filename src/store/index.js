@@ -5,6 +5,9 @@ import AppState             from './modules/AppState'
 import UserState            from './modules/UserState'
 import MessageState         from './modules/MessageState'
 import VideoState           from './modules/VideoState'
+import SkillState           from './modules/SkillState'
+import TermState            from './modules/TermState'
+import EquipmentState       from './modules/EquipmentState'
 import CourseState          from './modules/CourseState'
 import CourseCategoryState  from './modules/CourseCategoryState'
 import CourseAreaState      from './modules/CourseAreaState'
@@ -28,6 +31,9 @@ export default new Vuex.Store({
     UserState,
     MessageState,
     VideoState,
+    SkillState,
+    TermState,
+    EquipmentState,
     CourseState,
     CourseCategoryState,
     CourseAreaState,

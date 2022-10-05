@@ -91,7 +91,7 @@ const routes = [
       },
       {
         path: 'recommendations/new',
-        name: 'CoursesCreate',
+        name: 'CoursesRecommendationCreate',
         component: () => import('../views/Content/Courses/CourseRecommendationsCreate.vue'),
       },
       {
@@ -292,6 +292,81 @@ const routes = [
     ]
   },
   // ***** VIDEOS END *****
+
+  // ***** TERMS START *****
+  {
+    path: '/content/terms',
+    component: () => import('../views/Content/Terms/TermsIndex.vue'),
+    beforeEnter: Guard.admin,
+    children: [
+      {
+        path: '',
+        name: 'Terms',
+        component: () => import('../views/Content/Terms/TermsList.vue'),
+      },
+      {
+        path: 'new',
+        name: 'TermsCreate',
+        component: () => import('../views/Content/Terms/TermsCreate.vue'),
+      },
+      {
+        path: 'show/:termID',
+        name: 'TermsShow',
+        component: () => import('../views/Content/Terms/TermsShow.vue'),
+      },
+    ]
+  },
+  // ***** TERMS END *****
+
+  // ***** SKILLS START *****
+  {
+    path: '/content/skills',
+    component: () => import('../views/Content/Skills/SkillsIndex.vue'),
+    beforeEnter: Guard.admin,
+    children: [
+      {
+        path: '',
+        name: 'Skills',
+        component: () => import('../views/Content/Skills/SkillsList.vue'),
+      },
+      {
+        path: 'new',
+        name: 'SkillsCreate',
+        component: () => import('../views/Content/Skills/SkillsCreate.vue'),
+      },
+      {
+        path: 'show/:skillID',
+        name: 'SkillsShow',
+        component: () => import('../views/Content/Skills/SkillsShow.vue'),
+      },
+    ]
+  },
+  // ***** SKILLS END *****
+
+  // ***** EQUIPMENT START *****
+  {
+    path: '/content/equipment',
+    component: () => import('../views/Content/Equipment/EquipmentIndex.vue'),
+    beforeEnter: Guard.admin,
+    children: [
+      {
+        path: '',
+        name: 'Equipment',
+        component: () => import('../views/Content/Equipment/EquipmentList.vue'),
+      },
+      {
+        path: 'new',
+        name: 'EquipmentCreate',
+        component: () => import('../views/Content/Equipment/EquipmentCreate.vue'),
+      },
+      {
+        path: 'show/:equipmentID',
+        name: 'EquipmentShow',
+        component: () => import('../views/Content/Equipment/EquipmentShow.vue'),
+      },
+    ]
+  },
+  // ***** EQUIPMENT END *****
 
   // ***** ORDERS START *****
   {

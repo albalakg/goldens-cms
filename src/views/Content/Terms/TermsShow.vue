@@ -1,14 +1,14 @@
 <template>
-    <v-container fluid class="video_show_wrapper">
+    <v-container fluid class="term_show_wrapper">
         
-        <div v-if="editedVideo">
+        <div v-if="editedTerm">
             <TopCard 
-                :text="'Video ' + editedVideo.name"
+                :text="'Term ' + editedTerm.name"
             />
 
             <br>
             
-            <v-tabs vertical class="video_show_card">
+            <v-tabs vertical class="term_show_card">
                 <template v-for="(tab, index) in tabs">
                     <v-tab :key="index">
                         {{tab.text}}
@@ -19,7 +19,7 @@
                     <v-tab-item :key="index">
 
                         <div class="pl-5">
-                            <component :video="editedVideo" :is="tab.component" />
+                            <component :term="editedTerm" :is="tab.component" />
                         </div>
                     </v-tab-item>
                 </template>
@@ -34,13 +34,13 @@
 <script>
 import FormLoader from '../../../components/Loaders/FormLoader.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
-import VideoDetails from '../../../components/Videos/VideoDetails.vue'
+import TermDetails from '../../../components/Terms/TermDetails.vue'
 
 export default {
     components: {
         FormLoader,
         TopCard,
-        VideoDetails,
+        TermDetails,
     },
 
     data() {
@@ -48,32 +48,32 @@ export default {
             tabs: [
                 { 
                     text: 'Details', 
-                    component: 'VideoDetails', 
+                    component: 'TermDetails', 
                 },
             ],
-            editedVideo: null,
+            editedTerm: null,
         }
     },
 
     created() {
-        return this.getVideo();
+        return this.getTerm();
     },
 
     watch: {
-        videos() {
-            this.getVideo();
+        terms() {
+            this.getTerm();
         }
     },
 
     computed: {
-        videos() {
-            return this.$store.getters['VideoState/videos'];
+        terms() {
+            return this.$store.getters['TermState/terms'];
         }
     },
 
     methods: {
-        async getVideo() {
-            this.editedVideo = await this.$store.dispatch('VideoState/getVideo', this.$route.params.videoID);
+        async getTerm() {
+            this.editedTerm = await this.$store.dispatch('TermState/getTerm', this.$route.params.termID);
         },
 
         submit() {
@@ -84,17 +84,17 @@ export default {
 
             this.loading = true;
             
-            this.$store.dispatch('VideoState/createVideo', this.form)
+            this.$store.dispatch('TermState/createTerm', this.form)
                 .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: `Video ${this.form.first_name} ${this.form.last_name} created successfully`
+                        message: `Term ${this.form.first_name} ${this.form.last_name} created successfully`
                     });
-                    this.$router.push('/videos')
+                    this.$router.push('/terms')
                 })
                 .catch(err => {
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to create the video',
+                        message: 'Failed to create the term',
                         type: 'error',
                     });
                 })
@@ -108,7 +108,7 @@ export default {
 
 <style scoped>
 
-    .video_show_card {
+    .term_show_card {
         min-height: 70vh;
     }
 
