@@ -102,6 +102,7 @@ export default {
         this.$store.dispatch('CourseCategoryState/getCourseCategories'),
         this.$store.dispatch('LessonState/getLessons'),
         this.$store.dispatch('VideoState/getVideos'),
+        this.$store.dispatch('TrainingOptionState/getTrainingOptions'),
         this.$store.dispatch('SkillState/getSkills'),
         this.$store.dispatch('TermState/getTerms'),
         this.$store.dispatch('EquipmentState/getEquipment'),

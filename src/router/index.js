@@ -293,6 +293,31 @@ const routes = [
   },
   // ***** VIDEOS END *****
 
+  // ***** TRAINING OPTIONS START *****
+  {
+    path: '/content/training-options',
+    component: () => import('../views/Content/TrainingOptions/TrainingOptionsIndex.vue'),
+    beforeEnter: Guard.admin,
+    children: [
+      {
+        path: '',
+        name: 'TrainingOptions',
+        component: () => import('../views/Content/TrainingOptions/TrainingOptionsList.vue'),
+      },
+      {
+        path: 'new',
+        name: 'TrainingOptionsCreate',
+        component: () => import('../views/Content/TrainingOptions/TrainingOptionsCreate.vue'),
+      },
+      {
+        path: 'show/:trainingOptionID',
+        name: 'TrainingOptionsShow',
+        component: () => import('../views/Content/TrainingOptions/TrainingOptionsShow.vue'),
+      },
+    ]
+  },
+  // ***** TRAINING OPTIONS END *****
+
   // ***** TERMS START *****
   {
     path: '/content/terms',

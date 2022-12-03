@@ -109,6 +109,11 @@ export default {
                             icon: 'mdi-video-box',
                         },
                         {
+                            text: 'Training Options',
+                            url: '/content/training-options',
+                            icon: 'mdi-tune-vertical',
+                        },
+                        {
                             text: 'Skills',
                             url: '/content/skills',
                             icon: 'mdi-trophy-variant',

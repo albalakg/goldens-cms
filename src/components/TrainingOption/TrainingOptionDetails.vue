@@ -1,5 +1,5 @@
 <template>
-    <v-form @submit.prevent="submit()" ref="form">
+<v-form @submit.prevent="submit()" ref="form">
         <v-flex>
             <FormCard
             >
@@ -14,22 +14,6 @@
                             class="pr-2"
                             :rules="[rules.name]"
                         ></v-text-field>
-                        <v-textarea
-                            outlined
-                            counter
-                            maxlength="1000"
-                            v-model="form.description"
-                            label="Description"
-                            :rules="[rules.description]"
-                        ></v-textarea>
-                        <v-select
-                            outlined
-                            :items="statuses"
-                            item-text="text"
-                            item-value="value"
-                            v-model="form.status"
-                            label="Status"
-                        ></v-select>
                     </div>
                 </template>
             </FormCard>
@@ -54,13 +38,12 @@
 import FormCard from '../Cards/FormCard.vue'
 import SubmitButton from '../Buttons/SubmitButton.vue'
 import CancelButton from '../Buttons/CancelButton.vue'
-import { STATUSES_SELECTION } from '../../helpers/Status'
-import {NAME_RULE, SKILL_DESCRIPTION_RULE} from '../../helpers/Rules' 
-import {NAME_MESSAGE, DESCRIPTION_MESSAGE} from '../../helpers/Messages' 
+import {TRAINING_OPTION_NAME_RULE} from '../../helpers/Rules' 
+import {NAME_MESSAGE} from '../../helpers/Messages' 
 
 export default {
     props: {
-        term: {
+        trainingOption: {
             type: Object,
             required: true
         }
@@ -75,22 +58,18 @@ export default {
     data() {
         return {
             form: {
-                name:           '',
-                description:    '',
-                status:         ''
+                name:   '',
             },
             loading: false,
             errors: null,
             rules: {
-                name:           v => NAME_RULE.test(v)              || NAME_MESSAGE,
-                description:    v => SKILL_DESCRIPTION_RULE.test(v) || DESCRIPTION_MESSAGE,
+                name: v => TRAINING_OPTION_NAME_RULE.test(v) || NAME_MESSAGE,
             },
-            statuses: STATUSES_SELECTION
         }
     },
 
     created() {
-        this.form = {...this.term};
+        this.form = {...this.trainingOption};
     },
 
     methods: {
@@ -102,17 +81,17 @@ export default {
             }
 
             this.loading = true;
-            this.$store.dispatch('TermState/updateTerm', this.form)
+            this.$store.dispatch('TrainingOptionState/updateTrainingOption', this.form)
                 .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: `Term ${this.form.name} updated successfully`
+                        message: `Training Option ${this.form.name} updated successfully`
                     });
-                    this.$router.push('/content/terms')
+                    this.$router.push('/content/training-options')
                 })
                 .catch(err => {
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
-                        message: 'Failed to update the term',
+                        message: 'Failed to update the training Option',
                         type: 'error',
                     });
                 })
@@ -126,7 +105,7 @@ export default {
 
 <style scoped>
 
-.preview_term {
+.preview_trainingOption {
     width: 30%;
 }
 

@@ -66,6 +66,33 @@
                                     label="Course Area"
                                     :rules="[rules.course_area_id]"
                                 ></v-autocomplete>
+                                <v-autocomplete
+                                    v-model="form.skills"
+                                    :items="skills"
+                                    label="Skills"
+                                    item-text="name"
+                                    item-value="id"
+                                    multiple
+                                    outlined
+                                ></v-autocomplete>
+                                <v-autocomplete
+                                    v-model="form.terms"
+                                    :items="terms"
+                                    label="Terms"
+                                    item-text="name"
+                                    item-value="id"
+                                    multiple
+                                    outlined
+                                ></v-autocomplete>
+                                <v-autocomplete
+                                    v-model="form.equipment"
+                                    :items="equipment"
+                                    label="Equipment"
+                                    item-text="name"
+                                    item-value="id"
+                                    multiple
+                                    outlined
+                                ></v-autocomplete>
                             </div>
                         </template>
                     </FormCard>
@@ -227,6 +254,21 @@ export default {
 
         videos() {
             const data = this.$store.getters['VideoState/videos'];
+            return data ? data : [];
+        },
+
+        skills() {
+            const data = this.$store.getters['SkillState/skills'];
+            return data ? data : [];
+        },
+
+        terms() {
+            const data = this.$store.getters['TermState/terms'];
+            return data ? data : [];
+        },
+
+        equipment() {
+            const data = this.$store.getters['EquipmentState/equipment'];
             return data ? data : [];
         },
     },

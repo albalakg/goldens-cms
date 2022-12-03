@@ -19,6 +19,7 @@ export const COUPON_TYPE_RULE           = /^[12]$/;
 export const DISCOUNT_RULE              = /^[\d\.]{1,4}$/;
 export const COURSE_DISCOUNT_RULE       = /[\d\.]{0,4}/;
 export const NAME_RULE                  = /.{2,40}/;
+export const TRAINING_OPTION_NAME_RULE  = /.{2,100}/;
 export const DESCRIPTION_RULE           = /.{2,40}/;
 export const COMMENT_RULE               = /.{1,5000}/;
 export const ID_RULE                    = /[1-9]\d{0,9}/;
