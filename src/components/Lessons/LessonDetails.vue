@@ -93,6 +93,38 @@
                                     multiple
                                     outlined
                                 ></v-autocomplete>
+                                <v-flex d-flex align-center v-for="(trainingOption, index) in form.training_options" :key="index">
+                                    <v-autocomplete
+                                       v-model="form.training_options[index].id"
+                                       :items="trainingOptions"
+                                       label="Training Options"
+                                       item-text="name"
+                                       item-value="id"
+                                       outlined
+                                       class="mr-md-3"
+                                       :rules="[rules.training_option]"
+                                    ></v-autocomplete>
+                                    <v-text-field
+                                       outlined
+                                       v-model.number="form.training_options[index].value"
+                                       label="Value"
+                                       type="number"
+                                       :rules="[rules.training_option_value]"
+                                    ></v-text-field>
+                                    <v-icon 
+                                        color="red"
+                                        class="mx-1 mb-7"
+                                        @click="deleteTrainingOption(index)"
+                                    >
+                                        mdi-trash-can-outline
+                                    </v-icon>
+                                </v-flex>
+                                <primary-button
+                                    :disabled="hasAvailableTrainingOptions"
+                                    text="Add Training Option"
+                                    @submit="addTrainingOption()"
+                                />
+                                <br>
                             </div>
                         </template>
                     </FormCard>
@@ -111,50 +143,6 @@
                             placeholder="Content"
                             class="text_editor"
                         />
-
-                        <v-flex d-flex>
-                            <v-text-field
-                                class="mr-3"
-                                outlined
-                                v-model="form.rehearsals"
-                                label="Rehearsals"
-                                :rules="[rules.rehearsals]"
-                                hint="The amount of rehearsals"
-                                persistent-hint
-                            ></v-text-field>
-
-                            <v-text-field
-                                class="ml-3"
-                                outlined
-                                v-model="form.activity_time"
-                                label="Activity Time"
-                                :rules="[rules.activity_time]"
-                                hint="The activity time in seconds"
-                                persistent-hint
-                            ></v-text-field>
-                        </v-flex>
-
-                        <v-flex d-flex>
-                            <v-text-field
-                                class="mr-3"
-                                outlined
-                                v-model="form.activity_period"
-                                label="Activity Period"
-                                :rules="[rules.activity_period]"
-                                hint="The activity period in hours"
-                                persistent-hint
-                            ></v-text-field>
-
-                            <v-text-field
-                                class="ml-3"
-                                outlined
-                                v-model="form.rest_time"
-                                label="Rest Time"
-                                :rules="[rules.rest_time]"
-                                hint="The rest time in minutes"
-                                persistent-hint
-                            ></v-text-field>
-                        </v-flex>
                     </template>
                 </FormCard>
             </v-flex>
@@ -180,10 +168,11 @@
 import FormCard from '../../components/Cards/FormCard.vue'
 import SubmitButton from '../../components/Buttons/SubmitButton.vue'
 import CancelButton from '../../components/Buttons/CancelButton.vue'
-import {ID_RULE, NAME_RULE, VIDEO_DESCRIPTION_RULE} from '../../helpers/Rules' 
-import {NAME_MESSAGE, DESCRIPTION_MESSAGE, COURSE_AREA_MESSAGE, VIDEO_MESSAGE, REHEARSAL_MESSAGE, ACTIVITY_TIME_MESSAGE, ACTIVITY_PERIOD_MESSAGE, REST_TIME_MESSAGE} from '../../helpers/Messages'
+import {ID_RULE, NAME_RULE, VIDEO_DESCRIPTION_RULE, TRAINING_OPTION_VALUE_RULE} from '../../helpers/Rules' 
+import {NAME_MESSAGE, DESCRIPTION_MESSAGE, COURSE_AREA_MESSAGE, VIDEO_MESSAGE, TRAINING_OPTION_MESSAGE, TRAINING_OPTION_VALUE_MESSAGE} from '../../helpers/Messages'
 import { STATUSES_SELECTION } from '../../helpers/Status'
 import { VueEditor } from "vue2-editor";
+import PrimaryButton from '../Buttons/PrimaryButton.vue'
 
 export default {
     props: {
@@ -198,6 +187,7 @@ export default {
         SubmitButton,
         CancelButton,
         VueEditor,
+        PrimaryButton,
     },
 
     data() {
@@ -205,35 +195,30 @@ export default {
             form: {
                 name:               '',
                 description:        '',
-                rehearsals:         '',
-                activity_time:      '',
-                activity_period:    '',
-                rest_time:          '',
                 content:            '',
                 course_area_id:     '',
                 video_id:           '',
                 status:             '',
+                trainingOptions:    [],
             },
             course_id: '',
             loading: false,
             errors: null,
             rules: {
-                name:               v => NAME_RULE.test(v)              || NAME_MESSAGE,
-                content:            v => VIDEO_DESCRIPTION_RULE.test(v) || DESCRIPTION_MESSAGE,
-                course_area_id:     v => ID_RULE.test(v)                || COURSE_AREA_MESSAGE,
-                video_id:           v => ID_RULE.test(v)                || VIDEO_MESSAGE,
-                rehearsals:         v => ID_RULE.test(v)                || REHEARSAL_MESSAGE,
-                activity_time:      v => ID_RULE.test(v)                || ACTIVITY_TIME_MESSAGE,
-                activity_period:    v => ID_RULE.test(v)                || ACTIVITY_PERIOD_MESSAGE,
-                rest_time:          v => ID_RULE.test(v)                || REST_TIME_MESSAGE,
+                name:                   v => NAME_RULE.test(v)                  || NAME_MESSAGE,
+                content:                v => VIDEO_DESCRIPTION_RULE.test(v)     || DESCRIPTION_MESSAGE,
+                course_area_id:         v => ID_RULE.test(v)                    || COURSE_AREA_MESSAGE,
+                video_id:               v => ID_RULE.test(v)                    || VIDEO_MESSAGE,
+                training_option:        v => ID_RULE.test(v)                    || TRAINING_OPTION_MESSAGE,
+                training_option_value:  v => TRAINING_OPTION_VALUE_RULE.test(v) || TRAINING_OPTION_VALUE_MESSAGE,
             },
             statuses: STATUSES_SELECTION
         }
     },
 
     created(){
-        this.form = {...this.lesson};
-        this.course_id = this.lesson.course_id;
+        this.form                   = {...this.lesson};
+        this.course_id              = this.lesson.course_id;
     },
 
     computed: {
@@ -262,6 +247,23 @@ export default {
             return data ? data : [];
         },
 
+        trainingOptions() {
+            const data = this.$store.getters['TrainingOptionState/trainingOptions'];
+            if(!data) {
+                return [];
+            }
+
+            return data.filter(trainingOption => {
+                const activeTrainingOptionsIds  = this.form.training_options.map(trainingOption => trainingOption.id);
+                trainingOption.disabled         = activeTrainingOptionsIds.includes(trainingOption.id);
+                return trainingOption;
+            })
+        },
+
+        hasAvailableTrainingOptions() {
+            return !Boolean(this.trainingOptions.filter(trainingOption => !trainingOption.disabled).length)
+        },
+
         terms() {
             const data = this.$store.getters['TermState/terms'];
             return data ? data : [];
@@ -273,9 +275,6 @@ export default {
         },
     },
 
-    watch: {
-       
-    },
 
     methods: {
         submit() {
@@ -284,10 +283,11 @@ export default {
             if(!this.$refs.form.validate() || this.errors) {
                 return;
             }
-
+            
             this.loading = true;
-            this.$store.dispatch('LessonState/updateLesson', {...this.form, course_id: this.course_id})
-                .then(res => {
+            
+            this.$store.dispatch('LessonState/updateLesson', this.getTransformedPayload())
+                .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Lesson ${this.form.name} updated successfully`
                     });
@@ -303,7 +303,36 @@ export default {
                 .finally(() => {
                     this.loading = false;
                 });
-        }
+        },
+
+        getTransformedPayload() {
+            const payload       = {...this.form, course_id: this.course_id};
+            
+            payload.skills      = payload.skills.map(skill => {
+                return typeof skill === 'object' ? skill.id : skill;
+            }); 
+
+            payload.terms       = payload.terms.map(term => {
+                return typeof term === 'object' ? term.id : term;
+            }); 
+
+            payload.equipment   = payload.equipment.map(equipment => {
+                return typeof equipment === 'object' ? equipment.id : equipment;
+            }); 
+
+            return payload;
+        },
+
+        addTrainingOption() {
+            this.form.training_options.push({
+                id: null,
+                value: ''
+            });
+        },
+
+        deleteTrainingOption(index) {
+            this.form.training_options.splice(index, 1)
+        },
     }
 }
 </script>
