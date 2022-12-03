@@ -3,7 +3,7 @@
         <v-flex d-flex justify-space-between align-center>
             
             <v-flex d-flex align-center>
-                <v-icon @click="reload()" v-if="reloadable" class="mr-2 pointer" color="black">mdi-reload</v-icon>
+                <v-icon @click="reload()" v-if="reloadable" class="mr-2 pointer" color="black" title="Reload data">mdi-reload</v-icon>
 
                 <h1 class="font_title logo">
                     {{text}}
@@ -11,7 +11,7 @@
 
             </v-flex>
 
-            <v-btn class="ml-2" v-if="createable" color="teal" dark fab small @click="create()">
+            <v-btn class="ml-2" v-if="createable" color="teal" dark fab small @click="create()" title="Create a new record">
                 <v-icon>mdi-plus-circle</v-icon>
             </v-btn>
         </v-flex>
