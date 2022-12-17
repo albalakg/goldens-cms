@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve --skip-plugins @vue/cli-plugin-eslint",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "aws s3 sync ./dist s3://manager.goldensacademy.com"
   },
   "dependencies": {
     "core-js": "^3.6.5",

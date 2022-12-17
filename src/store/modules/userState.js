@@ -91,7 +91,7 @@ const UserState = {
         },
 
         getUser({ state }, userID) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 if (state.users) {
                     resolve(state.users.find(user => user.id == userID))
                 } else {
@@ -177,7 +177,8 @@ const UserState = {
             })
         },
 
-        updatePassword({ commit }, userData) {
+        // eslint-disable-next-line no-empty-pattern
+        updatePassword( {}, userData) {
             return new Promise((resolve, reject) => {
                 axios.post('cms/users/update/password', userData)
                     .then(res => {
@@ -193,7 +194,7 @@ const UserState = {
         deleteUsers({ commit }, user_ids) {
             return new Promise((resolve, reject) => {
                 axios.post('cms/users/delete', { ids: user_ids })
-                    .then(res => {
+                    .then(() => {
                         commit('DELETE_USER', user_ids);
                         resolve();
                     })
