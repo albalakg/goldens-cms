@@ -36,11 +36,11 @@
 </template>
 
 <script>
-import DashboardCard from './../components/Cards/DashboardCard.vue'
+// import DashboardCard from './../components/Cards/DashboardCard.vue'
 
 export default {
     components: {
-        DashboardCard,
+        // DashboardCard,
     },
 
     data() {

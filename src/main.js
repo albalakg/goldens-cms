@@ -4,7 +4,9 @@ import vuetify from './plugins/vuetify'
 import router from './router'
 import store from './store'
 import axios from "axios";
+// eslint-disable-next-line no-unused-vars
 import AxiosHandler from './helpers/AxiosHandler'
+// eslint-disable-next-line no-unused-vars
 import HotKeys from './helpers/HotKeys'
 
 Vue.config.productionTip = false

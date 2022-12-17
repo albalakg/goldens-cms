@@ -7,7 +7,7 @@
     </span>
     
     <v-main>
-      <template v-if="loading">
+      <template v-if="isLoading">
         <v-flex class="loading_app" d-flex flex-wrap>
           <template v-for="item in 3">
             <v-sheet
@@ -57,12 +57,6 @@ export default {
     SearchCard
   },
 
-  data() {
-    return {
-      loading: true
-    }
-  },
-
   created() {
     if(Auth.isLogged()) {
       this.$store.dispatch('AppState/updateLogState', true);
@@ -86,13 +80,16 @@ export default {
 
     isLogged() {
       return this.$store.getters['AppState/isLogged'];
-    }
+    },
+
+    isLoading() {
+      return this.$store.getters['AppState/isLoading'];
+    },
   },
 
   methods: {
     async setInitialSettings() {
       await this.fetchAppData();
-      this.loading = false;
     },
 
     async fetchAppData() {
