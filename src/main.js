@@ -9,7 +9,7 @@ import HotKeys from './helpers/HotKeys'
 
 Vue.config.productionTip = false
 
-axios.defaults.baseURL = 'http://localhost:8000/api/';
+axios.defaults.baseURL    = process.env.VUE_APP_BASE_URL + '/api/';
 axios.defaults.headers.common["Authorization"] = `Bearer ${Auth.token()}`;
 
 window.FORM_DATA_CONFIG = {
