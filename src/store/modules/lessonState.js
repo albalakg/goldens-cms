@@ -36,13 +36,27 @@ const LessonState = {
         },
 
         SET_LESSONS(state, lessons) {
-            state.lessons = lessons;
+            state.lessons = lessons.map(lesson => {
+                return {
+                    ...lesson,
+                    tempDate: '',
+                    date: new Date(lesson.schedule.date)
+                }
+            });
         },
 
         DELETE_LESSON(state, lesson_ids) {
             if(state.lessons) {
                 state.lessons = state.lessons.filter(lesson => !lesson_ids.includes(lesson.id));
             }
+        },
+
+        SET_LESSON_TEMP_DATE(state, lessonData) {
+            state.lessons.forEach(lesson => {
+                if(lessonData.id === lesson.id) {
+                    lesson.tempDate = lessonData.date;
+                }
+            });
         },
 
         ASSIGN_LESSONS(state, data) {
@@ -67,9 +81,6 @@ const LessonState = {
     actions: {
         getLessons({ commit, dispatch }) {
             return new Promise((resolve) => {
-
-                commit('SET_LESSONS', null);
-
                 axios.get('cms/lessons')
                     .then(res => {
                         commit('SET_LESSONS', res.data.data);
@@ -88,7 +99,7 @@ const LessonState = {
         },
 
         getLesson({ state }, lessonID) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 if(state.lessons) {
                     resolve(state.lessons.find(lesson => lesson.id == lessonID))
                 } else {
@@ -152,7 +163,7 @@ const LessonState = {
         deleteLessons({ commit }, lesson_ids) {
             return new Promise((resolve, reject) => {
                 axios.post('cms/lessons/delete', { ids: lesson_ids })
-                    .then(res => {
+                    .then(() => {
                         commit('DELETE_LESSON', lesson_ids);
                         resolve();
                     })
@@ -181,6 +192,10 @@ const LessonState = {
                         reject(err.response.data)
                     })
             }) 
+        },
+
+        setTempDate({ commit }, lessonData) {
+            commit('SET_LESSON_TEMP_DATE', lessonData);
         },
 
         assignLessons({ commit }, data) {

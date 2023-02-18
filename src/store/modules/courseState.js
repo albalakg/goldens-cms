@@ -185,7 +185,7 @@ const CourseState = {
             }) 
         },
 
-        deleteCourseRecommendations({ commit, dispatch }, data) {
+        deleteCourseRecommendations({ commit }, data) {
             return new Promise((resolve, reject) => {
                 axios.post('cms/courses/recommendations/delete', { ids: data.recommendationIds })
                     .then(() => {
@@ -196,6 +196,19 @@ const CourseState = {
                         console.warn('deleteCourseRecommendations: ', err);
                         
                         reject(err.response.data)
+                    })
+            }) 
+        },
+
+        saveCourseSchedule({}, data) {
+            return new Promise((resolve) => {
+                axios.post('cms/courses/schedule', data)
+                    .then(() => {
+                        resolve();
+                    })
+                    .catch(err => {
+                        console.warn('saveCourseSchedule: ', err);
+                        resolve()
                     })
             }) 
         },

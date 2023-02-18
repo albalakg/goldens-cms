@@ -38,6 +38,7 @@ import CourseDetails from '../../../components/Courses/CourseDetails.vue'
 import CourseRecommendations from '../../../components/Courses/CourseRecommendations.vue'
 import CourseUsers from '../../../components/Courses/CourseUsers.vue'
 import OrderCourseContent from '../../../components/Courses/OrderCourseContent.vue'
+import ScheduleCourseContent from '../../../components/Courses/ScheduleCourseContent.vue'
 
 export default {
     components: {
@@ -46,6 +47,7 @@ export default {
         CourseDetails,
         CourseUsers,
         OrderCourseContent,
+        ScheduleCourseContent,
         CourseRecommendations
     },
 
@@ -67,6 +69,10 @@ export default {
                 { 
                     text: 'Order', 
                     component: 'OrderCourseContent', 
+                },
+                { 
+                    text: 'Schedule', 
+                    component: 'ScheduleCourseContent', 
                 },
             ],
             currentTab: 0,

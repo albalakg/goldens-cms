@@ -11,7 +11,8 @@ const AppState = {
         requests: {
             sent: [],
             done: []
-        }
+        },
+        isFinishedInitLoad: false
     },
 
     getters: {
@@ -22,6 +23,7 @@ const AppState = {
         itemsPerPage:           state => state.itemsPerPage,
         language:               state => state.language,
         isLoading:              state => state.requests.sent.length !== state.requests.done.length,
+        isFinishedInitLoad:     state => state.isFinishedInitLoad,
     },
 
     mutations: {
@@ -48,6 +50,10 @@ const AppState = {
         SET_REQUEST_DONE(state, response) {
             state.requests.done.push(response);
         },
+
+        SET_FINISHED_INIT_LOAD(state) {
+            state.isFinishedInitLoad = true;
+        },
     },
 
     actions: {
@@ -73,7 +79,11 @@ const AppState = {
 
         requestDone({ commit }, response) {
             commit('SET_REQUEST_DONE', response);
-        }
+        },
+
+        setFinishedInitLoad({ commit }) {
+            commit('SET_FINISHED_INIT_LOAD');
+        },
     }
 };
 

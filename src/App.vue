@@ -7,7 +7,7 @@
     </span>
     
     <v-main>
-      <template v-if="isLoading">
+      <template v-if="isLoading && !isFinishedInitLoad">
         <v-flex class="loading_app" d-flex flex-wrap>
           <template v-for="item in 3">
             <v-sheet
@@ -85,6 +85,10 @@ export default {
     isLoading() {
       return this.$store.getters['AppState/isLoading'];
     },
+
+    isFinishedInitLoad() {
+      return this.$store.getters['AppState/isFinishedInitLoad'];
+    },
   },
 
   methods: {
@@ -114,7 +118,8 @@ export default {
         this.$store.dispatch('UserCourseState/getUsersCourses'),
         this.$store.dispatch('PoliciesState/getTermsAndConditions'),
         this.$store.dispatch('AppState/updateLogState', true),
-        this.$store.dispatch('AppState/updateItemsPerPage', window.screen.width > 1600 ? 10 : 5)
+        this.$store.dispatch('AppState/updateItemsPerPage', window.screen.width > 1600 ? 10 : 5),
+        this.$store.dispatch('AppState/setFinishedInitLoad'),
       ])
     }
   }
