@@ -185,11 +185,14 @@ const CourseState = {
             }) 
         },
 
-        deleteCourseRecommendations({ commit }, data) {
+        deleteCourseRecommendations({ commit, dispatch }, data) {
             return new Promise((resolve, reject) => {
                 axios.post('cms/courses/recommendations/delete', { ids: data.recommendationIds })
                     .then(() => {
                         commit('DELETE_COURSE_RECOMMENDATIONS', data);
+                        dispatch('MessageState/addMessage', {
+                            message: 'Course schedule saved successfully',
+                        }, {root:true});
                         resolve();
                     })
                     .catch(err => {

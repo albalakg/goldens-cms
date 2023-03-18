@@ -40,7 +40,7 @@ const LessonState = {
                 return {
                     ...lesson,
                     tempDate: '',
-                    date: new Date(lesson.schedule.date)
+                    date: lesson.schedule ? new Date(lesson.schedule.date) : ''
                 }
             });
         },

@@ -197,8 +197,8 @@ export default {
     
     data() {
         return {
+            refreshKey: 1,
             loading: false,
-            test: '',
             search: '',
             filterByDate: '',
             focus: new Date('2023-01-01'),
@@ -208,7 +208,6 @@ export default {
             selectedElement: null,
             selectedOpen: false,
             colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
-            names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
             typeToLabel: {
                 month: 'Month',
                 day: 'Day'
@@ -232,12 +231,13 @@ export default {
 
     computed: {
         lessons() {
-            const lessons = this.$store.getters['LessonState/lessons'];
+            this.refreshKey;
+            let lessons = this.$store.getters['LessonState/lessons'];
             if(!lessons) {
                 return [];
             }
             
-            return lessons.filter(lesson => {
+            lessons = lessons.filter(lesson => {
                 if(lesson.course_id !== this.course.id) {
                     return null;
                 }
@@ -251,7 +251,28 @@ export default {
                 }
 
                 return lesson;
-            })
+            });
+
+            function compare( a, b ) {
+                if(a.tempDate) {
+                    if ( new Date(a.tempDate) < new Date(b.tempDate) ){
+                        return -1;
+                    }
+                    if ( new Date(a.tempDate) > new Date(b.tempDate) ){
+                        return 1;
+                    }
+                } else {
+                    if ( new Date(a.schedule.date) < new Date(b.schedule.date) ){
+                        return -1;
+                    }
+                    if ( new Date(a.schedule.date) > new Date(b.schedule.date) ){
+                        return 1;
+                    }
+                }
+                return 0;
+            }
+
+            return lessons.sort( compare );
         },
 
         totalLessons() {
@@ -400,7 +421,8 @@ export default {
             this.$store.dispatch('LessonState/setTempDate', lessonData);
             this.updateRange({});
             this.focus = new Date(lessonData.date)
-            this.selectedOpen = false
+            this.selectedOpen = false;
+            this.refreshKey++;
         },
 
         isSameDay(firstDay, secondDay) {
