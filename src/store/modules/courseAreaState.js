@@ -147,7 +147,7 @@ const CourseAreaState = {
                             message: 'Failed to update the Course Areas order',
                             type: 'error',
                         }, {root:true});
-                        console.warn('updateLesson: ', err);
+                        console.warn('updateOrder: ', err);
                         reject(err.response.data)
                     })
             }) 

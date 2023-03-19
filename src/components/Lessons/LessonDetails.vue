@@ -16,10 +16,12 @@
                                     label="Name"
                                     :rules="[rules.name]"
                                 ></v-text-field>
+
                                 <VueEditor 
                                     v-model="form.description"
                                     class="text_editor"
                                 />
+
                                 <v-autocomplete
                                     outlined
                                     :loading="!videos.length"
@@ -30,6 +32,17 @@
                                     label="Video"
                                     :rules="[rules.video_id]"
                                 ></v-autocomplete>
+
+                                <v-file-input
+                                    outlined
+                                    show-size
+                                    v-model="image"
+                                    label="Image"
+                                    prepend-icon=""
+                                    :error-messages="errors && errors.image ? errors.image : ''"
+                                ></v-file-input>
+                                <img class="preview_image mb-5" :src="imageSrc" alt="">
+
                                 <v-select
                                     outlined
                                     :items="statuses"
@@ -102,14 +115,14 @@
                                        item-value="id"
                                        outlined
                                        class="mr-md-3"
-                                       :rules="[rules.training_option]"
+                                       :rules="[rules.trainingOption]"
                                     ></v-autocomplete>
                                     <v-text-field
                                        outlined
                                        v-model.number="form.training_options[index].value"
                                        label="Value"
                                        type="number"
-                                       :rules="[rules.training_option_value]"
+                                       :rules="[rules.trainingOptionValue]"
                                     ></v-text-field>
                                     <v-icon 
                                         color="red"
@@ -168,10 +181,10 @@
 import FormCard from '../../components/Cards/FormCard.vue'
 import SubmitButton from '../../components/Buttons/SubmitButton.vue'
 import CancelButton from '../../components/Buttons/CancelButton.vue'
-import {ID_RULE, NAME_RULE, VIDEO_DESCRIPTION_RULE, TRAINING_OPTION_VALUE_RULE} from '../../helpers/Rules' 
-import {NAME_MESSAGE, DESCRIPTION_MESSAGE, COURSE_AREA_MESSAGE, VIDEO_MESSAGE, TRAINING_OPTION_MESSAGE, TRAINING_OPTION_VALUE_MESSAGE} from '../../helpers/Messages'
-import { STATUSES_SELECTION } from '../../helpers/Status'
+import {ID_RULE, NAME_RULE, VIDEO_DESCRIPTION_RULE, IMAGE_FILE_TYPES_RULE, IMAGE_FILE_SIZE_RULE, TRAINING_OPTION_VALUE_RULE} from '../../helpers/Rules' 
+import {NAME_MESSAGE, DESCRIPTION_MESSAGE, COURSE_AREA_MESSAGE, VIDEO_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE, IMAGE_MESSAGE, TRAINING_OPTION_MESSAGE, TRAINING_OPTION_VALUE_MESSAGE} from '../../helpers/Messages'
 import { VueEditor } from "vue2-editor";
+import { STATUSES_SELECTION } from '../../helpers/Status'
 import PrimaryButton from '../Buttons/PrimaryButton.vue'
 
 export default {
@@ -199,8 +212,9 @@ export default {
                 course_area_id:     '',
                 video_id:           '',
                 status:             '',
-                trainingOptions:    [],
+                training_options:    [],
             },
+            image: null,
             course_id: '',
             loading: false,
             errors: null,
@@ -209,8 +223,8 @@ export default {
                 content:                v => VIDEO_DESCRIPTION_RULE.test(v)     || DESCRIPTION_MESSAGE,
                 course_area_id:         v => ID_RULE.test(v)                    || COURSE_AREA_MESSAGE,
                 video_id:               v => ID_RULE.test(v)                    || VIDEO_MESSAGE,
-                training_option:        v => ID_RULE.test(v)                    || TRAINING_OPTION_MESSAGE,
-                training_option_value:  v => TRAINING_OPTION_VALUE_RULE.test(v) || TRAINING_OPTION_VALUE_MESSAGE,
+                trainingOption:         v => ID_RULE.test(v)                    || TRAINING_OPTION_MESSAGE,
+                trainingOptionValue:    v => TRAINING_OPTION_VALUE_RULE.test(v) || TRAINING_OPTION_VALUE_MESSAGE,
             },
             statuses: STATUSES_SELECTION
         }
@@ -219,6 +233,24 @@ export default {
     created(){
         this.form                   = {...this.lesson};
         this.course_id              = this.lesson.course_id;
+
+        if(!this.form.training_options) {
+            this.form.training_options = [];
+        }
+
+        if(!this.form.skills) {
+            this.form.skills = [];
+        }
+
+        if(!this.form.terms) {
+            this.form.terms = [];
+        }
+
+        if(!this.form.equipment) {
+            this.form.equipment = [];
+        }
+
+        delete this.form.image;
     },
 
     computed: {
@@ -273,6 +305,18 @@ export default {
             const data = this.$store.getters['EquipmentState/equipment'];
             return data ? data : [];
         },
+
+        imageSrc() {
+            if(this.image) {
+                return URL.createObjectURL(this.image)
+            }
+
+            if(this.form.imageSrc) {
+                return this.form.imageSrc
+            }
+            
+            return null;
+        },
     },
 
 
@@ -280,6 +324,7 @@ export default {
         submit() {
             this.errors = null;
             
+            this.validateImage();
             if(!this.$refs.form.validate() || this.errors) {
                 return;
             }
@@ -304,9 +349,31 @@ export default {
                     this.loading = false;
                 });
         },
+        
+        validateImage() {
+            if(this.errors) {
+                this.errors.image = null;
+            }
+
+            if(!this.image) {
+                return;
+            }
+
+            if(!IMAGE_FILE_TYPES_RULE.includes(this.image.type)) {
+                return this.errors = {
+                    image: IMAGE_FILE_TYPES_MESSAGE
+                };
+            }
+
+            if(this.image.size > IMAGE_FILE_SIZE_RULE) {
+                return this.errors = {
+                    image: IMAGE_FILE_SIZE_MESSAGE
+                };
+            }
+        },
 
         getTransformedPayload() {
-            const payload       = {...this.form, course_id: this.course_id};
+            const payload       = {...this.form, course_id: this.course_id, image: this.image};
             
             payload.skills      = payload.skills.map(skill => {
                 return typeof skill === 'object' ? skill.id : skill;

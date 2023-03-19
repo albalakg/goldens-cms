@@ -17,7 +17,6 @@ const LessonState = {
             if(!state.lessons) {
                 return;
             }
-
             state.lessons.unshift(lessonData);
         },
 
@@ -30,7 +29,7 @@ const LessonState = {
             if(lessonIndex < 0) {
                 return;
             }
-
+            
             lessonData.created_at = state.lessons[lessonIndex].created_at;
             state.lessons[lessonIndex] = {...lessonData};
         },
@@ -133,6 +132,7 @@ const LessonState = {
 
         createLesson({ commit }, lessonData) {
             return new Promise((resolve, reject) => {
+                console.log('createLesson');
                 const packageToSend = serialize(lessonData, { indices: true });
                 axios.post('cms/lessons/create', packageToSend, FORM_DATA_CONFIG)
                     .then(res => {
@@ -148,7 +148,8 @@ const LessonState = {
 
         updateLesson({ commit }, lessonData) {
             return new Promise((resolve, reject) => {
-                axios.post('cms/lessons/update', lessonData)
+                const packageToSend = serialize(lessonData, { indices: true });
+                axios.post('cms/lessons/update', packageToSend, FORM_DATA_CONFIG)
                     .then(res => {
                         commit('SET_UPDATED_LESSON', lessonData);
                         resolve(res.data);
@@ -188,7 +189,7 @@ const LessonState = {
                             message: 'Failed to update the Lessons order',
                             type: 'error',
                         }, {root:true});
-                        console.warn('updateLesson: ', err);
+                        console.warn('updateOrder: ', err);
                         reject(err.response.data)
                     })
             }) 
