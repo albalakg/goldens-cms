@@ -1,4 +1,5 @@
 import axios from "axios";
+import { STATUSES_ENUM } from "../../helpers/Status"
 
 const UserState = {
     namespaced: true,
@@ -8,7 +9,8 @@ const UserState = {
     },
 
     getters: {
-        users: state => state.users,
+        users:      state => state.users,
+        totalUsers: state => state.users ? state.users.length : 0
     },
 
     mutations: {
@@ -16,7 +18,7 @@ const UserState = {
             if (!state.users) {
                 return;
             }
-
+            
             state.users.unshift(userData);
         },
 
@@ -139,6 +141,12 @@ const UserState = {
             return new Promise((resolve, reject) => {
                 axios.post('cms/users/create', userData)
                     .then(res => {
+
+                        userData.id         = res.data.data.id
+                        userData.created_at = res.data.data.created_at
+                        userData.status     = STATUSES_ENUM['PENDING'];
+                        userData.full_name  = userData.first_name + ' ' + userData.last_name;
+                        
                         commit('SET_NEW_USER', userData);
                         resolve(res.data);
                     })
@@ -191,14 +199,26 @@ const UserState = {
             })
         },
 
-        deleteUsers({ commit }, user_ids) {
+        deleteUsers({ commit, state, dispatch }, user_ids) {
             return new Promise((resolve, reject) => {
                 axios.post('cms/users/delete', { ids: user_ids })
                     .then(() => {
+                        let deleteMessage = `${user_ids.length} Users has been deleted successfully`
+                        if(user_ids.length === 1) {
+                            const deletedUser = state.users.find(user => user.id === user_ids[0])
+                            console.log('deletedUser', deletedUser);
+                            deleteMessage = `User ${deletedUser.full_name} has been deleted successfully`;
+                        }
+
+                        dispatch('MessageState/addMessage', {
+                            message: deleteMessage
+                        }, { root: true });
+
                         commit('DELETE_USER', user_ids);
                         resolve();
                     })
                     .catch(err => {
+                        console.log(err);
                         console.warn('deleteUser: ', err.response.data);
                         reject(err.response.data)
                     })

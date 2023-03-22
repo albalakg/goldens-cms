@@ -41,6 +41,7 @@ export default {
         return {
             headers: [
                 { text: 'Name',         value: 'full_name' },
+                { text: 'Role',         value: 'role' },
                 { text: 'Email',        value: 'email' },
                 { text: 'Phone',        value: 'phone' },
                 { text: 'Created At',   value: 'created_at' },
@@ -55,14 +56,29 @@ export default {
 
     computed: {
         users() {
-            let users = this.$store.getters['UserState/users'];
-
+            // const totalUsers    = this.$store.getters['UserState/totalUsers'];
+            // console.log('totalUsers', totalUsers);
+            let users           = this.$store.getters['UserState/users'];
             if(!users) {
                 return [];
             }
 
+            console.log('users', users);
+
             // filter by status
             users = users.filter(user => this.filterStatuses.includes(user.status))
+
+            users = users.map(user => {
+                if(user.id === Auth.id()) {
+                    user.disabled = {
+                        delete: true
+                    }
+                }
+
+                user.user_id = user.id
+
+                return user;
+            })
 
             return users;
         },

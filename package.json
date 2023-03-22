@@ -50,10 +50,10 @@
     },
     "rules": {},
     "globals": {
-      "FORM_DATA_CONFIG":   true,
-      "DOMAIN":             true,
-      "FILES_PATH":         true,
-      "Auth":               true
+      "FORM_DATA_CONFIG": true,
+      "DOMAIN": true,
+      "FILES_PATH": true,
+      "Auth": true
     }
   },
   "browserslist": [

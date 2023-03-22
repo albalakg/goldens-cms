@@ -9,7 +9,13 @@
         <br>
 
         <v-card class="pa-5">
-            <TableCard
+            <h2>
+                Coming Soon
+            </h2>
+            <span>
+                Table to view completed & uncompleted lessons
+            </span>
+            <!-- <TableCard
                 :headers="headers"
                 :items="items"
                 :loading="isLoading"
@@ -17,7 +23,7 @@
                 searchable
                 mainField="full_name"
                 @filterByStatus="filterByStatus"
-            />
+            /> -->
         </v-card>
     </div>
 </template>
@@ -73,6 +79,7 @@ export default {
 
         items() {
             let data = this.userCourse.progress ? this.userCourse.progress : [];
+            console.log('data', data);
             if(!data.length) {
                 return data;
             }

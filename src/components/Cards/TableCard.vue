@@ -69,7 +69,7 @@
                                 color="red"
                                 class="mx-1"
                                 @click="actionDelete(props.item)"
-                                :disabled="!!props.item.deleteDisabledMessage"
+                                :disabled="(!!props.item.deleteDisabledMessage || (props.item.disabled && props.item.disabled.delete))"
                             >
                                 mdi-trash-can-outline
                             </v-icon>
@@ -85,7 +85,7 @@
 
             <template v-slot:item.full_name="props">
                 <div v-if="props.item.user_id">
-                    <router-link :to="`/users/show/${props.item.user_id}`">
+                    <router-link class="no_decoration" :to="`/users/show/${props.item.user_id}`">
                         {{props.item.full_name}}
                     </router-link>
                 </div>
@@ -96,7 +96,7 @@
 
             <template v-slot:item.support_category="props">
                 <div v-if="props.item.support_category_id">
-                    <router-link :to="`/support/categories/show/${props.item.support_category_id}`">
+                    <router-link class="no_decoration" :to="`/support/categories/show/${props.item.support_category_id}`">
                         {{props.item.support_category}}
                     </router-link>
                 </div>
@@ -107,7 +107,7 @@
 
             <template v-slot:item.coupon_code="props">
                 <div v-if="props.item.coupon_id">
-                    <router-link :to="`/content/coupons/show/${props.item.coupon_id}`">
+                    <router-link class="no_decoration" :to="`/content/coupons/show/${props.item.coupon_id}`">
                         {{props.item.coupon_code}}
                     </router-link>
                 </div>
@@ -118,7 +118,7 @@
 
             <template v-slot:item.category_name="props">
                 <div v-if="props.item.category_id">
-                    <router-link :to="`/content/course-categories/show/${props.item.category_id}`">
+                    <router-link class="no_decoration" :to="`/content/course-categories/show/${props.item.category_id}`">
                         {{props.item.category_name}}
                     </router-link>
                 </div>
@@ -129,7 +129,7 @@
 
             <template v-slot:item.course_name="props">
                 <div v-if="props.item.course_id">
-                    <router-link :to="`/content/courses/show/${props.item.course_id}`">
+                    <router-link class="no_decoration" :to="`/content/courses/show/${props.item.course_id}`">
                         {{props.item.course_name}}
                     </router-link>
                 </div>
@@ -140,7 +140,7 @@
 
             <template v-slot:item.course_lesson_name="props">
                 <div v-if="props.item.course_lesson_id">
-                    <router-link :to="`/content/lessons/show/${props.item.course_lesson_id}`">
+                    <router-link class="no_decoration" :to="`/content/lessons/show/${props.item.course_lesson_id}`">
                         {{props.item.course_lesson_name}}
                     </router-link>
                 </div>
@@ -151,7 +151,7 @@
 
             <template v-slot:item.course_area_name="props">
                 <div v-if="props.item.course_area_id">
-                    <router-link :to="`/content/course-areas/show/${props.item.course_area_id}`">
+                    <router-link class="no_decoration" :to="`/content/course-areas/show/${props.item.course_area_id}`">
                         {{props.item.course_area_name}}
                     </router-link>
                 </div>
@@ -167,7 +167,7 @@
             </template>
 
             <template v-slot:item.trainer="props">
-                <router-link v-if="props.item.trainer" :to="`/content/trainers/show/${props.item.trainer.id}`">
+                <router-link class="no_decoration" v-if="props.item.trainer" :to="`/content/trainers/show/${props.item.trainer.id}`">
                     {{props.item.trainer.name}}
                 </router-link>
                 <span v-else>
@@ -218,7 +218,7 @@
             </template>
 
             <template v-slot:item.marketing_token="props">
-                <a :href="`http://localhost:8083/#/orders?courseId=1&token=${props.item.token}`" target="_blank">
+                <a class="no_decoration" :href="`http://localhost:8083/#/orders?courseId=1&token=${props.item.token}`" target="_blank">
                     {{ `http://localhost:8083/#/orders?courseId=1&token=${props.item.token}` }}
                 </a>
             </template>
