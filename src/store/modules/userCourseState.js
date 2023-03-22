@@ -106,7 +106,7 @@ const UserCourseState = {
             }) 
         },
 
-        getUserCourseExtensions({ state, commit, dispatch }, userCourseID) {
+        getUserCourseExtensions({ state }, userCourseID) {
             const userCourse = state.users_courses.find(item => item.id === Number(userCourseID));
             if(userCourse && userCourse.extensions) {
                 return;
