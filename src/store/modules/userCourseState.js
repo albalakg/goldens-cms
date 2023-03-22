@@ -21,6 +21,12 @@ const UserCourseState = {
             state.users_courses.unshift(user_course);
         },
 
+        DELETE_USER_COURSES(state, ids) {
+            if(state.users_courses) {
+                state.users_courses = state.users_courses.filter(user_course => !ids.includes(user_course.id));
+            }
+        },
+
         SET_USER_COURSE_PROGRESS(state, data) {
             state.users_courses.forEach(item => {
                 if(item.id === data.id) {
@@ -72,6 +78,34 @@ const UserCourseState = {
                 })
         },
 
+        delete({ commit, dispatch, state }, ids) {
+            return new Promise((resolve, reject) => {
+                axios.post('cms/user-courses/delete', { ids })
+                    .then(() => {
+                        let deleteMessage = `${ids.length} Users Courses has been deleted successfully`
+                        if(ids.length === 1) {
+                            const deletedCourseUser = state.users_courses.find(user_course => user_course.id === ids[0])
+                            deleteMessage = `User Course for ${deletedCourseUser.full_name} has been deleted successfully`;
+                        }
+
+                        dispatch('MessageState/addMessage', {
+                            message: deleteMessage
+                        }, { root: true });
+
+                        commit('DELETE_USER_COURSES', ids);
+                        resolve();
+                    })
+                    .catch(err => {
+                        console.warn('deleteCourse: ', err);
+                        dispatch('MessageState/addMessage', {
+                            message: err.response.data.message,
+                            type: 'error',
+                        }, {root:true});
+                        reject(err.response.data)
+                    })
+            }) 
+        },
+
         getUserCourseExtensions({ state, commit, dispatch }, userCourseID) {
             const userCourse = state.users_courses.find(item => item.id === Number(userCourseID));
             if(userCourse && userCourse.extensions) {
@@ -91,9 +125,9 @@ const UserCourseState = {
             //     })
         },
 
-        addCourseToUser({ state, commit, dispatch }, data) {
-            return new Promise((resolve, reject) => {
-                axios.post('cms/user-courses/add', data)
+        addCourseToUser({ commit, dispatch }, data) {
+            return new Promise((resolve) => {
+                axios.post('cms/user-courses', data)
                     .then(res => {
                         dispatch('MessageState/addMessage', {
                             message: 'Added course successfully to user',

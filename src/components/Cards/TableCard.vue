@@ -461,6 +461,8 @@ export default {
             try {
                 this.resetDialogState();
 
+                console.log('item', item, this.mainField, item[this.mainField]);
+
                 this.dialog.state       = true;
                 this.dialog.item        = item;
                 this.dialog.action      = DELETE_ACTION;

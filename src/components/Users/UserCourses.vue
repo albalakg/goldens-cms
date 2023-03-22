@@ -17,7 +17,7 @@
             deleteable
             searchable
             multiple
-            mainField="name"
+            mainField="course_name"
             @delete="deleteItem"
             @view="viewItem"
             @filterByStatus="filterByStatus"
@@ -91,7 +91,7 @@ export default {
     methods: {
        
         deleteItem(data) {
-            this.$store.dispatch('CourseState/deleteCourses', data)
+            // this.$store.dispatch('CourseState/deleteCourses', data)
         },
 
         viewItem(item) {

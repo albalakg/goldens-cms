@@ -206,7 +206,6 @@ const UserState = {
                         let deleteMessage = `${user_ids.length} Users has been deleted successfully`
                         if(user_ids.length === 1) {
                             const deletedUser = state.users.find(user => user.id === user_ids[0])
-                            console.log('deletedUser', deletedUser);
                             deleteMessage = `User ${deletedUser.full_name} has been deleted successfully`;
                         }
 

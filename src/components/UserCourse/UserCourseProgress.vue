@@ -79,7 +79,7 @@ export default {
 
         items() {
             let data = this.userCourse.progress ? this.userCourse.progress : [];
-            console.log('data', data);
+
             if(!data.length) {
                 return data;
             }

@@ -73,6 +73,7 @@ export default {
                     user.disabled = {
                         delete: true
                     }
+                    user.deleteDisabledMessage = 'Cannot delete your self';
                 }
 
                 user.user_id = user.id
