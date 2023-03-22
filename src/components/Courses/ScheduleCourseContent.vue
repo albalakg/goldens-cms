@@ -262,10 +262,12 @@ export default {
                         return 1;
                     }
                 } else {
-                    if ( new Date(a.schedule.date) < new Date(b.schedule.date) ){
+                    const dateA = a.schedule ? a.schedule.date : '';
+                    const dateB = b.schedule ? b.schedule.date : '';
+                    if ( new Date(dateA) < new Date(dateB) ){
                         return -1;
                     }
-                    if ( new Date(a.schedule.date) > new Date(b.schedule.date) ){
+                    if ( new Date(dateA) > new Date(dateB) ){
                         return 1;
                     }
                 }

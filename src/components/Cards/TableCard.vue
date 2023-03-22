@@ -432,7 +432,6 @@ export default {
         },
 
         statusTexts() {
-            console.log('this.filterStatus', this.filterStatus);
             return this.filterStatus.map(item => item.text);
         },
 
@@ -460,8 +459,6 @@ export default {
         actionDelete(item) {
             try {
                 this.resetDialogState();
-
-                console.log('item', item, this.mainField, item[this.mainField]);
 
                 this.dialog.state       = true;
                 this.dialog.item        = item;
