@@ -1,5 +1,10 @@
 # CMS
 
+## Start with the development branch
+```
+go to branch dev
+```
+
 ## Project setup
 ```
 npm install
