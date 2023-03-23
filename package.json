@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve --skip-plugins @vue/cli-plugin-eslint",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "aws s3 sync ./dist s3://manager.goldensacademy.com"
+    "deploy": "aws s3 sync ./dist s3://manager.goldensacademy.com",
+    "refresh": "aws cloudfront create-invalidation --distribution-id E2VVKGVW4C95PN --invalidation-batch file://invalidation.json"
   },
   "dependencies": {
     "core-js": "^3.6.5",

@@ -1,4 +1,4 @@
-# cms
+# CMS
 
 ## Project setup
 ```
@@ -15,10 +15,17 @@ npm run serve
 npm run build
 ```
 
+### Deploy the build to production
+```
+npm run deploy
+```
+
+### Refreshes the CDN cache in his distributions
+```
+npm run refresh
+```
+
 ### Lints and fixes files
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
