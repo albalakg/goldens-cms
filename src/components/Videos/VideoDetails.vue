@@ -104,8 +104,15 @@ export default {
 
     computed: {
         videoSrc() {
-            return this.file ? URL.createObjectURL(this.file) : 
-                    this.video.file ? URL.createObjectURL(this.video.file) : this.video.video;
+            if(this.file) {
+                return URL.createObjectURL(this.file);
+            }
+
+            if(this.video.file) {
+                return URL.createObjectURL(this.video.file);
+            }
+
+            return this.video.videoSrc;
         },
 
         fileDuration() {
