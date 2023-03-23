@@ -10,22 +10,24 @@ npm install
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Steps for deploying new version to production
+
+### 1. Compiles and minifies for production
 ```
 npm run build
 ```
 
-### Deploy the build to production
+### 2. Deploy the build to production
 ```
 npm run deploy
 ```
 
-### Refreshes the CDN cache in his distributions
+### 3. Refreshes the CDN cache in his distributions
 ```
 npm run refresh
-```
-
-### Lints and fixes files
-```
-npm run lint
 ```
