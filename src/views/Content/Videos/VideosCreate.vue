@@ -37,7 +37,7 @@
                                 prepend-icon=""
                                 :error-messages="errors && errors.file ? errors.file : ''"
                             ></v-file-input>
-                            <video class="preview_video" controls :src="videoSrc"></video>
+                            <video class="preview_video" controls :src="videoSrc" ref="video"></video>
                         </div>
                     </template>
                 </FormCard>
@@ -99,6 +99,16 @@ export default {
         },
     },
     
+    watch: {
+        file() {
+            const video = this.$refs.video;
+            video.onloadedmetadata = () => {
+                window.URL.revokeObjectURL(video.src);
+                this.form.video_length = this.video_length = Math.floor(video.duration);
+            }
+        }
+    },
+
     methods: {
         submit() {
             this.errors = null;

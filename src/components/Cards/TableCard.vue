@@ -183,7 +183,7 @@
             </template>
 
             <template v-slot:item.video="props">
-                <video class="table_video" controls :src="props.item.file ? URL.createObjectURL(props.item.file) : props.item.video"></video>
+                <video class="table_video" controls :src="props.item.file ? URL.createObjectURL(props.item.file) : props.item.videoSrc"></video>
             </template>
 
             <template v-slot:item.imageSrc="props">
