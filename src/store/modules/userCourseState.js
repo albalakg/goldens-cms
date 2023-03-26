@@ -84,8 +84,9 @@ const UserCourseState = {
                     .then(() => {
                         let deleteMessage = `${ids.length} Users Courses has been deleted successfully`
                         if(ids.length === 1) {
-                            const deletedCourseUser = state.users_courses.find(user_course => user_course.id === ids[0])
-                            deleteMessage = `User Course for ${deletedCourseUser.full_name} has been deleted successfully`;
+                            const deletedCourseUser = state.users_courses.find(user_course => user_course.id === ids[0]);
+                            console.log('deletedCourseUser', deletedCourseUser);
+                            deleteMessage = `User Course for ${deletedCourseUser.full_name ?? deletedCourseUser.course_name} has been deleted successfully`;
                         }
 
                         dispatch('MessageState/addMessage', {

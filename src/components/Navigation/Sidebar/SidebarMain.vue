@@ -109,6 +109,11 @@ export default {
                             icon: 'mdi-video-box',
                         },
                         {
+                            text: 'Trainers',
+                            url: '/content/trainers',
+                            icon: 'mdi-account-tie',
+                        },
+                        {
                             text: 'Training Options',
                             url: '/content/training-options',
                             icon: 'mdi-tune-vertical',

@@ -91,7 +91,7 @@ export default {
     methods: {
        
         deleteItem(data) {
-            // this.$store.dispatch('CourseState/deleteCourses', data)
+            this.$store.dispatch('UserCourseState/delete', data)
         },
 
         viewItem(item) {
