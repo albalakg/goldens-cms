@@ -61,7 +61,6 @@ export default {
         },
 
         isLoading() {
-            console.log("this.$store.getters['PoliciesState/termsAndConditions']", this.$store.getters['PoliciesState/termsAndConditions']);
             return !this.$store.getters['PoliciesState/termsAndConditions'];
         }
     },

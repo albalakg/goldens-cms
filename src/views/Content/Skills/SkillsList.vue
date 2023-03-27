@@ -42,7 +42,6 @@ export default {
             headers: [
                 { text: 'Name',         value: 'name' },
                 { text: 'Description',  value: 'description' },
-                { text: 'Image',        value: 'imageSrc' },
                 { text: 'Created At',   value: 'created_at' },
                 { text: 'Status',       value: 'status',    align: 'right' },
                 { text: 'Actions',      value: 'actions',   align: 'right' },

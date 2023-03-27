@@ -208,9 +208,7 @@ export default {
             }
 
             if(!this.trailer) {
-                return this.errors = {
-                    trailer: TRAILER_MESSAGE
-                };
+                return;
             }
 
             if(!VIDEO_FILE_TYPES_RULE.includes(this.trailer.type)) {

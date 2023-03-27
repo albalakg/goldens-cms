@@ -50,14 +50,6 @@ const LessonState = {
             }
         },
 
-        SET_LESSON_TEMP_DATE(state, lessonData) {
-            state.lessons.forEach(lesson => {
-                if(lessonData.id === lesson.id) {
-                    lesson.tempDate = lessonData.date;
-                }
-            });
-        },
-
         ASSIGN_LESSONS(state, data) {
             state.lessons.forEach(lesson => {
                 if(data.lessons.includes(lesson.id)) {
@@ -132,7 +124,6 @@ const LessonState = {
 
         createLesson({ commit }, lessonData) {
             return new Promise((resolve, reject) => {
-                console.log('createLesson');
                 const packageToSend = serialize(lessonData, { indices: true });
                 axios.post('cms/lessons/create', packageToSend, FORM_DATA_CONFIG)
                     .then(res => {
@@ -193,10 +184,6 @@ const LessonState = {
                         reject(err.response.data)
                     })
             }) 
-        },
-
-        setTempDate({ commit }, lessonData) {
-            commit('SET_LESSON_TEMP_DATE', lessonData);
         },
 
         assignLessons({ commit }, data) {

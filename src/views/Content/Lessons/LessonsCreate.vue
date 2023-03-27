@@ -297,9 +297,7 @@ export default {
                 return;
             }
 
-            console.log(2);
             this.loading = true;
-            console.log(3);
             this.$store.dispatch('LessonState/createLesson', this.getTransformedPayload())
                 .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
@@ -308,7 +306,6 @@ export default {
                     this.$router.push('/content/lessons')
                 })
                 .catch(err => {
-                    console.log('error', err);
                     this.errors = err.errors;
                     this.$store.dispatch('MessageState/addMessage', {
                         message: 'Failed to create the lesson',
@@ -334,8 +331,6 @@ export default {
             payload.equipment   = payload.equipment.map(equipment => {
                 return typeof equipment === 'object' ? equipment.id : equipment;
             }); 
-
-            console.log(5);
 
             return payload;
         },

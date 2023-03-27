@@ -56,14 +56,10 @@ export default {
 
     computed: {
         users() {
-            // const totalUsers    = this.$store.getters['UserState/totalUsers'];
-            // console.log('totalUsers', totalUsers);
             let users           = this.$store.getters['UserState/users'];
             if(!users) {
                 return [];
             }
-
-            console.log('users', users);
 
             // filter by status
             users = users.filter(user => this.filterStatuses.includes(user.status))

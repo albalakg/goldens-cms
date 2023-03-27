@@ -73,14 +73,17 @@
 </template>
 
 <script>
-
-
+import { SCHEDULE_LESSON_TYPE_ID } from '../../helpers/Content';
 export default {
     props: {
         lesson: {
             type: Object,
             required: true
-        }
+        },
+        schedule: {
+            type: Object,
+            required: true
+        },
     },
 
     data() {
@@ -93,15 +96,7 @@ export default {
 
     computed: {
         date() {
-            if(this.lesson.tempDate) {
-                return this.lesson.tempDate;
-            }
-            
-            if(this.lesson.schedule && this.lesson.schedule.date) {
-                return this.lesson.schedule.date;
-            }
-
-            return '';
+            return this.schedule.date ?? '';
         },
 
         courseAreaName() {
@@ -126,7 +121,13 @@ export default {
         },
 
         save() {
-            this.$emit('save', {id: this.lesson.id, date: this.newDate});
+            this.$emit('save', {
+                course_lesson_id:   this.lesson.id, 
+                course_area_id:     this.lesson.course_area_id, 
+                date:               this.newDate, 
+                name:               this.lesson.name,
+                type_id:            SCHEDULE_LESSON_TYPE_ID
+            });
             this.toggleEditMode();
         },
     }

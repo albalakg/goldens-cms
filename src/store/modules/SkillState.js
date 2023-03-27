@@ -22,7 +22,6 @@ const SkillState = {
         },
 
         SET_UPDATED_SKILL(state, skillData) {
-            console.log('SET_UPDATED_SKILL', skillData);
             if(!state.skills) {
                 return;
             }

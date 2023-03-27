@@ -6,9 +6,9 @@ import axios from "axios";
 
 export default {
     created() {
+        Auth.deleteCookie()
         this.$store.dispatch('AppState/updateLogState', false);
         axios.post('profile/logout');
-        Auth.deleteCookie()
         this.$router.push('/login');
     }
 }

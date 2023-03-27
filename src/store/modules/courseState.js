@@ -1,3 +1,4 @@
+/* eslint-disable no-empty-pattern */
 import axios from "axios";
 import { serialize } from "object-to-formdata";
 
@@ -64,7 +65,30 @@ const CourseState = {
                     return course;
                 });
             }
-        }
+        },
+        
+        SET_LESSON_SCHEDULE(state, lessonSchedule) {
+            const courseIndex = state.courses.findIndex(course => course.id === lessonSchedule.courseId);
+            if(courseIndex === -1) {
+                return;
+            }
+
+            const scheduleIndex = state.courses[courseIndex].schedules.findIndex(schedule => lessonSchedule.course_lesson_id === schedule.course_lesson_id);
+            if(scheduleIndex !== -1) {
+                state.courses[courseIndex].schedules[scheduleIndex] = lessonSchedule;
+            } else {
+                state.courses[courseIndex].schedules.push(lessonSchedule);
+            }
+        },
+        
+        SET_TRAINING_SCHEDULE(state, trainingSchedule) {
+            const courseIndex = state.courses.findIndex(course => course.id === trainingSchedule.courseId);
+            if(courseIndex === -1) {
+                return;
+            }
+
+            state.courses[courseIndex].schedules.push(trainingSchedule);
+        },
     },
 
     actions: {
@@ -201,6 +225,14 @@ const CourseState = {
                         reject(err.response.data)
                     })
             }) 
+        },
+        
+        setLessonSchedule({ commit }, schedule) {
+            commit('SET_LESSON_SCHEDULE', schedule);
+        },
+
+        setTrainingSchedule({ commit }, schedule) {
+            commit('SET_TRAINING_SCHEDULE', schedule);
         },
 
         saveCourseSchedule({}, data) {

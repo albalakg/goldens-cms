@@ -114,6 +114,8 @@ export default {
         goToLink() {
             if(this.$route.path !== this.link.childrenUrl) {
                 this.$router.push(this.link.childrenUrl ? this.link.childrenUrl : this.link.url);
+            } else {
+                this.toggleChildrenStatus();
             }
         },
 

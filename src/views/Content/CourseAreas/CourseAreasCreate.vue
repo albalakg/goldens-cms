@@ -97,6 +97,7 @@
                                     :items="trainers"
                                     label="Trainers"
                                     v-model="form.trainer_id"
+                                    :rules="[rules.trainer_id]"
                                 />
                             </div>
                         </template>
@@ -257,9 +258,7 @@ export default {
             }
 
             if(!this.trailer) {
-                return this.errors = {
-                    trailer: TRAILER_MESSAGE
-                };
+                return
             }
 
             if(!VIDEO_FILE_TYPES_RULE.includes(this.trailer.type)) {
@@ -298,10 +297,6 @@ export default {
                 };
             }
         },
-
-        setFormLessons(lessons) {
-            
-        }
     }
 }
 </script>

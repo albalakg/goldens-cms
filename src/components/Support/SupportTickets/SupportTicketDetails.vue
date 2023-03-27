@@ -28,24 +28,15 @@
             <v-list-item>
                 <v-list-item-content>
                     <v-list-item-title>
-                        User
+                        {{ user ? 'User' : 'Guest'}}
                     </v-list-item-title>
                     <v-list-item-subtitle>
-                        <router-link :to="`/users/show/${user.id}`">
+                        <router-link v-if="user" :to="`/users/show/${user.id}`">
                             {{user.full_name}}
                         </router-link>
-                    </v-list-item-subtitle>
-                </v-list-item-content>
-            </v-list-item>
-            <v-list-item>
-                <v-list-item-content>
-                    <v-list-item-title>
-                        Title
-                    </v-list-item-title>
-                    <v-list-item-subtitle>
-                        {{
-                            supportTicket.title
-                        }} 
+                        <span v-else>
+                            {{ supportTicket.full_name }}
+                        </span>
                     </v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>

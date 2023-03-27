@@ -130,9 +130,7 @@ export default {
 
         validateFile() {
             if(!this.file) {
-                return this.errors = {
-                    file: IMAGE_MESSAGE
-                };
+                return
             }
 
             if(!IMAGE_FILE_TYPES_RULE.includes(this.file.type)) {

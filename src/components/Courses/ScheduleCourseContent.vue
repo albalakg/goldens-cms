@@ -32,6 +32,7 @@
                         <lesson-schedule-card 
                             v-for="lesson in lessons" 
                             :key="lesson.id"
+                            :schedule="getScheduleByLessonId(lesson.id)"
                             :lesson="lesson"
                             @save="saveDate"
                         />
@@ -48,6 +49,8 @@
         <v-flex md8 class="pl-2">
             <form-card
                 title="Course Schedule"
+                createable
+                @add="toggleTrainingSchedule()"
             >
                 <template slot="content">
                     <v-sheet height="64">
@@ -151,7 +154,9 @@
                                     <v-icon @click="selectedOpen = false">mdi-close</v-icon>
                                 </v-toolbar>
                                 <v-card-text>
-                                    <span v-html="selectedEvent.details"></span>
+                                    <h2 class="mb-3">
+                                        {{ types[selectedEvent.typeId] }}
+                                    </h2>
                                     <v-date-picker
                                         :color="selectedEvent.color"
                                         v-model="selectedEvent.dateOnly"
@@ -163,6 +168,11 @@
                                         @submit="saveDateFromCalendar(selectedEvent)"
                                         :disabled="isSameDay(selectedEvent.dateOnly, selectedEvent.start)"
                                     />
+                                    <br>
+                                    <SubmitButton
+                                        class="mt-3 mb-2"
+                                        @submit="deleteTrainingSchedule()"
+                                    />
                                 </v-card-text>
                                 <v-card-actions>
                                 
@@ -173,6 +183,39 @@
                 </template>
             </form-card>
         </v-flex>
+        <v-dialog
+            v-model="trainingDialog"
+            scrollable 
+            :overlay="false"
+            max-width="500px"
+            transition="dialog-transition"
+        >
+            <v-card class="pa-5">
+                <v-form ref="form" @submit.prevent="submit()">
+                    <h2>
+                        Add a training schedule for a lesson
+                    </h2>
+                    <br>
+                    <v-autocomplete
+                        outlined
+                        :items="lessons"
+                        v-model="newTrainingScheduleForm.course_lesson_id"
+                        label="Lessons"
+                        item-value="id"
+                        item-text="name"
+                    ></v-autocomplete>
+                    <br>
+                    <v-date-picker class="w100" v-model="newTrainingScheduleForm.date" color="#0e3556"></v-date-picker>
+                    <br>
+                    <v-flex md8 mx-auto class="mt-4">
+                        <SubmitButton 
+                            @submit="addTrainingSchedule()"
+                        />
+                    </v-flex>
+                    <br>
+                </v-form>
+            </v-card>
+        </v-dialog>
     </v-flex>
 </template>
 
@@ -180,6 +223,7 @@
 import FormCard from '../../components/Cards/FormCard.vue'
 import SubmitButton from '../Buttons/SubmitButton.vue';
 import LessonScheduleCard from '../Cards/LessonScheduleCard.vue';
+import { SCHEDULE_LESSON_TYPE_ID, SCHEDULE_TRAINING_TYPE_ID } from '../../helpers/Content';
 
 export default {
     components: {
@@ -212,13 +256,22 @@ export default {
                 month: 'Month',
                 day: 'Day'
             },
-            courseAreaColors: {
+            scheduleColors: {
                 1: 'blue',
                 2: 'indigo',
                 3: 'deep-purple',
                 4: 'cyan',
                 5: 'green',
                 6: 'orange',
+            },
+            trainingDialog: false,
+            newTrainingScheduleForm: {
+                course_lesson_id: '',
+                date: ''
+            },
+            types: {
+                [SCHEDULE_LESSON_TYPE_ID]: 'Lesson', 
+                [SCHEDULE_TRAINING_TYPE_ID]: 'Training', 
             }
         }
     },
@@ -312,6 +365,50 @@ export default {
     },
 
     methods: {
+        toggleTrainingSchedule() {
+            this.trainingDialog = !this.trainingDialog;
+        },
+
+        addTrainingSchedule() {
+            const lesson = this.lessons.find(lesson => lesson.id === this.newTrainingScheduleForm.course_lesson_id);
+            this.$store.dispatch('CourseState/setTrainingSchedule', {
+                courseId:           this.course.id,
+                course_lesson_id:   lesson.id,
+                course_area_id:     lesson.course_area_id, 
+                date:               this.newTrainingScheduleForm.date, 
+                name:               lesson.name,
+                type_id:            SCHEDULE_TRAINING_TYPE_ID
+            });
+            this.trainingScheduleIsUpdated();
+        },
+
+        deleteTrainingSchedule() {
+            const lesson = this.lessons.find(lesson => lesson.id === this.newTrainingScheduleForm.course_lesson_id);
+            this.$store.dispatch('CourseState/setTrainingSchedule', {
+                courseId:           this.course.id,
+                course_lesson_id:   lesson.id,
+                course_area_id:     lesson.course_area_id, 
+                date:               this.newTrainingScheduleForm.date, 
+                name:               lesson.name,
+                type_id:            SCHEDULE_TRAINING_TYPE_ID
+            });
+            this.trainingScheduleIsUpdated();
+        },
+
+        trainingScheduleIsUpdated() {
+            this.focus = new Date(this.newTrainingScheduleForm.date)
+            this.resetTrainingScheduleForm();
+            this.toggleTrainingSchedule();
+            this.updateRange();
+        },
+
+        resetTrainingScheduleForm() {
+            this.newTrainingScheduleForm = {
+                course_lesson_id: '',
+                date: ''
+            };
+        },
+
         async submit() {
             this.loading = true;
 
@@ -370,21 +467,12 @@ export default {
         updateRange () {
             const events = [];
 
-            const lessons = this.$store.getters['LessonState/lessons'];
-            if(!lessons) {
+            if(!this.course.schedules.length) {
                 return;
             }
 
-            lessons.forEach(lesson => {
-                let date = lesson.schedule ? lesson.schedule.date : '';
-                if(lesson && lesson.tempDate) {
-                    date = lesson.tempDate;
-                }
-                
-                if(!date) {
-                    return;
-                }
-
+            this.course.schedules.forEach(schedule => {
+                const date  = schedule.tempDate ?? schedule.date;
                 const year  = new Date(date).getFullYear();
                 let month   = new Date(date).getMonth() + 1;
                 month       = String(month).length === 1 ? '0' + month : month;
@@ -392,13 +480,14 @@ export default {
                 day         = String(day).length === 1 ? '0' + day : day;
                 
                 events.push({
-                    lessonId:   lesson.id,
-                    name:       lesson.name,
-                    color:      this.courseAreaColors[lesson.course_area_id],
+                    lessonId:   schedule.course_lesson_id,
+                    typeId:     schedule.type_id,
+                    name:       schedule.name,
+                    color:      schedule.type_id === SCHEDULE_TRAINING_TYPE_ID ? this.scheduleColors[6] :this.scheduleColors[schedule.course_area_id],
                     start:      new Date(date),
                     end:        new Date(date),
                     dateOnly:   year + '-' + month + '-' + day,
-                    allDay:     true
+                    allDay:     true,
                 });
             })
 
@@ -409,9 +498,13 @@ export default {
             return Math.floor((b - a + 1) * Math.random()) + a
         },
 
+        getScheduleByLessonId(lessonId) {
+            return this.course.schedules.find(schedule => schedule.course_lesson_id === lessonId && schedule.type_id === SCHEDULE_LESSON_TYPE_ID) ?? {};
+        },
+
         saveDate(lessonData) {
-            this.$store.dispatch('LessonState/setTempDate', lessonData);
-            this.updateRange({});
+            this.$store.dispatch('CourseState/setLessonSchedule', {courseId: this.course.id, ...lessonData});
+            this.updateRange();
             this.focus = new Date(lessonData.date)
         },
 
@@ -420,8 +513,8 @@ export default {
                 id:     event.lessonId,
                 date:   event.dateOnly
             };
-            this.$store.dispatch('LessonState/setTempDate', lessonData);
-            this.updateRange({});
+            this.$store.dispatch('CourseState/setLessonSchedule', {courseId: this.course.id, ...lessonData});
+            this.updateRange();
             this.focus = new Date(lessonData.date)
             this.selectedOpen = false;
             this.refreshKey++;

@@ -14,7 +14,6 @@ const TrainingOptionState = {
 
     mutations: {
         SET_NEW_TRAINING_OPTION(state, trainingOptionData) {
-            console.log(state.trainingOptions, trainingOptionData);
             if(!state.trainingOptions) {
                 return;
             }

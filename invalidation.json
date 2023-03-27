@@ -3,5 +3,5 @@
     "Quantity": 1,
     "Items": ["/*"]
   },
-  "CallerReference": "my-invalidation-request"
+  "CallerReference": "my-invalidation-request 3"
 }
