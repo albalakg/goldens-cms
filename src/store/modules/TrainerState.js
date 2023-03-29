@@ -69,7 +69,7 @@ const TrainerState = {
         },
 
         getTrainer({ state }, trainerID) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 if(state.trainers) {
                     resolve(state.trainers.find(trainer => trainer.id == trainerID))
                 } else {
@@ -111,7 +111,7 @@ const TrainerState = {
         deleteTrainers({ commit, dispatch }, trainer_ids) {
             return new Promise((resolve, reject) => {
                 axios.post('cms/trainers/delete', { ids: trainer_ids })
-                    .then(res => {
+                    .then(() => {
                         commit('DELETE_TRAINER', trainer_ids);
                         dispatch('MessageState/addMessage', {
                             message: 'Trainer has been deleted successfully',

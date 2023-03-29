@@ -33,6 +33,8 @@ npm run deploy
 ```
 
 ### 3. Refreshes the CDN cache in his distributions
+### before running the command, must enter the "invalidation.json" file and increment the number at the end of the string in the "CallerReference" field
+### it is a unique id the notifies Cloudfront that a new invalidation needs to be created
 ```
 npm run refresh
 ```
