@@ -210,6 +210,7 @@
                     <v-flex md8 mx-auto class="mt-4">
                         <SubmitButton 
                             @submit="addTrainingSchedule()"
+                            :disabled="!canSubmitTrainingSchedule"
                         />
                     </v-flex>
                     <br>
@@ -279,13 +280,18 @@ export default {
     mounted() {
         setTimeout(() => {
             this.updateRange();
+            this.focusFirstEventDate();
         }, 1000);
     },
 
     computed: {
         lessons() {
+            if(!this.$store.getters['LessonState/lessons']) {
+                return [];
+            }
+
             this.refreshKey;
-            let lessons = this.$store.getters['LessonState/lessons'];
+            let lessons = this.$store.getters['LessonState/lessons'].filter(lesson => lesson.course_id === this.course.id);
             if(!lessons) {
                 return [];
             }
@@ -331,17 +337,21 @@ export default {
         },
 
         totalLessons() {
-            const lessons = this.$store.getters['LessonState/lessons'];
+            if(!this.$store.getters['LessonState/lessons']) {
+                return;
+            }
+
+            const lessons = this.$store.getters['LessonState/lessons'].filter(lesson => lesson.course_id === this.course.id);
             return lessons ? lessons.length : 0;
         },
 
         totalLessonsWithDate() {
-            const lessons = this.$store.getters['LessonState/lessons'];
-            if(!lessons) {
-                return 0
+            const course = this.$store.getters['CourseState/courses'].find(course => course.id === this.course.id);
+            if(!course) {
+                return 0;
             }
 
-            return lessons.filter(lesson => (lesson.tempDate || lesson.schedule?.date)).length
+            return course.schedules.length;
         },
 
         nowY () {
@@ -349,18 +359,11 @@ export default {
         },
 
         canSubmit() {
-            const lessons           = this.$store.getters['LessonState/lessons']
-            const hasLessons        = lessons && lessons.length;
-            if(!hasLessons) {
-                return false;
-            }
+            return this.totalLessons && this.totalLessons === this.totalLessonsWithDate;
+        },
 
-            const allLessonsHasDate = lessons.filter(lesson => (lesson.schedule?.date || lesson.tempDate)).length === lessons.length
-            if(!allLessonsHasDate) {
-                return false;
-            }
-
-            return true;
+        canSubmitTrainingSchedule() {
+            return (!!this.newTrainingScheduleForm.date && !!this.newTrainingScheduleForm.course_lesson_id);
         }
     },
 
@@ -379,6 +382,7 @@ export default {
                 name:               lesson.name,
                 type_id:            SCHEDULE_TRAINING_TYPE_ID
             });
+
             this.trainingScheduleIsUpdated();
         },
 
@@ -396,7 +400,7 @@ export default {
         },
 
         trainingScheduleIsUpdated() {
-            this.focus = new Date(this.newTrainingScheduleForm.date)
+            this.setDateFocus(new Date(this.newTrainingScheduleForm.date))
             this.resetTrainingScheduleForm();
             this.toggleTrainingSchedule();
             this.updateRange();
@@ -412,22 +416,25 @@ export default {
         async submit() {
             this.loading = true;
 
-            const lessons = this.$store.getters['LessonState/lessons'];
+            const lessons = this.$store.getters['LessonState/lessons'].filter(lesson => lesson.course_id === this.course.id);
+            const course = this.$store.getters['CourseState/courses'].find(course => course.id === this.course.id);
+        
             const data = {
                 id: lessons[0].course_id,
-                lessonsId: lessons.map(lesson => {
+                lessonsId: course.schedules.map(schedule => {
                     return {
-                        id: lesson.id,
-                        date: lesson.tempDate ? lesson.tempDate : lesson.schedule?.date
+                        id: schedule.course_lesson_id,
+                        date: schedule.date
                     }
                 })
             };
+
             await this.$store.dispatch('CourseState/saveCourseSchedule', data);
             this.loading = false;
         },
 
         viewDay ({ date }) {
-            this.focus = date
+            this.setDateFocus(date)
             this.type = 'day'
         },
 
@@ -436,7 +443,24 @@ export default {
         },
 
         setToday () {
-            this.focus = ''
+            this.setDateFocus('')
+        },
+
+        setDateFocus(date) {
+            this.focus = date;
+        },
+
+        focusFirstEventDate() {
+            let earliestDate = new Date();
+
+            this.events.forEach(event => {
+                const eventDate = new Date(event.dateOnly);
+                if(eventDate < earliestDate) {
+                    earliestDate = eventDate;
+                }
+            })
+
+            this.focus = earliestDate;
         },
 
         prev () {
@@ -467,27 +491,29 @@ export default {
         updateRange () {
             const events = [];
 
-            if(!this.course.schedules.length) {
+            if(!this.course.schedules.length || !this.$store.getters['LessonState/lessons']) {
                 return;
             }
 
+            const lessons = this.$store.getters['LessonState/lessons'].filter(lesson => lesson.course_id === this.course.id);
             this.course.schedules.forEach(schedule => {
-                const date  = schedule.tempDate ?? schedule.date;
-                const year  = new Date(date).getFullYear();
-                let month   = new Date(date).getMonth() + 1;
-                month       = String(month).length === 1 ? '0' + month : month;
-                let day     = new Date(date).getDate();
-                day         = String(day).length === 1 ? '0' + day : day;
+                const date      = schedule.tempDate ?? schedule.date;
+                const year      = new Date(date).getFullYear();
+                const lesson    = lessons.find(lesson => lesson.id === schedule.course_lesson_id);
+                let month       = new Date(date).getMonth() + 1;
+                month           = String(month).length === 1 ? '0' + month : month;
+                let day         = new Date(date).getDate();
+                day             = String(day).length === 1 ? '0' + day : day;
                 
                 events.push({
-                    lessonId:   schedule.course_lesson_id,
-                    typeId:     schedule.type_id,
-                    name:       schedule.name,
-                    color:      schedule.type_id === SCHEDULE_TRAINING_TYPE_ID ? this.scheduleColors[6] :this.scheduleColors[schedule.course_area_id],
-                    start:      new Date(date),
-                    end:        new Date(date),
-                    dateOnly:   year + '-' + month + '-' + day,
-                    allDay:     true,
+                    course_lesson_id:   schedule.course_lesson_id,
+                    typeId:             schedule.type_id,
+                    name:               lesson ? lesson.name : '',
+                    color:              schedule.type_id === SCHEDULE_TRAINING_TYPE_ID ? this.scheduleColors[6] :this.scheduleColors[lesson.course_area_id],
+                    start:              schedule.date ?? new Date(date),
+                    end:                schedule.date ?? new Date(date),
+                    dateOnly:           year + '-' + month + '-' + day,
+                    allDay:             true,
                 });
             })
 
@@ -515,7 +541,7 @@ export default {
             };
             this.$store.dispatch('CourseState/setLessonSchedule', {courseId: this.course.id, ...lessonData});
             this.updateRange();
-            this.focus = new Date(lessonData.date)
+            this.setDateFocus(new Date(lessonData.date))
             this.selectedOpen = false;
             this.refreshKey++;
         },
