@@ -72,8 +72,9 @@ const CourseState = {
             if(courseIndex === -1) {
                 return;
             }
-
-            const scheduleIndex = state.courses[courseIndex].schedules.findIndex(schedule => lessonSchedule.course_lesson_id === schedule.course_lesson_id);
+            
+            console.log('lessonSchedule', lessonSchedule);
+            const scheduleIndex = state.courses[courseIndex].schedules.findIndex(schedule => lessonSchedule.id === schedule.id);
             if(scheduleIndex !== -1) {
                 state.courses[courseIndex].schedules[scheduleIndex] = lessonSchedule;
             } else {
@@ -147,11 +148,14 @@ const CourseState = {
             return results;  
         },
 
-        createCourseRecommendations({ commit }, courseData) {
+        createCourseRecommendations({ commit, dispatch }, courseData) {
             return new Promise((resolve, reject) => {
                 axios.post('cms/courses/recommendations/create', courseData)
                 .then(res => {
                         commit('SET_NEW_COURSE_RECOMMENDATIONS', res.data.data);
+                        dispatch('MessageState/addMessage', {
+                            message: 'Course\'s recommendation has been created successfully',
+                        }, {root:true});
                         resolve(res.data);
                     })
                     .catch(err => {
@@ -161,12 +165,15 @@ const CourseState = {
             }) 
         },
 
-        createCourse({ commit }, courseData) {
+        createCourse({ commit, dispatch }, courseData) {
             return new Promise((resolve, reject) => {
                 const packageToSend = serialize(courseData, { indices: true });
                 axios.post('cms/courses/create', packageToSend, FORM_DATA_CONFIG)
                 .then(res => {
                         commit('SET_NEW_COURSE', res.data.data);
+                        dispatch('MessageState/addMessage', {
+                            message: 'Course has been created successfully',
+                        }, {root:true});
                         resolve(res.data);
                     })
                     .catch(err => {
@@ -196,6 +203,9 @@ const CourseState = {
                 axios.post('cms/courses/delete', { ids: course_ids })
                     .then(() => {
                         commit('DELETE_COURSE', course_ids);
+                        dispatch('MessageState/addMessage', {
+                            message: 'Course has been deleted successfully',
+                        }, {root:true});
                         resolve();
                     })
                     .catch(err => {
@@ -215,7 +225,7 @@ const CourseState = {
                     .then(() => {
                         commit('DELETE_COURSE_RECOMMENDATIONS', data);
                         dispatch('MessageState/addMessage', {
-                            message: 'Course schedule saved successfully',
+                            message: 'Course recommendation has been deleted',
                         }, {root:true});
                         resolve();
                     })
@@ -235,10 +245,13 @@ const CourseState = {
             commit('SET_TRAINING_SCHEDULE', schedule);
         },
 
-        saveCourseSchedule({}, data) {
+        saveCourseSchedule({ dispatch }, data) {
             return new Promise((resolve) => {
                 axios.post('cms/courses/schedule', data)
                     .then(() => {
+                        dispatch('MessageState/addMessage', {
+                            message: 'Course schedule saved successfully',
+                        }, {root:true});
                         resolve();
                     })
                     .catch(err => {

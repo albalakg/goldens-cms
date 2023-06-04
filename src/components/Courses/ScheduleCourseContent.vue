@@ -155,7 +155,7 @@
                                 </v-toolbar>
                                 <v-card-text>
                                     <h2 class="mb-3">
-                                        {{ types[selectedEvent.typeId] }}
+                                        {{ types[selectedEvent.type_id] }}
                                     </h2>
                                     <v-date-picker
                                         :color="selectedEvent.color"
@@ -168,11 +168,11 @@
                                         @submit="saveDateFromCalendar(selectedEvent)"
                                         :disabled="isSameDay(selectedEvent.dateOnly, selectedEvent.start)"
                                     />
-                                    <br>
+                                    <!-- <br>
                                     <SubmitButton
                                         class="mt-3 mb-2"
                                         @submit="deleteTrainingSchedule()"
-                                    />
+                                    /> -->
                                 </v-card-text>
                                 <v-card-actions>
                                 
@@ -359,7 +359,7 @@ export default {
         },
 
         canSubmit() {
-            return this.totalLessons && this.totalLessons === this.totalLessonsWithDate;
+            return this.totalLessons && this.totalLessons <= this.totalLessonsWithDate;
         },
 
         canSubmitTrainingSchedule() {
@@ -375,6 +375,7 @@ export default {
         addTrainingSchedule() {
             const lesson = this.lessons.find(lesson => lesson.id === this.newTrainingScheduleForm.course_lesson_id);
             this.$store.dispatch('CourseState/setTrainingSchedule', {
+                id:                 this.getNewEventId(),
                 courseId:           this.course.id,
                 course_lesson_id:   lesson.id,
                 course_area_id:     lesson.course_area_id, 
@@ -424,7 +425,8 @@ export default {
                 lessonsId: course.schedules.map(schedule => {
                     return {
                         id: schedule.course_lesson_id,
-                        date: schedule.date
+                        date: schedule.date,
+                        type_id: schedule.type_id
                     }
                 })
             };
@@ -500,14 +502,19 @@ export default {
                 const date      = schedule.tempDate ?? schedule.date;
                 const year      = new Date(date).getFullYear();
                 const lesson    = lessons.find(lesson => lesson.id === schedule.course_lesson_id);
+                if(!lesson) {
+                    console.log('not found lesson', lesson, schedule);
+                    return;
+                }
                 let month       = new Date(date).getMonth() + 1;
                 month           = String(month).length === 1 ? '0' + month : month;
                 let day         = new Date(date).getDate();
                 day             = String(day).length === 1 ? '0' + day : day;
-                
                 events.push({
+                    scheduleId:         schedule.id,
                     course_lesson_id:   schedule.course_lesson_id,
-                    typeId:             schedule.type_id,
+                    course_area_id:     lesson.course_area_id,
+                    type_id:            schedule.type_id,
                     name:               lesson ? lesson.name : '',
                     color:              schedule.type_id === SCHEDULE_TRAINING_TYPE_ID ? this.scheduleColors[6] :this.scheduleColors[lesson.course_area_id],
                     start:              schedule.date ?? new Date(date),
@@ -535,9 +542,13 @@ export default {
         },
 
         saveDateFromCalendar(event) {
+            console.log('event', event);
             const lessonData = {
-                id:     event.lessonId,
-                date:   event.dateOnly
+                id:                 event.scheduleId ?? this.getNewEventId(),
+                course_lesson_id:   event.course_lesson_id,
+                course_area_id:     event.course_area_id,
+                date:               event.dateOnly,
+                type_id:            event.type_id
             };
             this.$store.dispatch('CourseState/setLessonSchedule', {courseId: this.course.id, ...lessonData});
             this.updateRange();
@@ -553,6 +564,11 @@ export default {
             return  firstDay.getFullYear() === secondDay.getFullYear() &&
                     firstDay.getMonth() === secondDay.getMonth() &&
                     firstDay.getDate() === secondDay.getDate();
+        },
+
+        getNewEventId() {
+            const heightCurrentID = Math.max(...this.course.schedules.map(schedule => schedule.id))
+            return heightCurrentID + 1;
         }
     }
 }
