@@ -503,7 +503,6 @@ export default {
                 const year      = new Date(date).getFullYear();
                 const lesson    = lessons.find(lesson => lesson.id === schedule.course_lesson_id);
                 if(!lesson) {
-                    console.log('not found lesson', lesson, schedule);
                     return;
                 }
                 let month       = new Date(date).getMonth() + 1;
@@ -542,7 +541,6 @@ export default {
         },
 
         saveDateFromCalendar(event) {
-            console.log('event', event);
             const lessonData = {
                 id:                 event.scheduleId ?? this.getNewEventId(),
                 course_lesson_id:   event.course_lesson_id,
