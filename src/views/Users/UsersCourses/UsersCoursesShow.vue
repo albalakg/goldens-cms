@@ -107,7 +107,7 @@ export default {
             this.loading = true;
             
             this.$store.dispatch('UserState/createUser', this.form)
-                .then(res => {
+                .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `User ${this.form.first_name} ${this.form.last_name} created successfully`
                     });
