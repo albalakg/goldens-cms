@@ -333,6 +333,18 @@ export default {
                 return 0;
             }
 
+            lessons = lessons.map(lesson => {
+                const schedule = this.course.schedules.find(schedule => {
+                    return schedule.course_lesson_id === lesson.id;
+                });
+                
+                if(schedule) {
+                    lesson.scheduleId = schedule.id;
+                }
+
+                return lesson;
+            })
+
             return lessons.sort( compare );
         },
 
@@ -535,7 +547,7 @@ export default {
         },
 
         saveDate(lessonData) {
-            this.$store.dispatch('CourseState/setLessonSchedule', {courseId: this.course.id, ...lessonData});
+            this.$store.dispatch('CourseState/setLessonSchedule', {courseId: this.course.id, ...lessonData, id: lessonData.id ?? this.getNewEventId()});
             this.updateRange();
             this.focus = new Date(lessonData.date)
         },
@@ -565,8 +577,8 @@ export default {
         },
 
         getNewEventId() {
-            const heightCurrentID = Math.max(...this.course.schedules.map(schedule => schedule.id))
-            return heightCurrentID + 1;
+            const heightCurrentID = Math.max(...this.course.schedules.map(schedule => schedule.id));
+            return heightCurrentID > 0 ? heightCurrentID + 1 : 1;
         }
     }
 }

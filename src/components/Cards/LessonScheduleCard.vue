@@ -126,6 +126,7 @@ export default {
                 course_area_id:     this.lesson.course_area_id, 
                 date:               this.newDate, 
                 name:               this.lesson.name,
+                id:                 this.lesson.scheduleId,
                 type_id:            SCHEDULE_LESSON_TYPE_ID
             });
             this.toggleEditMode();
