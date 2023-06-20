@@ -25,7 +25,7 @@ export const STATUSES_VALUES = [
 
 export const STATUSES_ENUM = {
   'INACTIVE': 0,
-  'Active': 1,
+  'ACTIVE': 1,
   'PENDING': 2,
 };
 
