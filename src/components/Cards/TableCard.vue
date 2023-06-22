@@ -217,9 +217,9 @@
                 }}
             </template>
 
-            <template v-slot:item.marketing_token="props">
-                <a class="no_decoration" :href="`http://localhost:8083/#/orders?courseId=1&token=${props.item.token}`" target="_blank">
-                    {{ `http://localhost:8083/#/orders?courseId=1&token=${props.item.token}` }}
+            <template v-slot:item.marketingToken="props">
+                <a class="no_decoration" :href="props.item.marketingToken" target="_blank">
+                    {{ props.item.marketingToken }}
                 </a>
             </template>
 

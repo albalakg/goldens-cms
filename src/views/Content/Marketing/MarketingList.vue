@@ -27,6 +27,7 @@
 <script>
 import TopCard from '../../../components/Cards/TopCard.vue'
 import TableCard from '../../../components/Cards/TableCard.vue'
+import { STATUSES_ENUM } from '../../../helpers/Status';
 
 export default {
     components: {
@@ -41,7 +42,7 @@ export default {
                 { text: 'Email',        value: 'email' },
                 { text: 'Phone',        value: 'phone' },
                 { text: 'Discount',     value: 'discount_in_coins' },
-                { text: 'Link',         value: 'marketing_token' },
+                { text: 'Link',         value: 'marketingToken' },
                 { text: 'Created At',   value: 'created_at' },
                 { text: 'Actions',      value: 'actions',   align: 'right' },
             ],
@@ -52,7 +53,14 @@ export default {
     computed: {
         marketings() {
             const marketings = this.$store.getters['MarketingState/marketings'];
-            return marketings ?? [];
+            if(!marketings) {
+                return [];
+            }
+
+            return marketings.map(marketingToken => {
+                const link = marketingToken.link + this.getFirstActiveCourseForLink() + '&marketingToken=' + marketingToken.token;
+                return {...marketingToken, marketingToken: link};
+            });
         },
 
         loadingMarketings() {
@@ -72,6 +80,18 @@ export default {
 
         reload() {
             this.$store.dispatch('MarketingState/getMarketings');
+        },
+
+        getFirstActiveCourseForLink() {
+            const courses       = this.$store.getters['CourseState/courses'];
+            const activeCourse  = courses.find(course => {
+                if(course.status === STATUSES_ENUM.ACTIVE) {
+                    return course;
+                }
+            })
+            const courseId = activeCourse ? activeCourse.id : '1';
+            
+            return 'courseId=' + courseId;
         }
     }
 }
