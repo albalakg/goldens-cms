@@ -53,7 +53,7 @@
                                 ></v-select>
                                 <v-menu
                                     ref="menu"
-                                    v-model="form.birth_date"
+                                    v-model="menu"
                                     :close-on-content-click="false"
                                     :return-value.sync="date"
                                     transition="scale-transition"
@@ -234,10 +234,11 @@ export default {
                 return;
             }
 
-            this.loading = true;
-            
+            this.loading            = true;
+            this.form.birth_date    = this.date;
+
             this.$store.dispatch('UserState/createUser', this.form)
-                .then(res => {
+                .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `User ${this.form.first_name} ${this.form.last_name} created successfully`
                     });

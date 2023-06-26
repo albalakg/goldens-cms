@@ -21,8 +21,8 @@
                                     maxlength="40"
                                     label="Name"
                                     :rules="[rules.name]"
-                                ></v-text-field>
-                                <VueEditor 
+                                    ></v-text-field>
+                                    <VueEditor 
                                     v-model="form.description"
                                     placeholder="Description"
                                     class="text_editor"
@@ -180,7 +180,7 @@ import FormCard from '../../../components/Cards/FormCard.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
 import SubmitButton from '../../../components/Buttons/SubmitButton.vue'
 import CancelButton from '../../../components/Buttons/CancelButton.vue'
-import {ID_RULE, NAME_RULE, VIDEO_DESCRIPTION_RULE, IMAGE_FILE_TYPES_RULE, IMAGE_FILE_SIZE_RULE, TRAINING_OPTION_VALUE_RULE} from '../../../helpers/Rules' 
+import {ID_RULE, NAME_RULE, LESSON_DESCRIPTION_RULE, VIDEO_DESCRIPTION_RULE, IMAGE_FILE_TYPES_RULE, IMAGE_FILE_SIZE_RULE, TRAINING_OPTION_VALUE_RULE} from '../../../helpers/Rules' 
 import {NAME_MESSAGE, DESCRIPTION_MESSAGE, COURSE_AREA_MESSAGE, VIDEO_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE, IMAGE_MESSAGE, TRAINING_OPTION_MESSAGE, TRAINING_OPTION_VALUE_MESSAGE} from '../../../helpers/Messages' 
 import { VueEditor } from "vue2-editor";
 import PrimaryButton from '../../../components/Buttons/PrimaryButton.vue'
@@ -218,6 +218,7 @@ export default {
             errors: null,
             rules: {
                 name:                   v => NAME_RULE.test(v)                  || NAME_MESSAGE,
+                description:            v => LESSON_DESCRIPTION_RULE.test(v)    || DESCRIPTION_MESSAGE,
                 content:                v => VIDEO_DESCRIPTION_RULE.test(v)     || DESCRIPTION_MESSAGE,
                 course_area_id:         v => ID_RULE.test(v)                    || COURSE_AREA_MESSAGE,
                 video_id:               v => ID_RULE.test(v)                    || VIDEO_MESSAGE,
@@ -270,7 +271,7 @@ export default {
         },
 
         hasAvailableTrainingOptions() {
-            return !Boolean(this.trainingOptions.filter(trainingOption => !trainingOption.disabled).length)
+            return !(this.trainingOptions.filter(trainingOption => !trainingOption.disabled).length)
         },
 
         terms() {
@@ -291,7 +292,7 @@ export default {
     methods: {
         submit() {
             this.errors = null;
-            
+
             this.validateImage();
             if(!this.$refs.form.validate() || this.errors) {
                 return;

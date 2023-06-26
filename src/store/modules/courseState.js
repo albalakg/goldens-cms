@@ -73,7 +73,6 @@ const CourseState = {
                 return;
             }
             
-            console.log('lessonSchedule', lessonSchedule);
             const scheduleIndex = state.courses[courseIndex].schedules.findIndex(schedule => lessonSchedule.id === schedule.id);
             if(scheduleIndex !== -1) {
                 state.courses[courseIndex].schedules[scheduleIndex] = lessonSchedule;

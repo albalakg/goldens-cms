@@ -257,14 +257,9 @@ export default {
                 month: 'Month',
                 day: 'Day'
             },
-            scheduleColors: {
-                1: 'blue',
-                2: 'indigo',
-                3: 'deep-purple',
-                4: 'cyan',
-                5: 'green',
-                6: 'orange',
-            },
+            scheduleColors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green'],
+            trainingScheduleColor: 'orange',
+            courseAreaColors: {},
             trainingDialog: false,
             newTrainingScheduleForm: {
                 course_lesson_id: '',
@@ -509,7 +504,7 @@ export default {
                 return;
             }
 
-            const lessons = this.$store.getters['LessonState/lessons'].filter(lesson => lesson.course_id === this.course.id);
+            const lessons                    = this.$store.getters['LessonState/lessons'].filter(lesson => lesson.course_id === this.course.id);
             this.course.schedules.forEach(schedule => {
                 const date      = schedule.tempDate ?? schedule.date;
                 const year      = new Date(date).getFullYear();
@@ -527,15 +522,32 @@ export default {
                     course_area_id:     lesson.course_area_id,
                     type_id:            schedule.type_id,
                     name:               lesson ? lesson.name : '',
-                    color:              schedule.type_id === SCHEDULE_TRAINING_TYPE_ID ? this.scheduleColors[6] :this.scheduleColors[lesson.course_area_id],
                     start:              schedule.date ?? new Date(date),
                     end:                schedule.date ?? new Date(date),
                     dateOnly:           year + '-' + month + '-' + day,
                     allDay:             true,
+                    color:              schedule.type_id === SCHEDULE_TRAINING_TYPE_ID ? 
+                                                            this.trainingScheduleColor : 
+                                                            this.getCourseAreaColor(lesson.course_area_id),
                 });
             })
 
             this.events = events
+        },
+        
+        setCourseAreaColor(courseAreaId) {
+            const firstColorIndex   = 0;
+            const color             = this.scheduleColors[firstColorIndex];
+            this.scheduleColors.splice(firstColorIndex, 1);
+            this.courseAreaColors[courseAreaId] = color;
+        },
+        
+        getCourseAreaColor(courseAreaId) {
+            if(!this.courseAreaColors[courseAreaId]) {
+                this.setCourseAreaColor(courseAreaId);
+            }
+
+            return this.courseAreaColors[courseAreaId];
         },
 
         rnd (a, b) {

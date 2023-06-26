@@ -217,11 +217,11 @@ export default {
                 return;
             }
 
-            this.loading = true;
-            
-            this.form.birth_date = this.date;
+            this.loading            = true;
+            this.form.birth_date    = this.date;
+
             this.$store.dispatch('UserState/updateUser', this.form)
-                .then(res => {
+                .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `User ${this.form.first_name} ${this.form.last_name} updated successfully`
                     });
