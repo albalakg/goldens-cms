@@ -69,7 +69,7 @@ const MarketingState = {
         },
 
         getMarketing({ state }, marketingID) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 if(state.marketings) {
                     resolve(state.marketings.find(marketing => marketing.id == marketingID))
                 } else {
@@ -111,7 +111,7 @@ const MarketingState = {
         deleteMarketings({ commit, dispatch }, marketing_ids) {
             return new Promise((resolve, reject) => {
                 axios.post('cms/marketing/delete', { ids: marketing_ids })
-                    .then(res => {
+                    .then(() => {
                         commit('DELETE_MARKETING', marketing_ids);
                         dispatch('MessageState/addMessage', {
                             message: 'Marketing has been deleted successfully',

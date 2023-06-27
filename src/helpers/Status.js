@@ -2,6 +2,7 @@ export const STATUSES = [
   'Inactive',
   'Active',
   'Pending',
+  'In Progress'
 ];
 
 export const STATUSES_SELECTION = [
@@ -68,7 +69,7 @@ export const ORDER_STATUSES = [
 ];
 
 export const ORDER_VALUES = [
-  0, 1, 2
+  0, 1, 3
 ];
 
 export const ORDER_SELECTION = [
@@ -82,7 +83,7 @@ export const ORDER_SELECTION = [
   },
   {
     'text': 'In Progress',
-    'value': 2
+    'value': 3
   },
 ];
 

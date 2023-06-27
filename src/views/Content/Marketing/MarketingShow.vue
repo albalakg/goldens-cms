@@ -10,7 +10,7 @@
             
             <v-tabs vertical class="marketing_show_card">
                 <template v-for="(tab, index) in tabs">
-                    <v-tab :key="index">
+                    <v-tab :key="index" @click="setTab(index)">
                         {{tab.text}}
                     </v-tab>
                 </template>
@@ -62,7 +62,8 @@ export default {
     },
 
     created() {
-        return this.getMarketing();
+        this.goToTab()
+        this.getMarketing();
     },
 
     watch: {
@@ -91,7 +92,7 @@ export default {
             this.loading = true;
             
             this.$store.dispatch('MarketingState/createMarketing', this.form)
-                .then(res => {
+                .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Marketing ${this.form.first_name} ${this.form.last_name} created successfully`
                     });
@@ -107,7 +108,22 @@ export default {
                 .finally(() => {
                     this.loading = false;
                 });
-        }
+        },
+        
+        setTab(index) {
+            this.$router.push(
+                {
+                    path: this.$route.path,
+                    query: { 
+                        tab: index
+                    }
+                }
+            )
+        },
+        
+        goToTab() {
+            this.currentTab = Number(this.$route.query.tab);
+        },
     }
 }
 </script>

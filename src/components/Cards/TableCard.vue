@@ -177,7 +177,6 @@
 
             <template v-slot:item.status="props">
                 <StatusChip 
-                    :customText="statusTexts"
                     :status="props.item.status"
                 />
             </template>
@@ -210,16 +209,22 @@
                 }}
             </template>
 
-            <template v-slot:item.discount_in_coins="props">
+            <template v-slot:item.fee="props">
+                {{
+                    props.item.fee ? props.item.fee : 0
+                }}%
+            </template>
+
+            <template v-slot:item.order_fee="props">
                 ₪
                 {{
-                    props.item.discount ? props.item.discount : 0
+                    props.item.order_fee ? props.item.order_fee : 0
                 }}
             </template>
 
-            <template v-slot:item.marketingToken="props">
-                <a class="no_decoration" :href="props.item.marketingToken" target="_blank">
-                    {{ props.item.marketingToken }}
+            <template v-slot:item.link="props">
+                <a class="no_decoration" :href="props.item.link" target="_blank">
+                    קישור
                 </a>
             </template>
 

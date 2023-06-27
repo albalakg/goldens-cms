@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 export const FIRST_NAME_RULE            = /.{2,30}/;
 export const LAST_NAME_RULE             = /.{2,30}/;
 export const EMAIL_RULE                 = /^.+@.+\..+$/;
@@ -17,9 +18,8 @@ export const VIDEO_FILE_TYPES_RULE      = ['video/mp4'];
 export const IMAGE_FILE_TYPES_RULE      = ['image/webp', 'image/png', 'image/jpeg'];
 export const PRICE_RULE                 = /^\d{1,7}\.?\d{0,2}$/;
 export const COUPON_TYPE_RULE           = /^[12]$/;
-// eslint-disable-next-line no-useless-escape
 export const DISCOUNT_RULE              = /^[\d\.]{1,4}$/;
-// eslint-disable-next-line no-useless-escape
+export const FEE_RULE                   = /^(?:100|[1-9]\d|\d)$/;
 export const COURSE_DISCOUNT_RULE       = /[\d\.]{0,4}/;
 export const NAME_RULE                  = /.{2,40}/;
 export const TRAINING_OPTION_NAME_RULE  = /.{2,100}/;

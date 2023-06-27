@@ -9,6 +9,24 @@
                         <template slot="content">
                             <v-text-field
                                 outlined
+                                v-model="course"
+                                label="Course"
+                                readonly
+                            ></v-text-field>
+
+                            <v-text-field
+                                outlined
+                                v-model="form.link"
+                                label="Link"
+                                readonly
+                                append-icon="mdi-content-copy"
+                                @click:append="copyLink()"
+                                :hint="linkHint"
+                                persistent-hint
+                            ></v-text-field>
+
+                            <v-text-field
+                                outlined
                                 v-model="form.name"
                                 counter
                                 maxlength="40"
@@ -35,13 +53,24 @@
                             ></v-text-field>
 
                             <v-text-field
+                                readonly
                                 outlined
-                                v-model="form.discount"
-                                label="Discount"
-                                hint="discount in ₪"
+                                v-model="form.fee"
+                                label="Fee"
+                                hint="fee in %"
                                 autocomplete="off"
-                                :rules="[rules.discount]"
+                                :rules="[rules.fee]"
                             ></v-text-field>
+
+                            <v-select
+                                outlined
+                                :items="statuses"
+                                item-text="text"
+                                item-value="value"
+                                v-model="form.status"
+                                label="Status"
+                                counter
+                            ></v-select>
                         </template>
                     </FormCard>
                 </v-flex>
@@ -68,8 +97,9 @@
 import FormCard from '../Cards/FormCard.vue'
 import SubmitButton from '../Buttons/SubmitButton.vue'
 import CancelButton from '../Buttons/CancelButton.vue'
-import {NAME_RULE, PHONE_RULE, EMAIL_RULE, DISCOUNT_RULE} from '../../helpers/Rules' 
-import {NAME_MESSAGE, PHONE_MESSAGE, EMAIL_MESSAGE, DISCOUNT_MESSAGE} from '../../helpers/Messages'
+import { STATUSES_SELECTION } from '../../helpers/Status'
+import {NAME_RULE, PHONE_RULE, EMAIL_RULE, FEE_RULE} from '../../helpers/Rules' 
+import {NAME_MESSAGE, PHONE_MESSAGE, EMAIL_MESSAGE, FEE_MESSAGE} from '../../helpers/Messages'
 
 export default {
     props: {
@@ -88,20 +118,35 @@ export default {
     data() {
         return {
             form: {
-                name:           '',
-                email:          '',
-                phone:          '',
-                discount:       '',
+                name:   '',
+                email:  '',
+                phone:  '',
+                fee:    '',
+                status: '',
             },
+            linkHint: '',
             loading: false,
             errors: null,
             rules: {
-                name:           v => NAME_RULE.test(v)                  || NAME_MESSAGE,
-                email:          v => EMAIL_RULE.test(v)                 || EMAIL_MESSAGE,
-                phone:          v => PHONE_RULE.test(v)                 || PHONE_MESSAGE,
-                discount:       v => DISCOUNT_RULE.test(v)              || DISCOUNT_MESSAGE,
+                name:   v => NAME_RULE.test(v)  || NAME_MESSAGE,
+                email:  v => EMAIL_RULE.test(v) || EMAIL_MESSAGE,
+                phone:  v => PHONE_RULE.test(v) || PHONE_MESSAGE,
+                fee:    v => FEE_RULE.test(v)   || FEE_MESSAGE,
             },
+            statuses: STATUSES_SELECTION,
         }
+    },
+
+    computed: {
+        course() {
+            const courses = this.$store.getters['CourseState/courses'];
+            if(!courses) {
+                return '';
+            }
+
+            const course = courses.find(course => course.id === this.form.course_id);
+            return course ? course.name : 'לא נמצא הקורס';
+        },
     },
 
     created(){
@@ -118,7 +163,7 @@ export default {
 
             this.loading = true;
             this.$store.dispatch('MarketingState/updateMarketing', {...this.form, course_id: this.course_id})
-                .then(res => {
+                .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Marketing ${this.form.name} updated successfully`
                     });
@@ -134,6 +179,16 @@ export default {
                 .finally(() => {
                     this.loading = false;
                 });
+        },
+
+        copyLink() {
+            navigator.clipboard.writeText(this.form.link);
+            this.linkHint = 'הקישור הועתק';
+            console.log('this.linkHint', this.linkHint);
+            setTimeout(() => {
+                this.linkHint = '';
+                console.log('this.linkHint', this.linkHint);
+            }, 3000);
         }
     }
 }

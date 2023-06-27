@@ -24,6 +24,7 @@ export const IMAGE_MESSAGE                  = "Image is required";
 export const PRICE_MESSAGE                  = "Price must be a number";
 export const COUPON_TYPE_MESSAGE            = "Coupon type is invalid";
 export const DISCOUNT_MESSAGE               = "Discount must be a number";
+export const FEE_MESSAGE                    = "Fee must be a number between 1-100";
 export const EXPIRATION_MESSAGE             = "Expiration date is required";
 export const COMMENT_MESSAGE                = "Comment is required";
 export const TITLE_MESSAGE                  = "Trainer title is required";

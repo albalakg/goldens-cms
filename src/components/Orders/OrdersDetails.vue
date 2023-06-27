@@ -97,12 +97,10 @@
 
 <script>
 import { ORDER_STATUSES } from '../../helpers/Status'
-import SubmitButton from '../Buttons/SubmitButton.vue'
 import StatusChip from './../Status/StatusChip.vue';
 
 export default {
     components: {
-        SubmitButton,
         StatusChip
     },
 
@@ -148,7 +146,7 @@ export default {
         submit() {
             this.loading = true;
             this.$store.dispatch('OrderState/updateOrderStatus', this.form)
-                .then(res => {
+                .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Updated the Order's status successfully`
                     });

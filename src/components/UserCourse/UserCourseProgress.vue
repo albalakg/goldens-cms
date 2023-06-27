@@ -29,13 +29,13 @@
 </template>
 
 <script>
-import TableCard from './../Cards/TableCard.vue'
+// import TableCard from './../Cards/TableCard.vue'
 import { STATUSES_VALUES, PROGRESS_STATUSES } from './../../helpers/Status'
 
 export default {
-    components: {
-        TableCard,
-    },
+    // components: {
+    //     TableCard,
+    // },
 
     data() {
         return {
