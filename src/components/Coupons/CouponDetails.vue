@@ -125,7 +125,7 @@ export default {
         submit() {
             this.loading = true;
             this.$store.dispatch('CouponState/updateCouponStatus', this.form)
-                .then(res => {
+                .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Updated the Coupon's status successfully`
                     });

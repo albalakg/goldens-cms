@@ -92,7 +92,7 @@ export default {
             this.loading = true;
             
             this.$store.dispatch('SupportState/createSupport', this.form)
-                .then(res => {
+                .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Support ${this.form.first_name} ${this.form.last_name} created successfully`
                     });

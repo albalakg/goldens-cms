@@ -98,7 +98,7 @@ const SupportState = {
         },
 
         getSupport({ state }, supportID) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 if(state.support_tickets) {
                     resolve(state.support_tickets.find(support => support.id == supportID))
                 } else {
@@ -130,7 +130,7 @@ const SupportState = {
         },
 
         getSupportCategory({ state }, supportCategoryID) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 if(state.support_tickets) {
                     resolve(state.support_categories.find(support => support.id == supportCategoryID))
                 } else {

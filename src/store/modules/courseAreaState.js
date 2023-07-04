@@ -69,7 +69,7 @@ const CourseAreaState = {
         },
 
         getCourseArea({ state }, courseAreaID) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 if(state.courseAreas) {
                     resolve(state.courseAreas.find(courseArea => courseArea.id == courseAreaID))
                 } else {
@@ -118,7 +118,7 @@ const CourseAreaState = {
         deleteCourseAreas({ commit, dispatch }, courseArea_ids) {
             return new Promise((resolve, reject) => {
                 axios.post('cms/course-areas/delete', { ids: courseArea_ids })
-                    .then(res => {
+                    .then(() => {
                         commit('DELETE_COURSE_AREA', courseArea_ids);
                         resolve();
                     })

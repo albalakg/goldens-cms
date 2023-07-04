@@ -73,7 +73,6 @@
 
 <script>
 import FormCard from '../Cards/FormCard.vue'
-import TopCard from '../Cards/TopCard.vue'
 import SubmitButton from '../Buttons/SubmitButton.vue'
 import CancelButton from '../Buttons/CancelButton.vue'
 import { STATUSES_SELECTION } from '../../helpers/Status'
@@ -83,7 +82,6 @@ import {NAME_MESSAGE, DESCRIPTION_MESSAGE, CATEGORY_MESSAGE, TRAILER_FILE_SIZE_M
 export default {
     components: {
         FormCard,
-        TopCard,
         SubmitButton,
         CancelButton,
     },
@@ -179,7 +177,7 @@ export default {
             }
             
             this.$store.dispatch('CourseCategoryState/updateCourseCategory', {...this.form, image: this.image, trailer: this.trailer})
-                .then(res => {
+                .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Course Category ${this.form.name} updated successfully`
                     });

@@ -116,7 +116,7 @@ export default {
             this.loadingEmail = true;
 
             this.$store.dispatch('UserState/updateEmail', { id: this.user.id, email: this.form.email })
-                    .then(res => {
+                    .then(() => {
                         this.$store.dispatch('MessageState/addMessage', {
                             message: `${this.user.full_name}'s email updated successfully`
                         });
@@ -147,7 +147,7 @@ export default {
                         password: this.form.password,
                         password_confirmation: this.form.password_confirmation,
                     })
-                    .then(res => {
+                    .then(() => {
                         this.$store.dispatch('MessageState/addMessage', {
                             message: `${this.user.full_name}'s password updated successfully`
                         });

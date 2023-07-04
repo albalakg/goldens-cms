@@ -66,7 +66,7 @@ import TopCard from './../../../components/Cards/TopCard.vue'
 import SubmitButton from './../../../components/Buttons/SubmitButton.vue'
 import CancelButton from './../../../components/Buttons/CancelButton.vue'
 import {NAME_RULE, EQUIPMENT_DESCRIPTION_RULE, IMAGE_FILE_SIZE_RULE, IMAGE_FILE_TYPES_RULE} from './../../../helpers/Rules' 
-import {NAME_MESSAGE, DESCRIPTION_MESSAGE, IMAGE_FILE_SIZE_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_MESSAGE} from './../../../helpers/Messages' 
+import {NAME_MESSAGE, DESCRIPTION_MESSAGE, IMAGE_FILE_SIZE_MESSAGE, IMAGE_FILE_TYPES_MESSAGE} from './../../../helpers/Messages' 
 
 export default {
     components: {

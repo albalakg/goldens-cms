@@ -181,10 +181,6 @@ export default {
             return users ? users : [];
         },
 
-        async course() {
-            this.pickedCourse = await this.$store.dispatch('CourseState/getCourse', this.course_id);
-        },
-
         minDate() {
             const date = new Date()
             return date.toISOString().substr(0, 10);

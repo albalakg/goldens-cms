@@ -94,7 +94,7 @@ const CouponState = {
         },
 
         getCoupon({ state }, couponID) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 if (state.coupons) {
                     resolve(state.coupons.find(coupon => coupon.id == couponID))
                 } else {

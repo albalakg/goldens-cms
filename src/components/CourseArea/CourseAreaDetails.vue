@@ -46,7 +46,7 @@
                                 item-value="id"
                                 item-text="name"
                                 :items="trainers"
-                                label="Trainers"
+                                label="Trainer"
                                 v-model="form.trainer_id"
                             />
                             <v-select

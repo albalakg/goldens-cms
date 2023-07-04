@@ -85,7 +85,7 @@ export default {
             this.loading = true;
             
             this.$store.dispatch('LessonState/createLesson', this.form)
-                .then(res => {
+                .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Lesson ${this.form.first_name} ${this.form.last_name} created successfully`
                     });

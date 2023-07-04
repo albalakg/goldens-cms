@@ -59,14 +59,12 @@
 </template>
 
 <script>
-import TableCard from '../Cards/TableCard.vue'
 import {COMMENT_RULE} from '../../helpers/Rules' 
 import {COMMENT_MESSAGE} from '../../helpers/Messages' 
 import SubmitButton from '../Buttons/SubmitButton.vue'
 
 export default {
     components: {
-        TableCard,
         SubmitButton,
     },
 
@@ -118,7 +116,7 @@ export default {
 
             this.loading = true;
             this.$store.dispatch('TestState/createComment', this.form)
-                .then(res => {
+                .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Comment created successfully`
                     });

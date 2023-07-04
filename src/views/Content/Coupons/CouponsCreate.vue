@@ -88,7 +88,7 @@ export default {
 
       this.$store
         .dispatch("CouponState/createCoupon", this.form)
-        .then((res) => {
+        .then(() => {
           this.$store.dispatch("MessageState/addMessage", {
             message: `Coupon ${this.form.name} created successfully`,
           });

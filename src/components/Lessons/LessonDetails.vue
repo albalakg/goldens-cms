@@ -182,7 +182,7 @@ import FormCard from '../../components/Cards/FormCard.vue'
 import SubmitButton from '../../components/Buttons/SubmitButton.vue'
 import CancelButton from '../../components/Buttons/CancelButton.vue'
 import {ID_RULE, NAME_RULE, VIDEO_DESCRIPTION_RULE, IMAGE_FILE_TYPES_RULE, IMAGE_FILE_SIZE_RULE, TRAINING_OPTION_VALUE_RULE} from '../../helpers/Rules' 
-import {NAME_MESSAGE, DESCRIPTION_MESSAGE, COURSE_AREA_MESSAGE, VIDEO_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE, IMAGE_MESSAGE, TRAINING_OPTION_MESSAGE, TRAINING_OPTION_VALUE_MESSAGE} from '../../helpers/Messages'
+import {NAME_MESSAGE, DESCRIPTION_MESSAGE, COURSE_AREA_MESSAGE, VIDEO_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE, TRAINING_OPTION_MESSAGE, TRAINING_OPTION_VALUE_MESSAGE} from '../../helpers/Messages'
 import { VueEditor } from "vue2-editor";
 import { STATUSES_SELECTION } from '../../helpers/Status'
 import PrimaryButton from '../Buttons/PrimaryButton.vue'
@@ -293,6 +293,7 @@ export default {
         },
 
         hasAvailableTrainingOptions() {
+            // eslint-disable-next-line no-extra-boolean-cast
             return !Boolean(this.trainingOptions.filter(trainingOption => !trainingOption.disabled).length)
         },
 

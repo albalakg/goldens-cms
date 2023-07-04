@@ -88,7 +88,7 @@ const SearchState = {
         },
 
         search({ commit, dispatch }, searchInput) {
-            return new Promise(async (resolve, reject) => {
+            return new Promise(async (resolve) => {
                 try {
                     searchInput = searchInput.trim().toLowerCase();
                     if(!searchInput) {
