@@ -88,6 +88,7 @@ const SearchState = {
         },
 
         search({ commit, dispatch }, searchInput) {
+            // eslint-disable-next-line no-async-promise-executor
             return new Promise(async (resolve) => {
                 try {
                     searchInput = searchInput.trim().toLowerCase();

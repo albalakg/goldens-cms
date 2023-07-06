@@ -40,13 +40,14 @@ export default {
     data() {
         return {
             headers: [
-                { text: 'Name',         value: 'full_name' },
-                { text: 'Role',         value: 'role' },
-                { text: 'Email',        value: 'email' },
-                { text: 'Phone',        value: 'phone' },
-                { text: 'Created At',   value: 'created_at' },
-                { text: 'Status',       value: 'status',    align: 'right' },
-                { text: 'Actions',      value: 'actions',   align: 'right' },
+                { text: 'Name',             value: 'full_name' },
+                { text: 'Role',             value: 'role' },
+                { text: 'Email',            value: 'email' },
+                { text: 'Phone',            value: 'phone' },
+                { text: 'Is Subscribed',    value: 'is_subscribed' },
+                { text: 'Created At',       value: 'created_at' },
+                { text: 'Status',           value: 'status',    align: 'right' },
+                { text: 'Actions',          value: 'actions',   align: 'right' },
             ],
             search: '',
             statuses: STATUSES_SELECTION,

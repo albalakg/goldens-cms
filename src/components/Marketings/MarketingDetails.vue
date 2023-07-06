@@ -184,10 +184,8 @@ export default {
         copyLink() {
             navigator.clipboard.writeText(this.form.link);
             this.linkHint = 'הקישור הועתק';
-            console.log('this.linkHint', this.linkHint);
             setTimeout(() => {
                 this.linkHint = '';
-                console.log('this.linkHint', this.linkHint);
             }, 3000);
         }
     }

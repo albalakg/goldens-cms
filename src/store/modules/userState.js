@@ -217,7 +217,6 @@ const UserState = {
                         resolve();
                     })
                     .catch(err => {
-                        console.log(err);
                         console.warn('deleteUser: ', err.response.data);
                         reject(err.response.data)
                     })

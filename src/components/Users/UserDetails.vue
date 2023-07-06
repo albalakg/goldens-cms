@@ -96,6 +96,13 @@
                                     v-model="form.status"
                                     label="Status"
                                 ></v-select>
+                                <v-flex>
+                                    <v-switch
+                                        v-model="form.is_subscribed"
+                                        label="Is Subscribed"
+                                    ></v-switch>
+                                </v-flex>
+                                <br>
                             </div>
                             <v-flex d-flex justify-space-between class="mb-5 px-4">
                                 <v-flex md12 lg6 class="pr-5">
@@ -150,13 +157,14 @@ export default {
     data() {
         return {
             form: {
-                first_name: '',
-                last_name:  '',
-                email:      '',
-                phone:      '',
-                gender:     '',
-                birth_date: '',
-                role:       '',
+                first_name:     '',
+                last_name:      '',
+                email:          '',
+                phone:          '',
+                gender:         '',
+                birth_date:     '',
+                role:           '',
+                is_subscribed:  '',
             },
             rules: {
                 email: v        => EMAIL_RULE.test(v)         || EMAIL_MESSAGE,

@@ -166,6 +166,12 @@
                 </a>
             </template>
 
+            <template v-slot:item.is_subscribed="props">
+                <strong :style="`color: ${props.item.is_subscribed ? '#388e3c' : '#f44336'}`">
+                    {{ props.item.is_subscribed ? 'Yes' : 'No' }}
+                </strong>
+            </template>
+
             <template v-slot:item.trainer="props">
                 <router-link class="no_decoration" v-if="props.item.trainer" :to="`/content/trainers/show/${props.item.trainer.id}`">
                     {{props.item.trainer.name}}
