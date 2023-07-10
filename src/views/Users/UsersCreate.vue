@@ -92,6 +92,13 @@
                                     </v-btn>
                                     </v-date-picker>
                                 </v-menu>
+                                <v-flex>
+                                    <v-switch
+                                        v-model="form.is_subscribed"
+                                        label="Is Subscribed"
+                                    ></v-switch>
+                                </v-flex>
+                                <br>
                             </div>
                         </template>
                     </FormCard>
@@ -176,12 +183,13 @@ export default {
     data() {
         return {
             form: {
-                first_name: '',
-                last_name:  '',
-                email:      '',
-                phone:      '',
-                gender:     '',
-                birth_date: '',
+                first_name:     '',
+                last_name:      '',
+                email:          '',
+                phone:          '',
+                gender:         '',
+                birth_date:     '',
+                is_subscribed:  0,
                 role:       NORMAL_ROLE,
             },
             date: '',

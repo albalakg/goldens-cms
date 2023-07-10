@@ -164,7 +164,7 @@ export default {
                 gender:         '',
                 birth_date:     '',
                 role:           '',
-                is_subscribed:  '',
+                is_subscribed:  0,
             },
             rules: {
                 email: v        => EMAIL_RULE.test(v)         || EMAIL_MESSAGE,
