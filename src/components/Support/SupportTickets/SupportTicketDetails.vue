@@ -19,9 +19,12 @@
                         Support Catgory
                     </v-list-item-title>
                     <v-list-item-subtitle>
-                        <router-link :to="`/support/categories/show/${category.id}`">
+                        <router-link v-if="category" :to="`/support/categories/show/${category.id}`">
                             {{category.name}}
-                        </router-link>                       
+                        </router-link>             
+                        <span v-else>
+                            Unknown
+                        </span>          
                     </v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>

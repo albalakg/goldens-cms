@@ -182,7 +182,8 @@
             </template>
 
             <template v-slot:item.status="props">
-                <StatusChip 
+                <StatusChip
+                    :customText="statusChipsOptions"
                     :status="props.item.status"
                 />
             </template>
@@ -444,6 +445,10 @@ export default {
 
         statusTexts() {
             return this.filterStatus.map(item => item.text);
+        },
+
+        statusChipsOptions() {
+            return this.filterStatus.map(status => status.text);
         },
 
     },
