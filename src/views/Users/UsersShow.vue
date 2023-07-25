@@ -40,6 +40,7 @@ import UserSupport from '../../components/Users/UserSupport.vue'
 import UserOrders from '../../components/Users/UserOrders.vue'
 import UserActivity from '../../components/Users/UserActivity.vue'
 import UserCourses from '../../components/Users/UserCourses.vue'
+import UserLogs from '../../components/Users/UserLogs.vue'
 
 export default {
     components: {
@@ -51,6 +52,7 @@ export default {
         UserOrders,
         UserActivity,
         UserCourses,
+        UserLogs,
     },
 
     data() {
@@ -75,7 +77,11 @@ export default {
                 { 
                     text: 'Orders', 
                     component: 'UserOrders', 
-                }
+                },
+                { 
+                    text: 'Logs', 
+                    component: 'UserLogs', 
+                },
             ],
             currentTab: 0,
             editedUser: null,

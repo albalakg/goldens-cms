@@ -173,7 +173,7 @@ export default {
         submit() {
             this.loading = true;
             this.$store.dispatch('SupportState/updateSupportTicketStatus', this.form)
-                .then(res => {
+                .then(() => {
                     this.$store.dispatch('MessageState/addMessage', {
                         message: `Updated the Support Category's status successfully`
                     });
