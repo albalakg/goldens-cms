@@ -13,6 +13,7 @@ import CourseState          from './modules/CourseState'
 import CourseCategoryState  from './modules/CourseCategoryState'
 import CourseAreaState      from './modules/CourseAreaState'
 import LessonState          from './modules/LessonState'
+import ChallengeState       from './modules/ChallengeState'
 import TestState            from './modules/TestState'
 import UserCourseState      from './modules/UserCourseState'
 import OrderState           from './modules/OrderState'
@@ -40,6 +41,7 @@ export default new Vuex.Store({
     CourseCategoryState,
     CourseAreaState,
     LessonState,
+    ChallengeState,
     TestState,
     UserCourseState,
     OrderState,

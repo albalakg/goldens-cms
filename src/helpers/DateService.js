@@ -12,6 +12,19 @@ class DateService {
   getMonthByDate(date) {
     return moment(date).month();
   }
+
+  getDateOnly(date) {
+    return moment(date).startOf('day').format('YYYY-MM-DD');
+  }
+
+  getTimeOnly(date) {
+    return moment(date).format('HH:mm');
+  }
+
+  formatDateToISOString(date) {
+    return moment(date).toISOString(true);
+  }
+  
 }
 
 export default new DateService();

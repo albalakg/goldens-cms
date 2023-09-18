@@ -104,6 +104,11 @@ export default {
                             icon: 'mdi-book-open-variant',
                         },
                         {
+                            text: 'Challenges',
+                            url: '/content/challenges',
+                            icon: 'mdi-trophy',
+                        },
+                        {
                             text: 'Videos',
                             url: '/content/videos',
                             icon: 'mdi-video-box',

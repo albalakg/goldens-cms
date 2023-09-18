@@ -108,6 +108,31 @@ const routes = [
   },
   // ***** LESSONS END *****
 
+  // ***** CHALLENGES START *****
+  {
+    path: '/content/challenges',
+    component: () => import('../views/Content/Challenges/ChallengesIndex.vue'),
+    beforeEnter: Guard.admin,
+    children: [
+      {
+        path: '',
+        name: 'Challenges',
+        component: () => import('../views/Content/Challenges/ChallengesList.vue'),
+      },
+      {
+        path: 'new',
+        name: 'ChallengesCreate',
+        component: () => import('../views/Content/Challenges/ChallengesCreate.vue'),
+      },
+      {
+        path: 'show/:challengeID',
+        name: 'ChallengesShow',
+        component: () => import('../views/Content/Challenges/ChallengesShow.vue'),
+      },
+    ]
+  },
+  // ***** CHALLENGES END *****
+
   // ***** COURSE CATEGORIES START *****
   {
     path: '/content/course-categories',
