@@ -31,12 +31,14 @@
 import FormLoader from '../../../components/Loaders/FormLoader.vue'
 import TopCard from '../../../components/Cards/TopCard.vue'
 import ChallengeDetails from '../../../components/Challenges/ChallengeDetails.vue'
+import ChallengeAttempts from '../../../components/Challenges/ChallengeAttempts.vue'
 
 export default {
     components: {
         FormLoader,
         TopCard,
         ChallengeDetails,
+        ChallengeAttempts,
     },
 
     data() {
@@ -45,6 +47,10 @@ export default {
                 { 
                     text: 'Details', 
                     component: 'ChallengeDetails', 
+                },
+                { 
+                    text: 'Attempts', 
+                    component: 'ChallengeAttempts', 
                 },
             ],
             editedChallenge: null,

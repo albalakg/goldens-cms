@@ -63,6 +63,15 @@ const UserState = {
             state.users = users;
         },
 
+        SET_USER_CHALLENGES(state, data) {
+            const userIndex = state.users.findIndex(user => user.id == data.userID);
+            if(userIndex === -1) {
+                return;
+            }
+            
+            state.users[userIndex].challenges = data.userChallenges;
+        },
+
         DELETE_USER(state, user_ids) {
             if (state.users) {
                 state.users = state.users.filter(user => !user_ids.includes(user.id));
@@ -99,6 +108,29 @@ const UserState = {
                 } else {
                     resolve(null)
                 }
+            })
+        },
+
+        getUserChallenges({ commit, dispatch }, userID) {
+            return new Promise((resolve) => {
+
+                axios.get('cms/users/' + userID + '/challenges')
+                    .then(res => {
+                        commit('SET_USER_CHALLENGES', {
+                            userID,
+                            userChallenges: res.data.data
+                        });
+                    })
+                    .catch(err => {
+                        dispatch('MessageState/addMessage', {
+                            message: 'Failed to fetch User\'s Challenges',
+                            type: 'error',
+                        }, { root: true });
+                        console.warn('getUsers: ', err);
+                    })
+                    .finally(() => {
+                        resolve()
+                    })
             })
         },
 

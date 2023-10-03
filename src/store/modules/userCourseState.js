@@ -106,25 +106,6 @@ const UserCourseState = {
             }) 
         },
 
-        getUserCourseExtensions({ state }, userCourseID) {
-            const userCourse = state.users_courses.find(item => item.id === Number(userCourseID));
-            if(userCourse && userCourse.extensions) {
-                return;
-            }
-            console.log('getUserCourseExtensions');
-            // axios.get('cms/user-courses/extensions/' + userCourseID)
-            //     .then(res => {
-            //         commit('SET_USER_COURSE_PROGRESS', {id: userCourseID, extensions: res.data.data});
-            //     })
-            //     .catch(err => {
-            //         dispatch('MessageState/addMessage', {
-            //             message: 'Failed to fetch Courses',
-            //             type: 'error',
-            //         }, {root:true});
-            //         console.warn('getCourses: ', err);
-            //     })
-        },
-
         addCourseToUser({ commit, dispatch }, data) {
             return new Promise((resolve) => {
                 axios.post('cms/user-courses', data)

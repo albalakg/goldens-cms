@@ -237,7 +237,7 @@
 
             <template v-slot:item.created_at="props">
                 {{
-                    props.item.created_at ? props.item.created_at : "Unknown"
+                    props.item.created_at ? getReadableDate(props.item.created_at) : "Unknown"
                 }}
             </template>
 
@@ -547,6 +547,10 @@ export default {
             );
             this.resetDialogState();
             this.selected = [];
+        },
+
+        getReadableDate(date) {
+            return DateService.getReadableDate(date);
         }
     }
 }

@@ -229,7 +229,6 @@ export default {
         },
 
         deleteTrainingOption(index) {
-            console.log('del');
             this.form.options.splice(index, 1)
         },
 

@@ -32,15 +32,16 @@
 </template>
 
 <script>
-import FormLoader from '../../components/Loaders/FormLoader.vue'
-import TopCard from '../../components/Cards/TopCard.vue'
-import UserDetails from '../../components/Users/UserDetails.vue'
-import UserSecurity from '../../components/Users/UserSecurity.vue'
-import UserSupport from '../../components/Users/UserSupport.vue'
-import UserOrders from '../../components/Users/UserOrders.vue'
-import UserActivity from '../../components/Users/UserActivity.vue'
-import UserCourses from '../../components/Users/UserCourses.vue'
-import UserLogs from '../../components/Users/UserLogs.vue'
+import FormLoader       from '../../components/Loaders/FormLoader.vue'
+import TopCard          from '../../components/Cards/TopCard.vue'
+import UserDetails      from '../../components/Users/UserDetails.vue'
+import UserSecurity     from '../../components/Users/UserSecurity.vue'
+import UserSupport      from '../../components/Users/UserSupport.vue'
+import UserOrders       from '../../components/Users/UserOrders.vue'
+import UserChallenges   from '../../components/Users/UserChallenges.vue'
+import UserActivity     from '../../components/Users/UserActivity.vue'
+import UserCourses      from '../../components/Users/UserCourses.vue'
+import UserLogs         from '../../components/Users/UserLogs.vue'
 
 export default {
     components: {
@@ -50,6 +51,7 @@ export default {
         UserSecurity,
         UserSupport,
         UserOrders,
+        UserChallenges,
         UserActivity,
         UserCourses,
         UserLogs,
@@ -73,6 +75,10 @@ export default {
                 { 
                     text: 'Courses', 
                     component: 'UserCourses', 
+                },
+                { 
+                    text: 'Challenges', 
+                    component: 'UserChallenges', 
                 },
                 { 
                     text: 'Orders', 

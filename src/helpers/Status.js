@@ -31,6 +31,24 @@ export const STATUSES_ENUM = {
 };
 
 
+export const CHALLENGE_VALUES = [
+  0, 1, 2
+];
+
+export const CHALLENGE_STATUSES = [
+  {
+    'text': 'Failed',
+    'value': 0
+  },
+  {
+    'text': 'Succeed',
+    'value': 1
+  },
+  {
+    'text': 'Pending',
+    'value': 2
+  },
+];
 
 
 export const PROGRESS_STATUSES = [
@@ -86,6 +104,7 @@ export const ORDER_SELECTION = [
     'value': 3
   },
 ];
+
 
 
 export const COUPON_TYPES_VALUES = [

@@ -49,11 +49,11 @@ export default {
 
         text() {
             try {
-                if(this.customText ? !this.customText[this.status] : !this.texts[this.status]) {
+                if(this.customText && this.customText.length ? !this.customText[this.status] : !this.texts[this.status]) {
                     throw new Error('Text not found for status: ' + this.status);
                 }
 
-                return this.customText ? this.customText[this.status] : this.texts[this.status];
+                return this.customText && this.customText.length ? this.customText[this.status] : this.texts[this.status];
             } catch(err) {
                 console.warn(err);
                 return 'Unknown';

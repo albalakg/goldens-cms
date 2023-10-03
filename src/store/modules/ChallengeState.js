@@ -36,6 +36,15 @@ const ChallengeState = {
             }
         },
 
+        SET_CHALLENGE_ATTEMPTS(state, data) {
+            const challengeIndex = state.challenges.findIndex(challenge => challenge.id === data.id);
+            if(!challengeIndex === -1) {
+                return;
+            }
+
+            state.challenges[challengeIndex].attempts = data.attempts;
+        },
+
         SET_CHALLENGES(state, challenges) {
             state.challenges = challenges;
         },
@@ -116,6 +125,20 @@ const ChallengeState = {
                     resolve(null)
                 }
             })
+        },
+
+        getChallengeAttemptsById({ commit }, challengeID) {
+            return new Promise((resolve, reject) => {
+                axios.get('cms/challenges/' + challengeID + '/attempts')
+                .then(res => {
+                        commit('SET_CHALLENGE_ATTEMPTS', {id: challengeID, attempts: res.data.data});
+                        resolve(res.data);
+                    })
+                    .catch(err => {
+                        console.warn('getChallengeAttemptsById: ', err.response.data);
+                        reject(err.response.data)
+                    })
+            }) 
         },
 
         async searchByChallengeName({ dispatch }, searchInput) {

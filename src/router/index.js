@@ -223,6 +223,15 @@ const routes = [
   },
   // ***** USERS COURSES END *****
 
+  // ***** USERS CHALLENGES START *****
+  {
+    path: '/users/users-challenges/:id',
+    name: 'UsersChallengesCreate',
+    component: () => import('../views/Users/UsersChallenges/UsersChallengesShow.vue'),
+    beforeEnter: Guard.admin,
+  },
+  // ***** USERS CHALLENGES END *****
+
   // ***** TESTS START *****
   {
     path: '/content/tests',

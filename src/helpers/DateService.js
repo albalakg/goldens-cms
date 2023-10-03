@@ -21,6 +21,10 @@ class DateService {
     return moment(date).format('HH:mm');
   }
 
+  getReadableDate(date) {
+    return this.getTimeOnly(date) + ' ' + moment(date).startOf('day').format('DD/MM/YYYY');
+  }
+
   formatDateToISOString(date) {
     return moment(date).toISOString(true);
   }
