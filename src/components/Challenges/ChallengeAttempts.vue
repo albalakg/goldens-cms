@@ -42,8 +42,9 @@ export default {
     data() {
         return {
             headers: [
-                { text: 'Person Name',  value: 'full_name' },
+                { text: 'User Name',    value: 'full_name' },
                 { text: 'Status',       value: 'status' },
+                { text: 'Attempts',     value: 'totalAttempts' },
                 { text: 'Created At',   value: 'created_at' },
                 { text: 'Actions',      value: 'actions',       align: 'right' },
             ],
@@ -73,7 +74,7 @@ export default {
 
     methods: {
         viewItem(item) {
-            this.$router.push('/users/users-challenges/' + item.id)
+            this.$router.push('/users/challenge/' + item.challenge_id + '/attempt/' + item.id)
         },
         
         filterByStatus(statuses) {

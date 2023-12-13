@@ -13,6 +13,16 @@
                                 <v-text-field outlined v-model="form.name" counter maxlength="40" label="Name"
                                     :rules="[rules.name]"></v-text-field>
                                 <VueEditor v-model="form.description" placeholder="Description" class="text_editor" />
+                               
+                                <br>
+                                
+                                <v-select
+                                    outlined
+                                    :items="statuses"
+                                    item-text="text"
+                                    item-value="value"
+                                    v-model="form.status"
+                                ></v-select>
 
                                 <v-autocomplete outlined :loading="!videos" :items="videos" item-text="name" item-value="id"
                                     v-model="form.video_id" label="Video" :rules="[rules.video_id]"></v-autocomplete>
@@ -101,6 +111,7 @@ import { ID_RULE, NAME_RULE, LESSON_DESCRIPTION_RULE, TRAINING_OPTION_VALUE_RULE
 import { NAME_MESSAGE, DESCRIPTION_MESSAGE, VIDEO_MESSAGE, TRAINING_OPTION_MESSAGE, TRAINING_OPTION_VALUE_MESSAGE, IMAGE_FILE_TYPES_MESSAGE, IMAGE_FILE_SIZE_MESSAGE, IMAGE_MESSAGE } from '../../helpers/Messages'
 import { VueEditor } from "vue2-editor";
 import PrimaryButton from '../Buttons/PrimaryButton'
+import { STATUSES_SELECTION } from '../../helpers/Status'
 
 export default {
     components: {
@@ -125,6 +136,7 @@ export default {
                 name:           '',
                 description:    '',
                 video_id:       '',
+                status:         '',
                 options:        [],
             },
             today: new Date().toISOString().substr(0, 10),
@@ -134,12 +146,13 @@ export default {
             image: null,
             loading: false,
             errors: null,
+            statuses: STATUSES_SELECTION,
             rules: {
-                name: v => NAME_RULE.test(v) || NAME_MESSAGE,
-                description: v => LESSON_DESCRIPTION_RULE.test(v) || DESCRIPTION_MESSAGE,
-                video_id: v => ID_RULE.test(v) || VIDEO_MESSAGE,
-                trainingOption: v => ID_RULE.test(v) || TRAINING_OPTION_MESSAGE,
-                trainingOptionValue: v => TRAINING_OPTION_VALUE_RULE.test(v) || TRAINING_OPTION_VALUE_MESSAGE,
+                name:                   v => NAME_RULE.test(v) || NAME_MESSAGE,
+                description:            v => LESSON_DESCRIPTION_RULE.test(v) || DESCRIPTION_MESSAGE,
+                video_id:               v => ID_RULE.test(v) || VIDEO_MESSAGE,
+                trainingOption:         v => ID_RULE.test(v) || TRAINING_OPTION_MESSAGE,
+                trainingOptionValue:    v => TRAINING_OPTION_VALUE_RULE.test(v) || TRAINING_OPTION_VALUE_MESSAGE,
             },
         }
     },

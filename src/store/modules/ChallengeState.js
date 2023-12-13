@@ -42,7 +42,12 @@ const ChallengeState = {
                 return;
             }
 
-            state.challenges[challengeIndex].attempts = data.attempts;
+            state.challenges[challengeIndex].attempts = data.attempts.map(attempt => {
+                return {
+                    ...attempt,
+                    totalAttempts: attempt.attempts.length
+                }
+            });
         },
 
         SET_CHALLENGES(state, challenges) {

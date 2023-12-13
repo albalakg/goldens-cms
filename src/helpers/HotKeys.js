@@ -27,9 +27,8 @@ document.addEventListener('keydown', event => {
 
 // Listen to key unpress and remove it
 document.addEventListener('keyup', (event) => {
-    delete keysPressed[event.key];
+    Object.keys(keysPressed).forEach(key => delete keysPressed[key]);
 });
-
 
 /**
  * Functions

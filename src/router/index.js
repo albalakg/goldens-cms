@@ -225,7 +225,7 @@ const routes = [
 
   // ***** USERS CHALLENGES START *****
   {
-    path: '/users/users-challenges/:id',
+    path: '/users/challenge/:challengeId/attempt/:attemptId',
     name: 'UsersChallengesCreate',
     component: () => import('../views/Users/UsersChallenges/UsersChallengesShow.vue'),
     beforeEnter: Guard.admin,
